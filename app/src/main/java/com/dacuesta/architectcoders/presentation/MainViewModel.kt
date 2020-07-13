@@ -1,9 +1,14 @@
 package com.dacuesta.architectcoders.presentation
 
-import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dacuesta.architectcoders.data.movies.MoviesRepository
+import arrow.core.Either
+import com.dacuesta.architectcoders.domain.model.Error
+import com.dacuesta.architectcoders.domain.movies.GetPopularMovies
+import com.dacuesta.architectcoders.domain.movies.model.Movie
+import com.dacuesta.architectcoders.domain.movies.model.MoviesMetadata
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
@@ -13,18 +18,24 @@ import org.koin.core.inject
 
 class MainViewModel : ViewModel(), KoinComponent {
 
-    private val moviesRepository by inject<MoviesRepository>()
+    private val getPopularMovies by inject<GetPopularMovies>()
+
+
+    private val _moviesLiveData = MutableLiveData<Either<Error, List<Movie>>>()
+    val moviesLiveData: LiveData<Either<Error, List<Movie>>>
+        get() = _moviesLiveData
+
 
     init {
         viewModelScope.launch {
-            moviesRepository.getPopularMovies("US")
+            getPopularMovies("US")
                 .flowOn(Dispatchers.IO)
-                .collect {
-                    Log.d("MUAHAHAHA", "$it")
+                .collect { result ->
+                    _moviesLiveData.postValue(result.map { metadata ->
+                        metadata.results
+                    })
                 }
         }
     }
-
-    fun asdf() {}
 
 }
