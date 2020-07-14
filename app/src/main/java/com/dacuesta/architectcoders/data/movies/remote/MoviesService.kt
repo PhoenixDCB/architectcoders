@@ -7,7 +7,7 @@ import retrofit2.http.Query
 
 interface MoviesService {
 
-    @GET("movie/popular?api_key=1602c269235b8f7042f5033f2793e37d")
+    @GET("movie/popular")
     suspend fun getPopularMovies(@Query("region") region: String) : Response<MoviesMetadata>
 
 }

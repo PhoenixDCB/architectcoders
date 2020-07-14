@@ -1,6 +1,7 @@
 package com.dacuesta.architectcoders.data.moviedetail.di
 
 import com.dacuesta.architectcoders.BuildConfig
+import com.dacuesta.architectcoders.data.interceptor.RequestInterceptor
 import com.dacuesta.architectcoders.data.moviedetail.MovieDetailRepository
 import com.dacuesta.architectcoders.data.moviedetail.remote.MovieDetailRemoteDataSource
 import com.dacuesta.architectcoders.data.moviedetail.remote.MovieDetailRemoteDataSourceImpl
@@ -40,4 +41,5 @@ private fun getClient() = OkHttpClient.Builder()
             HttpLoggingInterceptor.Level.NONE
         }
     })
+    .addInterceptor(RequestInterceptor())
     .build()
