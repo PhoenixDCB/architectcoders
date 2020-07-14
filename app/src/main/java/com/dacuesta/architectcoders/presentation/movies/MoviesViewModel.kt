@@ -1,4 +1,4 @@
-package com.dacuesta.architectcoders.presentation
+package com.dacuesta.architectcoders.presentation.movies
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
-class MainViewModel : ViewModel(), KoinComponent {
+class MoviesViewModel : ViewModel(), KoinComponent {
 
     private val getPopularMovies by inject<GetPopularMovies>()
 

@@ -1,9 +1,12 @@
 package com.dacuesta.architectcoders
 
 import android.app.Application
+import com.dacuesta.architectcoders.data.moviedetail.di.movieDetailDataModule
 import com.dacuesta.architectcoders.data.movies.di.moviesDataModule
+import com.dacuesta.architectcoders.domain.moviedetail.di.movieDetailDomainModule
 import com.dacuesta.architectcoders.domain.movies.di.moviesDomainModule
-import com.dacuesta.architectcoders.presentation.mainModule
+import com.dacuesta.architectcoders.presentation.moviedetail.movieDetailModule
+import com.dacuesta.architectcoders.presentation.movies.moviesModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -22,7 +25,12 @@ class MoviesApplication : Application() {
                 listOf(
                     moviesDataModule,
                     moviesDomainModule,
-                    mainModule
+                    moviesModule,
+
+                    movieDetailDataModule,
+                    movieDetailDomainModule,
+                    movieDetailModule
+
                 )
             )
         }

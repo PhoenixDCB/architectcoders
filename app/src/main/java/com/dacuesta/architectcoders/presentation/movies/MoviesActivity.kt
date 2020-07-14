@@ -1,5 +1,6 @@
-package com.dacuesta.architectcoders.presentation
+package com.dacuesta.architectcoders.presentation.movies
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,21 +12,21 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dacuesta.architectcoders.R
 import com.dacuesta.architectcoders.domain.movies.model.Movie
-import kotlinx.android.synthetic.main.activity_main.*
+import com.dacuesta.architectcoders.presentation.moviedetail.MovieDetailActivity
+import kotlinx.android.synthetic.main.activity_movies.*
 import kotlinx.android.synthetic.main.item_movie.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
-import java.util.zip.Inflater
 
-class MainActivity : AppCompatActivity() {
+class MoviesActivity : AppCompatActivity() {
 
-    private val viewModel by viewModel<MainViewModel>()
+    private val viewModel by viewModel<MoviesViewModel>()
 
     private val moviesAdapter = MoviesAdapter()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_movies)
 
         initViews()
         initObservers()
@@ -40,17 +41,19 @@ class MainActivity : AppCompatActivity() {
         viewModel.moviesLiveData.observe(this, Observer { result ->
             result.fold(
                 { error ->
-                    // TODO: manage this error
+                    // TODO: manage error event
                 },
-                { result ->
-                    moviesAdapter.submitList(result)
+                { movies ->
+                    moviesAdapter.submitList(movies)
                 }
             )
         })
     }
 }
 
-class MoviesAdapter : ListAdapter<Movie, MoviesAdapter.ViewHolder>(DIFF_CALLBACK) {
+class MoviesAdapter : ListAdapter<Movie, MoviesAdapter.ViewHolder>(
+    DIFF_CALLBACK
+) {
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Movie>() {
@@ -77,9 +80,15 @@ class MoviesAdapter : ListAdapter<Movie, MoviesAdapter.ViewHolder>(DIFF_CALLBACK
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(movie: Movie) {
-            itemView.title_tv?.text = movie.originalTitle
+            itemView.title_tv?.text = movie.title
             itemView.release_date_tv?.text = movie.releaseDate
             itemView.overview_tv?.text = movie.overview
+
+            itemView.setOnClickListener { view ->
+                view.context.startActivity(
+                    Intent(view.context, MovieDetailActivity::class.java)
+                )
+            }
         }
     }
 

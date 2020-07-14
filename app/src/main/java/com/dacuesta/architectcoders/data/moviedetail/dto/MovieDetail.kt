@@ -1,14 +1,11 @@
-package com.dacuesta.architectcoders.data.detailmovie.dto
+package com.dacuesta.architectcoders.data.moviedetail.dto
 
 
 import com.google.gson.annotations.SerializedName
 import androidx.annotation.Keep
-import com.dacuesta.architectcoders.data.detailmovie.dto.Genre
-import com.dacuesta.architectcoders.data.detailmovie.dto.ProductionCountry
-import com.dacuesta.architectcoders.data.detailmovie.dto.SpokenLanguage
 
 @Keep
-data class DetailMovie(
+data class MovieDetail(
     @SerializedName("adult")
     val adult: Boolean = false,
     @SerializedName("backdrop_path")

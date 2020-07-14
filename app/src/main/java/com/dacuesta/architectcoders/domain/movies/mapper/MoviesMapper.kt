@@ -22,9 +22,7 @@ fun List<DataMovie>.map() = run {
 
 fun DataMovie.map() = Movie(
     id = id,
-    posterPath = posterPath,
-    title = title,
-    originalTitle = originalTitle,
+    title = originalTitle,
     overview = overview,
     releaseDate = releaseDate
 )
