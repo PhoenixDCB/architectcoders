@@ -23,6 +23,8 @@
 
         <activity android:name=".presentation.moviedetail.MovieDetailActivity" />
 
+        <meta-data android:name="tmdb_api_key" android:value="${tmdb_api_key}" />
+
     </application>
 
 </manifest>

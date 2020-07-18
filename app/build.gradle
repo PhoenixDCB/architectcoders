@@ -3,6 +3,9 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
+def keyProperties = new Properties()
+keyProperties.load(new FileInputStream(rootProject.file("key.properties")))
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -13,6 +16,7 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
+        manifestPlaceholders = [tmdb_api_key:keyProperties['tmdb.api.key']]
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
