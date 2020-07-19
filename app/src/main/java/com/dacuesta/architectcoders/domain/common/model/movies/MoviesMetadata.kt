@@ -1,4 +1,4 @@
-package com.dacuesta.architectcoders.domain.movies.model
+package com.dacuesta.architectcoders.domain.common.model.movies
 
 data class MoviesMetadata(
     val page: Int,

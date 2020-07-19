@@ -1,19 +1,17 @@
-package com.dacuesta.architectcoders.data.di
+package com.dacuesta.architectcoders.data.common.di
 
 import com.dacuesta.architectcoders.BuildConfig
-import com.dacuesta.architectcoders.data.constant.KoinConstant.TMDB_RETROFIT_KEY
-import com.dacuesta.architectcoders.data.constant.TmdbConstant.BASE_URL
-import com.dacuesta.architectcoders.data.interceptor.TmdbRequestInterceptor
+import com.dacuesta.architectcoders.data.common.interceptor.RequestInterceptor
+import com.dacuesta.architectcoders.data.common.constant.Constant.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
-import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 val dataModule = module {
-    factory(named(TMDB_RETROFIT_KEY)) {
+    factory {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -26,7 +24,10 @@ val dataModule = module {
                             HttpLoggingInterceptor.Level.NONE
                         }
                     })
-                    .addInterceptor(interceptor = TmdbRequestInterceptor(context = androidContext()))
+                    .addInterceptor(interceptor = RequestInterceptor(
+                        context = androidContext()
+                    )
+                    )
                     .build()
             )
             .build()

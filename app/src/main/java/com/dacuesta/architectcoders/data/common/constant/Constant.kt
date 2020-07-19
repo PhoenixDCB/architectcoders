@@ -1,12 +1,13 @@
-package com.dacuesta.architectcoders.data.constant
+package com.dacuesta.architectcoders.data.common.constant
 
-object TmdbConstant {
+object Constant {
     const val BASE_URL = "https://api.themoviedb.org/3/"
 
-    const val DETAIL_MOVIE_ID_PATH = "id"
+    const val MOVIE_DETAIL_ID_PATH = "id"
+
     const val API_KEY_QUERY = "api_key"
     const val REGION_QUERY = "region"
 
     const val POPULAR_MOVIES_ENDPOINT = "movie/popular"
-    const val DETAIL_MOVIE_ENDPOINT = "movie/{$DETAIL_MOVIE_ID_PATH}"
+    const val MOVIE_DETAIL_ENDPOINT = "movie/{$MOVIE_DETAIL_ID_PATH}"
 }

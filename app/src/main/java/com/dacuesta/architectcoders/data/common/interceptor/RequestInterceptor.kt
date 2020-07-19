@@ -1,12 +1,12 @@
-package com.dacuesta.architectcoders.data.interceptor
+package com.dacuesta.architectcoders.data.common.interceptor
 
 import android.content.Context
 import android.content.pm.PackageManager
-import com.dacuesta.architectcoders.data.constant.TmdbConstant.API_KEY_QUERY
+import com.dacuesta.architectcoders.data.common.constant.Constant.API_KEY_QUERY
 import okhttp3.Interceptor
 import okhttp3.Response
 
-class TmdbRequestInterceptor(
+class RequestInterceptor(
     private val context: Context
 ) : Interceptor {
 

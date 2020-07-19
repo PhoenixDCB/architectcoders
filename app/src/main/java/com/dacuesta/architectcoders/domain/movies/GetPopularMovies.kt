@@ -1,8 +1,7 @@
 package com.dacuesta.architectcoders.domain.movies
 
 import com.dacuesta.architectcoders.data.movies.MoviesRepository
-import com.dacuesta.architectcoders.domain.mapper.map
-import com.dacuesta.architectcoders.domain.movies.mapper.map
+import com.dacuesta.architectcoders.domain.common.extension.map
 import kotlinx.coroutines.flow.map
 import org.koin.core.KoinComponent
 import org.koin.core.inject

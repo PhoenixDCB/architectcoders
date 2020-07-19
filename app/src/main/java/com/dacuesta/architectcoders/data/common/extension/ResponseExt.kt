@@ -1,8 +1,8 @@
-package com.dacuesta.architectcoders.data.extension
+package com.dacuesta.architectcoders.data.common.extension
 
 import arrow.core.left
 import arrow.core.right
-import com.dacuesta.architectcoders.data.model.Error
+import com.dacuesta.architectcoders.data.common.model.Error
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response

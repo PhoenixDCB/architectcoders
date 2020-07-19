@@ -1,4 +1,4 @@
-package com.dacuesta.architectcoders.data.model
+package com.dacuesta.architectcoders.data.common.model
 
 sealed class Error {
     object Empty: Error()

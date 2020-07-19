@@ -1,4 +1,4 @@
-package com.dacuesta.architectcoders.data.moviedetail.dto
+package com.dacuesta.architectcoders.data.common.model.moviedetail
 
 
 import com.google.gson.annotations.SerializedName

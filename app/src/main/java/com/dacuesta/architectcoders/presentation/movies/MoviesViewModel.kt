@@ -5,10 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import arrow.core.Either
-import com.dacuesta.architectcoders.domain.model.Error
+import com.dacuesta.architectcoders.domain.common.model.Error
 import com.dacuesta.architectcoders.domain.movies.GetPopularMovies
-import com.dacuesta.architectcoders.domain.movies.model.Movie
-import com.dacuesta.architectcoders.domain.movies.model.MoviesMetadata
+import com.dacuesta.architectcoders.domain.common.model.movies.Movie
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn

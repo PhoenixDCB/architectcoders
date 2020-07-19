@@ -1,7 +1,7 @@
 package com.dacuesta.architectcoders
 
 import android.app.Application
-import com.dacuesta.architectcoders.data.di.dataModule
+import com.dacuesta.architectcoders.data.common.di.dataModule
 import com.dacuesta.architectcoders.data.moviedetail.di.movieDetailDataModule
 import com.dacuesta.architectcoders.data.movies.di.moviesDataModule
 import com.dacuesta.architectcoders.domain.moviedetail.di.movieDetailDomainModule

@@ -1,4 +1,4 @@
-package com.dacuesta.architectcoders.domain.moviedetail.model
+package com.dacuesta.architectcoders.domain.common.model
 
 data class MovieDetail(
     val title: String,

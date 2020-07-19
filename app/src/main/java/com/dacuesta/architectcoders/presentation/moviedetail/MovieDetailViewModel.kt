@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import arrow.core.Either
-import com.dacuesta.architectcoders.domain.model.Error
+import com.dacuesta.architectcoders.domain.common.model.Error
 import com.dacuesta.architectcoders.domain.moviedetail.GetMovieDetail
-import com.dacuesta.architectcoders.domain.moviedetail.model.MovieDetail
+import com.dacuesta.architectcoders.domain.common.model.MovieDetail
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent

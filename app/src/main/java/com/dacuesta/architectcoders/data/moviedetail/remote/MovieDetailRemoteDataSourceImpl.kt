@@ -1,6 +1,6 @@
 package com.dacuesta.architectcoders.data.moviedetail.remote
 
-import com.dacuesta.architectcoders.data.extension.result
+import com.dacuesta.architectcoders.data.common.extension.result
 
 class MovieDetailRemoteDataSourceImpl(
     private val service: MovieDetailService

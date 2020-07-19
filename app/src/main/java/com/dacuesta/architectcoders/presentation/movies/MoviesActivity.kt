@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dacuesta.architectcoders.R
-import com.dacuesta.architectcoders.domain.movies.model.Movie
+import com.dacuesta.architectcoders.domain.common.model.movies.Movie
 import com.dacuesta.architectcoders.presentation.moviedetail.MovieDetailActivity
 import kotlinx.android.synthetic.main.activity_movies.*
 import kotlinx.android.synthetic.main.item_movie.view.*

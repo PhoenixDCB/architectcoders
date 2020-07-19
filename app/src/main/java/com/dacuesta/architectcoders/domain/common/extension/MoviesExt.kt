@@ -1,9 +1,9 @@
-package com.dacuesta.architectcoders.domain.movies.mapper
+package com.dacuesta.architectcoders.domain.common.extension
 
-import com.dacuesta.architectcoders.data.movies.model.MoviesMetadata as DataMoviesMetadata
-import com.dacuesta.architectcoders.domain.movies.model.MoviesMetadata
-import com.dacuesta.architectcoders.data.movies.model.Movie as DataMovie
-import com.dacuesta.architectcoders.domain.movies.model.Movie
+import com.dacuesta.architectcoders.data.common.model.movies.MoviesMetadata as DataMoviesMetadata
+import com.dacuesta.architectcoders.domain.common.model.movies.MoviesMetadata
+import com.dacuesta.architectcoders.data.common.model.movies.Movie as DataMovie
+import com.dacuesta.architectcoders.domain.common.model.movies.Movie
 
 fun DataMoviesMetadata.map() = MoviesMetadata(
     page = page,
