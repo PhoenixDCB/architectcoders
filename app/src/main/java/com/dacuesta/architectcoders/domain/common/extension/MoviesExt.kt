@@ -22,7 +22,7 @@ fun List<DataMovie>.map() = run {
 
 fun DataMovie.map() = Movie(
     id = id,
+    imageUrl = "https://image.tmdb.org/t/p/w185${posterPath}",
     title = originalTitle,
-    overview = overview,
     releaseDate = releaseDate
 )

@@ -6,8 +6,7 @@ import com.dacuesta.architectcoders.data.moviedetail.di.movieDetailDataModule
 import com.dacuesta.architectcoders.data.movies.di.moviesDataModule
 import com.dacuesta.architectcoders.domain.moviedetail.di.movieDetailDomainModule
 import com.dacuesta.architectcoders.domain.movies.di.moviesDomainModule
-import com.dacuesta.architectcoders.presentation.moviedetail.movieDetailModule
-import com.dacuesta.architectcoders.presentation.movies.moviesModule
+import com.dacuesta.architectcoders.presentation.main.movies.di.moviesModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -31,8 +30,7 @@ class MoviesApplication : Application() {
                     moviesDomainModule,
                     movieDetailDomainModule,
 
-                    moviesModule,
-                    movieDetailModule
+                    moviesModule
                 )
             )
         }

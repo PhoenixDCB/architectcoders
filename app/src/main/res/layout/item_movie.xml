@@ -4,14 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp"
-    tools:viewBindingIgnore="true">
+    android:padding="@dimen/margin">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/image_iv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/image_background"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintDimensionRatio="500:750"/>
 
     <TextView
         android:id="@+id/title_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/margin"
+        app:layout_constraintTop_toBottomOf="@+id/image_iv"
         tools:text="The Shawshank Redemption" />
 
     <TextView
@@ -20,12 +28,5 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/title_tv"
         tools:text="1995-02-24" />
-
-    <TextView
-        android:id="@+id/overview_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/release_date_tv"
-        tools:text="Framed in the 1940s for the double murder of his wife and her lover, upstanding banker Andy Dufresne begins a new life at the Shawshank prison, where he puts his accounting skills to work for an amoral warden. During his long stretch in prison, Dufresne comes to be admired by the other inmates -- including an older prisoner named Red -- for his integrity and unquenchable sense of hope." />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

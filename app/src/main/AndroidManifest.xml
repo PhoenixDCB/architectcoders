@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".presentation.movies.MoviesActivity">
+        <activity android:name=".presentation.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,9 +21,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".presentation.moviedetail.MovieDetailActivity" />
-
-        <meta-data android:name="tmdb_api_key" android:value="${tmdb_api_key}" />
+        <meta-data
+            android:name="tmdb_api_key"
+            android:value="${tmdb_api_key}" />
 
     </application>
 
