@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">Architect Coders</string>
+    <string name="app_name">Movies</string>
+
+    <string name="popular_movies_menu">Popular movies</string>
+    <string name="favorite_movies_menu">Favorite movies</string>
+
+    <string name="movies_empty_state">There is no movies</string>
 </resources>

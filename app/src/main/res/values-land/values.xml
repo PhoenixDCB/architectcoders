@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <integer name="movies_per_row">5</integer>
+    <integer name="movies_per_row">4</integer>
 
 </resources>
