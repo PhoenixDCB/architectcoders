@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dacuesta.architectcoders.domain.common.model.movies.Movie
-import com.dacuesta.architectcoders.domain.movies.GetPopularMovies
+import com.dacuesta.architectcoders.domain.entity.movies.MovieEntity
+import com.dacuesta.architectcoders.domain.usecase.movies.GetPopularMovies
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
@@ -15,8 +15,8 @@ class PopularMoviesViewModel : ViewModel(), KoinComponent {
 
     private val getPopularMovies by inject<GetPopularMovies>()
 
-    private val _popularMovies = MutableLiveData<List<Movie>>()
-    val popularMovies: LiveData<List<Movie>>
+    private val _popularMovies = MutableLiveData<List<MovieEntity>>()
+    val popularMovies: LiveData<List<MovieEntity>>
         get() = _popularMovies
 
 

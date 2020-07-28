@@ -7,21 +7,21 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import com.dacuesta.architectcoders.databinding.ItemPopularMovieBinding
-import com.dacuesta.architectcoders.domain.common.model.movies.Movie
+import com.dacuesta.architectcoders.domain.entity.movies.MovieEntity
 import com.dacuesta.architectcoders.presentation.main.popularmovies.PopularMoviesAdapter.MovieVH
 
 class PopularMoviesAdapter(
-    private val imageClicked: (Movie) -> Unit,
-    private val favoriteClicked: (Movie) -> Unit
-) : ListAdapter<Movie, MovieVH>(DIFF_CALLBACK) {
+    private val imageClicked: (MovieEntity) -> Unit,
+    private val favoriteClicked: (MovieEntity) -> Unit
+) : ListAdapter<MovieEntity, MovieVH>(DIFF_CALLBACK) {
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Movie>() {
-            override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MovieEntity>() {
+            override fun areItemsTheSame(oldItem: MovieEntity, newItem: MovieEntity): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+            override fun areContentsTheSame(oldItem: MovieEntity, newItem: MovieEntity): Boolean {
                 return oldItem == newItem
             }
 
@@ -32,7 +32,7 @@ class PopularMoviesAdapter(
         private val binding: ItemPopularMovieBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(movie: Movie) {
+        fun bind(movie: MovieEntity) {
             binding.imageIv.load(movie.imageUrl)
             binding.titleTv.text = movie.title
             binding.releaseDateTv.text = movie.releaseDate

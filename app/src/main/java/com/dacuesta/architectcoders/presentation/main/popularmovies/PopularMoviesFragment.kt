@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.dacuesta.architectcoders.databinding.FragmentPopularMoviesBinding
-import com.dacuesta.architectcoders.domain.common.model.movies.Movie
+import com.dacuesta.architectcoders.domain.entity.movies.MovieEntity
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class PopularMoviesFragment : Fragment() {
@@ -41,11 +41,11 @@ class PopularMoviesFragment : Fragment() {
         binding.moviesRv.adapter = moviesAdapter
     }
 
-    private fun imageClicked(movie: Movie) {
+    private fun imageClicked(movie: MovieEntity) {
         TODO("Not yet implemented")
     }
 
-    private fun favoriteClicked(movie: Movie) {
+    private fun favoriteClicked(movie: MovieEntity) {
         TODO("Not yet implemented")
     }
 
@@ -53,7 +53,7 @@ class PopularMoviesFragment : Fragment() {
         viewModel.popularMovies.observe(viewLifecycleOwner, Observer(::handleMovies))
     }
 
-    private fun handleMovies(movies: List<Movie>) {
+    private fun handleMovies(movies: List<MovieEntity>) {
         moviesAdapter.submitList(movies)
 
         if (movies.isEmpty()) {
