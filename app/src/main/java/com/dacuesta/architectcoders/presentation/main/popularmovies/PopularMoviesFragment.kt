@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.dacuesta.architectcoders.databinding.FragmentPopularMoviesBinding
 import com.dacuesta.architectcoders.domain.entity.movies.MovieEntity
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class PopularMoviesFragment : Fragment() {
@@ -16,6 +17,7 @@ class PopularMoviesFragment : Fragment() {
     private val binding: FragmentPopularMoviesBinding
         get() = _binding!!
 
+    @ExperimentalCoroutinesApi
     private val viewModel by viewModel<PopularMoviesViewModel>()
 
     private lateinit var moviesAdapter: PopularMoviesAdapter
@@ -28,6 +30,7 @@ class PopularMoviesFragment : Fragment() {
         root
     }
 
+    @ExperimentalCoroutinesApi
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -35,8 +38,13 @@ class PopularMoviesFragment : Fragment() {
         initObservers()
     }
 
+    @ExperimentalCoroutinesApi
     private fun initViews() {
-        moviesAdapter = PopularMoviesAdapter(imageClicked = ::imageClicked, favoriteClicked = ::favoriteClicked)
+        moviesAdapter = PopularMoviesAdapter(
+            favoriteMoviesLD = viewModel.favoriteMoviesLD,
+            imageClicked = ::imageClicked,
+            favoriteClicked = ::favoriteClicked
+        )
         binding.moviesRv.setHasFixedSize(true)
         binding.moviesRv.adapter = moviesAdapter
     }
@@ -45,12 +53,14 @@ class PopularMoviesFragment : Fragment() {
         TODO("Not yet implemented")
     }
 
-    private fun favoriteClicked(movie: MovieEntity) {
-        TODO("Not yet implemented")
+    @ExperimentalCoroutinesApi
+    private fun favoriteClicked(movie: MovieEntity, isFavorite: Boolean) {
+        viewModel.favoriteClicked(movie, isFavorite)
     }
 
+    @ExperimentalCoroutinesApi
     private fun initObservers() {
-        viewModel.popularMovies.observe(viewLifecycleOwner, Observer(::handleMovies))
+        viewModel.popularMoviesLD.observe(viewLifecycleOwner, Observer(::handleMovies))
     }
 
     private fun handleMovies(movies: List<MovieEntity>) {

@@ -2,7 +2,7 @@ package com.dacuesta.architectcoders.data.remote.extension
 
 import arrow.core.left
 import arrow.core.right
-import com.dacuesta.architectcoders.data.dto.ErrorDTO
+import com.dacuesta.architectcoders.data.remote.dto.ErrorDTO
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response

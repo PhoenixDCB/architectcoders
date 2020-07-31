@@ -1,9 +1,9 @@
 package com.dacuesta.architectcoders.data.remote.tmdb.service
 
-import com.dacuesta.architectcoders.data.dto.moviedetail.MovieDetailDTO
+import com.dacuesta.architectcoders.data.remote.dto.moviedetail.MovieDetailDTO
 import com.dacuesta.architectcoders.data.remote.tmdb.constant.Constant.POPULAR_MOVIES_ENDPOINT
 import com.dacuesta.architectcoders.data.remote.tmdb.constant.Constant.REGION_QUERY
-import com.dacuesta.architectcoders.data.dto.movies.MoviesMetadataDTO
+import com.dacuesta.architectcoders.data.remote.dto.movies.MoviesMetadataDTO
 import com.dacuesta.architectcoders.data.remote.tmdb.constant.Constant
 import com.dacuesta.architectcoders.data.remote.tmdb.constant.Constant.MOVIE_DETAIL_ENDPOINT
 import retrofit2.Response

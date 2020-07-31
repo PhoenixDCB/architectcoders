@@ -15,15 +15,15 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 val tmdbRemoteDataSourceModule = module {
 
-    factory<TmdbRemoteDataSource> {
-        TmdbRemoteDataSourceImpl(get())
+    single<TmdbRemoteDataSource> {
+        TmdbRemoteDataSourceImpl()
     }
 
-    factory {
+    single {
         get<Retrofit>().create(Service::class.java)
     }
 
-    factory {
+    single {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())

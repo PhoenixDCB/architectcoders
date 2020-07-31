@@ -1,9 +1,9 @@
 package com.dacuesta.architectcoders.data.remote.tmdb
 
 import arrow.core.Either
-import com.dacuesta.architectcoders.data.dto.moviedetail.MovieDetailDTO
-import com.dacuesta.architectcoders.data.dto.ErrorDTO
-import com.dacuesta.architectcoders.data.dto.movies.MoviesMetadataDTO
+import com.dacuesta.architectcoders.data.remote.dto.moviedetail.MovieDetailDTO
+import com.dacuesta.architectcoders.data.remote.dto.ErrorDTO
+import com.dacuesta.architectcoders.data.remote.dto.movies.MoviesMetadataDTO
 import kotlinx.coroutines.flow.Flow
 
 interface TmdbRemoteDataSource {

@@ -5,11 +5,11 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
-class GetPopularMovies : KoinComponent {
+class GetFavoritePopularMovies : KoinComponent {
 
     private val repository by inject<MoviesRepository>()
 
     @ExperimentalCoroutinesApi
-    suspend operator fun invoke(region: String) = repository.getPopularMovies(region)
+    operator fun invoke() = repository.favoritePopularMovies
 
 }

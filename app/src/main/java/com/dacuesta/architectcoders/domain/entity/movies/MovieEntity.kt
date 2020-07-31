@@ -4,5 +4,5 @@ data class MovieEntity(
     val id: Int,
     val imageUrl: String,
     val title: String,
-    val releaseDate: String = ""
+    val releaseDate: String
 )

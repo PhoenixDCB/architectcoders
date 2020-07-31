@@ -1,4 +1,4 @@
-package com.dacuesta.architectcoders.data.dto
+package com.dacuesta.architectcoders.data.remote.dto
 
 sealed class ErrorDTO {
     object Empty: ErrorDTO()
