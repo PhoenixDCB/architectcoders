@@ -7,9 +7,10 @@ import org.koin.core.inject
 
 class GetPopularMovies : KoinComponent {
 
+    @ExperimentalCoroutinesApi
     private val repository by inject<MoviesRepository>()
 
     @ExperimentalCoroutinesApi
-    suspend operator fun invoke(region: String) = repository.getPopularMovies(region)
+    suspend operator fun invoke(page: Int) = repository.getPopularMovies("us", page)
 
 }

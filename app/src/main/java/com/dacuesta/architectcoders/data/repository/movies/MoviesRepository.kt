@@ -30,7 +30,7 @@ class MoviesRepository : KoinComponent, CoroutineScope {
     val favoritePopularMovies: StateFlow<List<MovieEntity>>
         get() = _favoritePopularMovies
 
-    suspend fun getPopularMovies(region: String) = remote.getPopularMovies(region)
+    suspend fun getPopularMovies(region: String, page: Int) = remote.getPopularMovies(region, page)
         .map { either ->
             either.mapLeft(::map).map(::map)
         }

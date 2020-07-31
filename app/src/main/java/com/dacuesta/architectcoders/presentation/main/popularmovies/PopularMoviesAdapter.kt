@@ -2,8 +2,9 @@ package com.dacuesta.architectcoders.presentation.main.popularmovies
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.*
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -12,12 +13,12 @@ import com.dacuesta.architectcoders.R
 import com.dacuesta.architectcoders.databinding.ItemPopularMovieBinding
 import com.dacuesta.architectcoders.domain.entity.movies.MovieEntity
 import com.dacuesta.architectcoders.presentation.main.popularmovies.PopularMoviesAdapter.MovieVH
-import kotlinx.coroutines.flow.collect
 
 class PopularMoviesAdapter(
     private val favoriteMoviesLD: LiveData<List<MovieEntity>>,
     private val imageClicked: (MovieEntity) -> Unit,
-    private val favoriteClicked: (MovieEntity, Boolean) -> Unit
+    private val favoriteClicked: (MovieEntity, Boolean) -> Unit,
+    private val loadMore: () -> Unit
 ) : ListAdapter<MovieEntity, MovieVH>(DIFF_CALLBACK) {
 
     companion object {
@@ -84,6 +85,9 @@ class PopularMoviesAdapter(
 
     override fun onBindViewHolder(holder: MovieVH, position: Int) {
         holder.bind(getItem(position))
+        if (position == itemCount - 1) {
+            loadMore()
+        }
     }
 
 }

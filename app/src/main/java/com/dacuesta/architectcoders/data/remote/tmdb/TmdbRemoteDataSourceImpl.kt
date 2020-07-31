@@ -9,7 +9,7 @@ internal class TmdbRemoteDataSourceImpl: TmdbRemoteDataSource, KoinComponent {
 
     private val service by inject<Service>()
 
-    override suspend fun getPopularMovies(region: String) = service.getPopularMovies(region).result()
+    override suspend fun getPopularMovies(region: String, page: Int) = service.getPopularMovies(region, page).result()
     override suspend fun getMovieDetail(id: Int) = service.getMovieDetail(id).result()
 
 }

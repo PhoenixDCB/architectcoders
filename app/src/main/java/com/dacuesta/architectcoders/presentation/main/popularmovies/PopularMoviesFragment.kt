@@ -10,6 +10,7 @@ import com.dacuesta.architectcoders.databinding.FragmentPopularMoviesBinding
 import com.dacuesta.architectcoders.domain.entity.movies.MovieEntity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 class PopularMoviesFragment : Fragment() {
 
@@ -43,7 +44,8 @@ class PopularMoviesFragment : Fragment() {
         moviesAdapter = PopularMoviesAdapter(
             favoriteMoviesLD = viewModel.favoriteMoviesLD,
             imageClicked = ::imageClicked,
-            favoriteClicked = ::favoriteClicked
+            favoriteClicked = ::favoriteClicked,
+            loadMore = ::loadMore
         )
         binding.moviesRv.setHasFixedSize(true)
         binding.moviesRv.adapter = moviesAdapter
@@ -56,6 +58,11 @@ class PopularMoviesFragment : Fragment() {
     @ExperimentalCoroutinesApi
     private fun favoriteClicked(movie: MovieEntity, isFavorite: Boolean) {
         viewModel.favoriteClicked(movie, isFavorite)
+    }
+
+    @ExperimentalCoroutinesApi
+    private fun loadMore() {
+        viewModel.loadMore()
     }
 
     @ExperimentalCoroutinesApi

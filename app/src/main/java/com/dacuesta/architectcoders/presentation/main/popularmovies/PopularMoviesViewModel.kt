@@ -4,8 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import arrow.core.left
-import arrow.core.right
 import com.dacuesta.architectcoders.domain.entity.movies.MovieEntity
 import com.dacuesta.architectcoders.domain.usecase.movies.DeleteFavoritePopularMovie
 import com.dacuesta.architectcoders.domain.usecase.movies.GetPopularMovies
@@ -14,10 +12,11 @@ import com.dacuesta.architectcoders.domain.usecase.movies.InsertFavoritePopularM
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
 import org.koin.core.inject
+import timber.log.Timber
+import java.util.concurrent.atomic.AtomicBoolean
 
 @ExperimentalCoroutinesApi
 class PopularMoviesViewModel : ViewModel(), KoinComponent {
@@ -35,20 +34,15 @@ class PopularMoviesViewModel : ViewModel(), KoinComponent {
     val favoriteMoviesLD: LiveData<List<MovieEntity>>
         get() = _favoriteMoviesLD
 
+    private var page = 1
+    private var totalPages = 1
+    private val isLoadingPopularMovies = AtomicBoolean(false)
+    private var movies = emptyList<MovieEntity>()
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
             launch {
-                getPopularMovies("us").collect { result ->
-                    result.fold(
-                        { error ->
-                            _popularMoviesLD.value = emptyList()
-                        },
-                        { metadata ->
-                            _popularMoviesLD.postValue(metadata.results)
-                        }
-                    )
-                }
+                getPopularMovies()
             }
             launch {
                 getFavoritePopularMovies().collect { movies ->
@@ -58,6 +52,31 @@ class PopularMoviesViewModel : ViewModel(), KoinComponent {
         }
     }
 
+    fun loadMore() {
+        viewModelScope.launch(Dispatchers.IO) {
+            getPopularMovies()
+        }
+    }
+
+    private suspend fun getPopularMovies() {
+        if (isLoadingPopularMovies.compareAndSet(false, true) && page <= totalPages) {
+            getPopularMovies(page).collect { result ->
+                result.fold(
+                    { error ->
+                        _popularMoviesLD.value = emptyList()
+                        isLoadingPopularMovies.set(false)
+                    },
+                    { metadata ->
+                        page = metadata.page + 1
+                        totalPages = metadata.totalPages
+                        movies = movies.toMutableList().apply { addAll(metadata.results) }.toList()
+                        _popularMoviesLD.postValue(movies)
+                        isLoadingPopularMovies.set(false)
+                    }
+                )
+            }
+        }
+    }
 
     @ExperimentalCoroutinesApi
     fun favoriteClicked(movie: MovieEntity, isFavorite: Boolean) {

@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface TmdbRemoteDataSource {
 
-    suspend fun getPopularMovies(region: String) : Flow<Either<ErrorDTO, MoviesMetadataDTO>>
+    suspend fun getPopularMovies(region: String, page: Int) : Flow<Either<ErrorDTO, MoviesMetadataDTO>>
     suspend fun getMovieDetail(id: Int) : Flow<Either<ErrorDTO, MovieDetailDTO>>
 
 }
