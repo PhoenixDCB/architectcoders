@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dacuesta.architectcoders.domain.MoviesState
+import com.dacuesta.architectcoders.domain.entity.ErrorEntity
 import com.dacuesta.architectcoders.domain.entity.movies.MovieEntity
 import com.dacuesta.architectcoders.domain.usecase.movies.DeleteFavoritePopularMovie
 import com.dacuesta.architectcoders.domain.usecase.movies.GetPopularMovies
@@ -26,23 +28,20 @@ class PopularMoviesViewModel : ViewModel(), KoinComponent {
     private val insertFavoritePopularMovies by inject<InsertFavoritePopularMovie>()
     private val deleteFavoritePopularMovies by inject<DeleteFavoritePopularMovie>()
 
-    private val _popularMoviesLD = MutableLiveData<List<MovieEntity>>()
-    val popularMoviesLD: LiveData<List<MovieEntity>>
+    private val _popularMoviesLD = MutableLiveData<MoviesState<List<MovieEntity>>>()
+    val popularMoviesLD: LiveData<MoviesState<List<MovieEntity>>>
         get() = _popularMoviesLD
 
     private val _favoriteMoviesLD = MutableLiveData<List<MovieEntity>>()
     val favoriteMoviesLD: LiveData<List<MovieEntity>>
         get() = _favoriteMoviesLD
 
-    private var page = 1
-    private var totalPages = 1
-    private val isLoadingPopularMovies = AtomicBoolean(false)
-    private var movies = emptyList<MovieEntity>()
-
     init {
         viewModelScope.launch(Dispatchers.IO) {
             launch {
-                getPopularMovies()
+                getPopularMovies().collect { state ->
+                    _popularMoviesLD.postValue(state)
+                }
             }
             launch {
                 getFavoritePopularMovies().collect { movies ->
@@ -54,26 +53,8 @@ class PopularMoviesViewModel : ViewModel(), KoinComponent {
 
     fun loadMore() {
         viewModelScope.launch(Dispatchers.IO) {
-            getPopularMovies()
-        }
-    }
-
-    private suspend fun getPopularMovies() {
-        if (isLoadingPopularMovies.compareAndSet(false, true) && page <= totalPages) {
-            getPopularMovies(page).collect { result ->
-                result.fold(
-                    { error ->
-                        _popularMoviesLD.value = emptyList()
-                        isLoadingPopularMovies.set(false)
-                    },
-                    { metadata ->
-                        page = metadata.page + 1
-                        totalPages = metadata.totalPages
-                        movies = movies.toMutableList().apply { addAll(metadata.results) }.toList()
-                        _popularMoviesLD.postValue(movies)
-                        isLoadingPopularMovies.set(false)
-                    }
-                )
+            getPopularMovies().collect { state ->
+                _popularMoviesLD.postValue(state)
             }
         }
     }

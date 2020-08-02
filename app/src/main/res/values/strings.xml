@@ -5,4 +5,6 @@
     <string name="favorite_movies_menu">Favorite movies</string>
 
     <string name="movies_empty_state">There is no movies</string>
+
+    <string name="unknown_error">Something went wrong</string>
 </resources>
