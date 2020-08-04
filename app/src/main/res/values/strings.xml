@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">Movies</string>
 
-    <string name="popular_movies_menu">Popular movies</string>
-    <string name="favorite_movies_menu">Favorite movies</string>
+    <string name="general_retry">Retry</string>
 
-    <string name="movies_empty_state">There is no movies</string>
 
-    <string name="unknown_error">Something went wrong</string>
+    <string name="menu_popular_movies">Popular movies</string>
+    <string name="menu_favorite_movies">Favorite movies</string>
+
+    <string name="popular_movies_empty_state">There is no movies</string>
 </resources>

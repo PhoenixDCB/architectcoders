@@ -15,10 +15,10 @@ import com.dacuesta.architectcoders.domain.entity.movies.MovieEntity
 import com.dacuesta.architectcoders.presentation.main.popularmovies.PopularMoviesAdapter.MovieVH
 
 class PopularMoviesAdapter(
-    private val favoriteMoviesLD: LiveData<List<MovieEntity>>,
+    private val favoriteMoviesLD: LiveData<PopularMoviesModel.FavoriteMovies>,
+    private val endReached: () -> Unit,
     private val imageClicked: (MovieEntity) -> Unit,
-    private val favoriteClicked: (MovieEntity, Boolean) -> Unit,
-    private val loadMore: () -> Unit
+    private val favoriteClicked: (MovieEntity, Boolean) -> Unit
 ) : ListAdapter<MovieEntity, MovieVH>(DIFF_CALLBACK) {
 
     companion object {
@@ -63,8 +63,8 @@ class PopularMoviesAdapter(
 
             favoriteMoviesLD.observe(
                 (binding.root.context as LifecycleOwner),
-                Observer { movies ->
-                    isFavorite = movies.contains(movie)
+                Observer { model ->
+                    isFavorite = model.movies.contains(movie)
                 }
             )
 
@@ -73,7 +73,8 @@ class PopularMoviesAdapter(
             }
 
             binding.favoriteIv.setOnClickListener {
-                favoriteClicked(movie, isFavorite)
+                isFavorite = !isFavorite
+                favoriteClicked(movie, !isFavorite)
             }
         }
 
@@ -86,7 +87,7 @@ class PopularMoviesAdapter(
     override fun onBindViewHolder(holder: MovieVH, position: Int) {
         holder.bind(getItem(position))
         if (position == itemCount - 1) {
-            loadMore()
+            endReached()
         }
     }
 

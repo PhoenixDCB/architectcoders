@@ -11,7 +11,7 @@
         android:id="@+id/loader_pb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,18 +19,30 @@
         tools:visibility="visible" />
 
     <TextView
-        android:id="@+id/empty_state_tv"
+        android:id="@+id/movies_empty_state_tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="@dimen/default_margin"
-        android:text="@string/movies_empty_state"
+        android:text="@string/popular_movies_empty_state"
         android:textSize="@dimen/empty_state_text_size"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/retry_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:text="@string/general_retry"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/movies_empty_state_tv"
         tools:visibility="visible" />
 
     <androidx.recyclerview.widget.RecyclerView

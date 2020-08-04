@@ -12,6 +12,8 @@ class DeleteFavoritePopularMovie : KoinComponent {
     private val repository by inject<MoviesRepository>()
 
     @ExperimentalCoroutinesApi
-    suspend operator fun invoke(movie: MovieEntity) = repository.deleteFavoritePopularMovie(movie)
+    operator fun invoke(movie: MovieEntity) {
+        repository.deleteFavoritePopularMovie(movie)
+    }
 
 }

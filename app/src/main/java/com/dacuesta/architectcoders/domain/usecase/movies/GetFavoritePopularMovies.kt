@@ -7,9 +7,11 @@ import org.koin.core.inject
 
 class GetFavoritePopularMovies : KoinComponent {
 
+    @ExperimentalCoroutinesApi
     private val repository by inject<MoviesRepository>()
 
     @ExperimentalCoroutinesApi
-    operator fun invoke() = repository.favoritePopularMovies
+    operator fun invoke() =
+        repository.getFavoritePopularMovies()
 
 }

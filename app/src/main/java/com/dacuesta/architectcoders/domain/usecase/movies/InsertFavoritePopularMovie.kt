@@ -12,6 +12,8 @@ class InsertFavoritePopularMovie : KoinComponent {
     private val repository by inject<MoviesRepository>()
 
     @ExperimentalCoroutinesApi
-    suspend operator fun invoke(movie: MovieEntity) = repository.saveFavoritePopularMovie(movie)
+    operator fun invoke(movie: MovieEntity) {
+        repository.insertFavoritePopularMovie(movie)
+    }
 
 }

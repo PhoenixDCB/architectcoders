@@ -4,10 +4,10 @@
         android:id="@+id/popular_movies"
         android:enabled="true"
         android:icon="@drawable/ic_movies"
-        android:title="@string/popular_movies_menu"/>
+        android:title="@string/menu_popular_movies"/>
     <item
         android:id="@+id/favorite_movies"
         android:enabled="true"
         android:icon="@drawable/ic_favorite"
-        android:title="@string/favorite_movies_menu"/>
+        android:title="@string/menu_favorite_movies"/>
 </menu>
