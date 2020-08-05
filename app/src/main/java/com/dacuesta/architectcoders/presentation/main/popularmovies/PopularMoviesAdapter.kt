@@ -8,41 +8,51 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 import coil.api.load
 import com.dacuesta.architectcoders.R
-import com.dacuesta.architectcoders.databinding.ItemPopularMovieBinding
+import com.dacuesta.architectcoders.databinding.ItemLoaderPopularMovieBinding
+import com.dacuesta.architectcoders.databinding.ItemMoviePopularMovieBinding
 import com.dacuesta.architectcoders.domain.entity.movies.MovieEntity
-import com.dacuesta.architectcoders.presentation.main.popularmovies.PopularMoviesAdapter.MovieVH
+import com.dacuesta.architectcoders.presentation.main.popularmovies.PopularMoviesAdapter.BaseVH
 
 class PopularMoviesAdapter(
     private val favoriteMoviesLD: LiveData<PopularMoviesModel.FavoriteMovies>,
     private val endReached: () -> Unit,
     private val imageClicked: (MovieEntity) -> Unit,
     private val favoriteClicked: (MovieEntity, Boolean) -> Unit
-) : ListAdapter<MovieEntity, MovieVH>(DIFF_CALLBACK) {
+) : ListAdapter<PopularMoviesItem, BaseVH<PopularMoviesItem>>(DIFF_CALLBACK) {
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MovieEntity>() {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<PopularMoviesItem>() {
             override fun areItemsTheSame(
-                oldItem: MovieEntity,
-                newItem: MovieEntity
-            ): Boolean {
-                return oldItem.id == newItem.id
-            }
-
-            override fun areContentsTheSame(
-                oldItem: MovieEntity,
-                newItem: MovieEntity
+                oldItem: PopularMoviesItem,
+                newItem: PopularMoviesItem
             ): Boolean {
                 return oldItem == newItem
             }
 
+            override fun areContentsTheSame(
+                oldItem: PopularMoviesItem,
+                newItem: PopularMoviesItem
+            ): Boolean {
+                return oldItem == newItem
+            }
         }
+
+        private const val TYPE_MOVIE = 0
+        private const val TYPE_LOADER = 1
+    }
+
+    abstract inner class BaseVH<T : PopularMoviesItem>(
+        binding: ViewBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+        abstract fun bind(item: T)
     }
 
     inner class MovieVH(
-        private val binding: ItemPopularMovieBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
+        private val binding: ItemMoviePopularMovieBinding
+    ) : BaseVH<PopularMoviesItem.Movie>(binding) {
 
         private var isFavorite: Boolean = false
             set(value) {
@@ -56,39 +66,59 @@ class PopularMoviesAdapter(
                 )
             }
 
-        fun bind(movie: MovieEntity) {
-            binding.imageIv.load(movie.imageUrl)
-            binding.titleTv.text = movie.title
-            binding.releaseDateTv.text = movie.releaseDate
+        override fun bind(item: PopularMoviesItem.Movie) {
+            binding.imageIv.load(item.movie.imageUrl)
+            binding.titleTv.text = item.movie.title
+            binding.releaseDateTv.text = item.movie.releaseDate
 
             favoriteMoviesLD.observe(
                 (binding.root.context as LifecycleOwner),
                 Observer { model ->
-                    isFavorite = model.movies.contains(movie)
+                    isFavorite = model.movies.contains(item.movie)
                 }
             )
 
             binding.imageIv.setOnClickListener {
-                imageClicked(movie)
+                imageClicked(item.movie)
             }
 
             binding.favoriteIv.setOnClickListener {
                 isFavorite = !isFavorite
-                favoriteClicked(movie, !isFavorite)
+                favoriteClicked(item.movie, !isFavorite)
             }
         }
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = MovieVH(
-        ItemPopularMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-    )
+    inner class LoaderVH(
+        binding: ItemLoaderPopularMovieBinding
+    ) : BaseVH<PopularMoviesItem.Loader>(binding) {
 
-    override fun onBindViewHolder(holder: MovieVH, position: Int) {
-        holder.bind(getItem(position))
+        override fun bind(item: PopularMoviesItem.Loader) {
+            // don't implement
+        }
+
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
+        TYPE_MOVIE -> MovieVH(
+            ItemMoviePopularMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        ) as BaseVH<PopularMoviesItem>
+        else -> LoaderVH(
+            ItemLoaderPopularMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        ) as BaseVH<PopularMoviesItem>
+    }
+
+    override fun onBindViewHolder(holder: BaseVH<PopularMoviesItem>, position: Int) {
         if (position == itemCount - 1) {
             endReached()
         }
+
+        holder.bind(getItem(position))
     }
 
+    override fun getItemViewType(position: Int) = when (getItem(position)) {
+        is PopularMoviesItem.Movie -> TYPE_MOVIE
+        is PopularMoviesItem.Loader -> TYPE_LOADER
+    }
 }

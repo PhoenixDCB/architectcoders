@@ -53,7 +53,7 @@
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="@integer/movies_per_row"
         tools:itemCount="20"
-        tools:listitem="@layout/item_popular_movie"
+        tools:listitem="@layout/item_movie_popular_movie"
         tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

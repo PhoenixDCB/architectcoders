@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.GridLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import androidx.recyclerview.widget.GridLayoutManager
 import com.dacuesta.architectcoders.databinding.FragmentPopularMoviesBinding
 import com.dacuesta.architectcoders.domain.entity.movies.MovieEntity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -50,6 +52,16 @@ class PopularMoviesFragment : Fragment() {
             favoriteClicked = viewModel::favoriteClicked
         )
         binding.moviesRv.setHasFixedSize(true)
+        (binding.moviesRv.layoutManager as GridLayoutManager).let { layoutManager ->
+            layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                override fun getSpanSize(position: Int) =
+                    if (position == layoutManager.itemCount - 1) {
+                        2
+                    } else {
+                        1
+                    }
+            }
+        }
         binding.moviesRv.adapter = moviesAdapter
 
         binding.retryBtn.setOnClickListener {
@@ -70,10 +82,12 @@ class PopularMoviesFragment : Fragment() {
     }
 
     private fun handlePopularMoviesLoading() {
-        binding.loaderPb.visibility = View.VISIBLE
-        binding.moviesEmptyStateTv.visibility = View.GONE
-        binding.retryBtn.visibility = View.GONE
-        binding.moviesRv.visibility = View.GONE
+        if (moviesAdapter.itemCount <= 0) {
+            binding.loaderPb.visibility = View.VISIBLE
+            binding.moviesRv.visibility = View.GONE
+            binding.moviesEmptyStateTv.visibility = View.GONE
+            binding.retryBtn.visibility = View.GONE
+        }
     }
 
     private fun handlePopularMoviesResult(model: PopularMoviesModel.PopularMovies.Result) {
@@ -85,7 +99,12 @@ class PopularMoviesFragment : Fragment() {
             binding.moviesRv.visibility = View.VISIBLE
         }
 
-        moviesAdapter.submitList(model.movies)
+        val items = mutableListOf<PopularMoviesItem>()
+        model.movies.forEach { movie ->
+            items.add(PopularMoviesItem.Movie(movie))
+        }
+        items.add(PopularMoviesItem.Loader)
+        moviesAdapter.submitList(items)
     }
 
     override fun onDestroyView() {
