@@ -1,16 +1,18 @@
-package com.dacuesta.architectcoders.data.remote.extension
+package com.dacuesta.architectcoders.data.remote.utils
 
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
 import com.dacuesta.architectcoders.data.remote.dto.ErrorDTO
 import retrofit2.Response
+import java.lang.Exception
 
-fun <T> Response<T>.result(): Either<ErrorDTO, T> = try {
-    if (isSuccessful) {
-        body()?.right() ?: ErrorDTO.Empty.left()
+suspend fun <T> invoke(request: suspend () -> Response<T>): Either<ErrorDTO, T> = try {
+    val response = request()
+    if (response.isSuccessful) {
+        response.body()?.right() ?: ErrorDTO.Empty.left()
     } else {
-        when (code()) {
+        when (response.code()) {
             401 -> {
                 ErrorDTO.Unauthorized.left()
             }

@@ -40,8 +40,8 @@ class PopularMoviesAdapter(
             }
         }
 
-        private const val TYPE_MOVIE = 0
-        private const val TYPE_LOADER = 1
+        const val TYPE_MOVIE = 0
+        const val TYPE_LOADER = 1
     }
 
     abstract inner class BaseVH<T : PopularMoviesItem>(

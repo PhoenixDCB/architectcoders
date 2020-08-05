@@ -4,7 +4,7 @@ import com.dacuesta.architectcoders.domain.entity.movies.MovieEntity
 
 sealed class PopularMoviesModel {
     sealed class PopularMovies : PopularMoviesModel() {
-        object Loading : PopularMovies()
+        data class Loading(val movies: List<MovieEntity>) : PopularMovies()
         data class Result(val movies: List<MovieEntity>) : PopularMovies()
     }
 

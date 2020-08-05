@@ -55,7 +55,7 @@ class PopularMoviesFragment : Fragment() {
         (binding.moviesRv.layoutManager as GridLayoutManager).let { layoutManager ->
             layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                 override fun getSpanSize(position: Int) =
-                    if (position == layoutManager.itemCount - 1) {
+                    if (moviesAdapter.getItemViewType(position) == PopularMoviesAdapter.TYPE_LOADER) {
                         2
                     } else {
                         1
@@ -76,17 +76,24 @@ class PopularMoviesFragment : Fragment() {
 
     private fun handlePopularMovies(model: PopularMoviesModel.PopularMovies) {
         when (model) {
-            is PopularMoviesModel.PopularMovies.Loading -> handlePopularMoviesLoading()
+            is PopularMoviesModel.PopularMovies.Loading -> handlePopularMoviesLoading(model)
             is PopularMoviesModel.PopularMovies.Result -> handlePopularMoviesResult(model)
         }
     }
 
-    private fun handlePopularMoviesLoading() {
-        if (moviesAdapter.itemCount <= 0) {
+    private fun handlePopularMoviesLoading(model: PopularMoviesModel.PopularMovies.Loading) {
+        if (model.movies.isEmpty()) {
             binding.loaderPb.visibility = View.VISIBLE
             binding.moviesRv.visibility = View.GONE
             binding.moviesEmptyStateTv.visibility = View.GONE
             binding.retryBtn.visibility = View.GONE
+        } else {
+            val items = mutableListOf<PopularMoviesItem>()
+            model.movies.forEach { movie ->
+                items.add(PopularMoviesItem.Movie(movie))
+            }
+            items.add(PopularMoviesItem.Loader)
+            moviesAdapter.submitList(items)
         }
     }
 
@@ -103,7 +110,6 @@ class PopularMoviesFragment : Fragment() {
         model.movies.forEach { movie ->
             items.add(PopularMoviesItem.Movie(movie))
         }
-        items.add(PopularMoviesItem.Loader)
         moviesAdapter.submitList(items)
     }
 

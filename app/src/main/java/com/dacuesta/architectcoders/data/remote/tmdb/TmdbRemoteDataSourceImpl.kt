@@ -1,14 +1,10 @@
 package com.dacuesta.architectcoders.data.remote.tmdb
 
 import arrow.core.Either
-import arrow.core.left
-import arrow.core.right
 import com.dacuesta.architectcoders.data.remote.dto.ErrorDTO
 import com.dacuesta.architectcoders.data.remote.dto.movies.MoviesMetadataDTO
-import com.dacuesta.architectcoders.data.remote.extension.result
 import com.dacuesta.architectcoders.data.remote.tmdb.service.Service
-import com.dacuesta.architectcoders.domain.entity.ErrorEntity
-import kotlinx.coroutines.delay
+import com.dacuesta.architectcoders.data.remote.utils.invoke
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
@@ -21,9 +17,9 @@ internal class TmdbRemoteDataSourceImpl : TmdbRemoteDataSource, KoinComponent {
         region: String,
         page: Int
     ): Either<ErrorDTO, MoviesMetadataDTO> =
-        service.getPopularMovies(region, page).result()
+        invoke { service.getPopularMovies(region, page) }
 
     override suspend fun getMovieDetail(id: Int) =
-        service.getMovieDetail(id).result()
+        invoke { service.getMovieDetail(id) }
 
 }

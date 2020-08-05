@@ -68,7 +68,7 @@ class PopularMoviesViewModel : ViewModel(), KoinComponent {
     }
 
     private suspend fun invokeGetPopularMovies() {
-        _popularMoviesLD.postValue(PopularMoviesModel.PopularMovies.Loading)
+        _popularMoviesLD.postValue(PopularMoviesModel.PopularMovies.Loading(movies))
         getPopularMovies(page).fold(::handleError, ::handleSuccess)
     }
 
