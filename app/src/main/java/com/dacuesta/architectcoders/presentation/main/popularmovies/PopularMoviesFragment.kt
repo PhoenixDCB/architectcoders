@@ -56,7 +56,7 @@ class PopularMoviesFragment : Fragment() {
             layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                 override fun getSpanSize(position: Int) =
                     if (moviesAdapter.getItemViewType(position) == PopularMoviesAdapter.TYPE_LOADER) {
-                        2
+                        layoutManager.spanCount
                     } else {
                         1
                     }

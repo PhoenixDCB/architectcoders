@@ -17,9 +17,13 @@ internal class TmdbRemoteDataSourceImpl : TmdbRemoteDataSource, KoinComponent {
         region: String,
         page: Int
     ): Either<ErrorDTO, MoviesMetadataDTO> =
-        invoke { service.getPopularMovies(region, page) }
+        invoke {
+            service.getPopularMovies(region, page)
+        }
 
     override suspend fun getMovieDetail(id: Int) =
-        invoke { service.getMovieDetail(id) }
+        invoke {
+            service.getMovieDetail(id)
+        }
 
 }

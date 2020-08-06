@@ -3,6 +3,8 @@
 
     <string name="general_retry">Retry</string>
 
+    <string name="error_server">Something in the server went wrong</string>
+    <string name="error_unknown">Something went wrong</string>
 
     <string name="menu_popular_movies">Popular movies</string>
     <string name="menu_favorite_movies">Favorite movies</string>

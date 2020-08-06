@@ -11,6 +11,8 @@ import com.dacuesta.architectcoders.domain.usecase.movies.DeleteFavoritePopularM
 import com.dacuesta.architectcoders.domain.usecase.movies.GetFavoritePopularMovies
 import com.dacuesta.architectcoders.domain.usecase.movies.GetPopularMovies
 import com.dacuesta.architectcoders.domain.usecase.movies.InsertFavoritePopularMovie
+import com.dacuesta.architectcoders.presentation.navigator.Navigator
+import com.dacuesta.architectcoders.presentation.utils.errorMessage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
@@ -21,6 +23,7 @@ import org.koin.core.inject
 @ExperimentalCoroutinesApi
 class PopularMoviesViewModel : ViewModel(), KoinComponent {
 
+    private val navigator by inject<Navigator>()
     private val getPopularMovies by inject<GetPopularMovies>()
     private val getFavoritePopularMovies by inject<GetFavoritePopularMovies>()
     private val insertFavoritePopularMovies by inject<InsertFavoritePopularMovie>()
@@ -74,7 +77,9 @@ class PopularMoviesViewModel : ViewModel(), KoinComponent {
 
     private fun handleError(error: ErrorEntity) {
         _popularMoviesLD.postValue(PopularMoviesModel.PopularMovies.Result(movies))
-        // TODO manage error
+        viewModelScope.launch(Dispatchers.Main) {
+            navigator.showToast(errorMessage(error))
+        }
     }
 
     private fun handleSuccess(metadata: MoviesMetadataEntity) {

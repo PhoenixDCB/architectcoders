@@ -8,6 +8,9 @@ import com.dacuesta.architectcoders.data.repository.movies.di.moviesRepositoryMo
 import com.dacuesta.architectcoders.domain.usecase.moviedetail.di.movieDetailUseCaseModule
 import com.dacuesta.architectcoders.domain.usecase.movies.di.moviesUseCaseModule
 import com.dacuesta.architectcoders.presentation.main.popularmovies.di.popularMoviesModule
+import com.dacuesta.architectcoders.presentation.navigator.Navigator
+import com.dacuesta.architectcoders.presentation.navigator.di.navigatorModule
+import org.koin.android.ext.android.get
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import timber.log.Timber
@@ -18,6 +21,7 @@ class MoviesApplication : Application() {
         super.onCreate()
 
         initDi()
+        initNavigator()
         initLogcat()
     }
 
@@ -35,10 +39,16 @@ class MoviesApplication : Application() {
                     moviesUseCaseModule,
                     movieDetailUseCaseModule,
 
+                    navigatorModule,
+
                     popularMoviesModule
                 )
             )
         }
+    }
+
+    private fun initNavigator() {
+        get<Navigator>()
     }
 
     private fun initLogcat() {

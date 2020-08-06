@@ -4,5 +4,6 @@
     <color name="colorPrimaryDark">#c49000</color>
     <color name="colorAccent">#fff263</color>
 
-    <color name="image_background">#11ffffff</color>
+    <color name="background_menu">#444444</color>
+    <color name="background_image">#11ffffff</color>
 </resources>
