@@ -8,6 +8,6 @@
     <item
         android:id="@+id/favorite_movies"
         android:enabled="true"
-        android:icon="@drawable/ic_favorite"
+        android:icon="@drawable/ic_favorite_on"
         android:title="@string/menu_favorite_movies"/>
 </menu>

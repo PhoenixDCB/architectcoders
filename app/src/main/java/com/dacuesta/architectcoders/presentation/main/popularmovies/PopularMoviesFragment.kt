@@ -4,15 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.GridLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.paging.DataSource
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.PagedList
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dacuesta.architectcoders.databinding.FragmentPopularMoviesBinding
-import com.dacuesta.architectcoders.domain.entity.movies.MovieEntity
+import com.dacuesta.architectcoders.presentation.main.popularmovies.adapter.PopularMoviesAdapter
+import com.dacuesta.architectcoders.presentation.main.popularmovies.adapter.PopularMoviesItem
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.viewmodel.ext.android.viewModel
 

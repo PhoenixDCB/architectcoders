@@ -7,9 +7,11 @@ import com.dacuesta.architectcoders.data.repository.moviedetail.di.movieDetailRe
 import com.dacuesta.architectcoders.data.repository.movies.di.moviesRepositoryModule
 import com.dacuesta.architectcoders.domain.usecase.moviedetail.di.movieDetailUseCaseModule
 import com.dacuesta.architectcoders.domain.usecase.movies.di.moviesUseCaseModule
+import com.dacuesta.architectcoders.presentation.main.favoritemovies.di.favoriteMoviesModule
 import com.dacuesta.architectcoders.presentation.main.popularmovies.di.popularMoviesModule
 import com.dacuesta.architectcoders.presentation.navigator.Navigator
 import com.dacuesta.architectcoders.presentation.navigator.di.navigatorModule
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.get
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -17,6 +19,7 @@ import timber.log.Timber
 
 class MoviesApplication : Application() {
 
+    @ExperimentalCoroutinesApi
     override fun onCreate() {
         super.onCreate()
 
@@ -25,6 +28,7 @@ class MoviesApplication : Application() {
         initLogcat()
     }
 
+    @ExperimentalCoroutinesApi
     private fun initDi() {
         startKoin {
             androidContext(this@MoviesApplication)
@@ -41,7 +45,8 @@ class MoviesApplication : Application() {
 
                     navigatorModule,
 
-                    popularMoviesModule
+                    popularMoviesModule,
+                    favoriteMoviesModule
                 )
             )
         }

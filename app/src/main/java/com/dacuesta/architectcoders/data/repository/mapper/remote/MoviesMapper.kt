@@ -28,7 +28,8 @@ private fun map(movies: List<MovieDTO>) = run {
 
 private fun map(movie: MovieDTO) = MovieEntity(
     id = movie.id,
-    imageUrl = "https://image.tmdb.org/t/p/w185${movie.posterPath}",
+    posterImageUrl = "https://image.tmdb.org/t/p/w185${movie.posterPath}",
+    backdropImageUrl = "https://image.tmdb.org/t/p/w185${movie.backdropPath}",
     title = movie.originalTitle,
     releaseDate = movie.releaseDate
 )

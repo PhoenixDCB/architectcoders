@@ -1,4 +1,4 @@
-package com.dacuesta.architectcoders.presentation.main.popularmovies
+package com.dacuesta.architectcoders.presentation.main.popularmovies.adapter
 
 import com.dacuesta.architectcoders.domain.entity.movies.MovieEntity
 

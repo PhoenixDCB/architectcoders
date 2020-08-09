@@ -1,32 +1,67 @@
 package com.dacuesta.architectcoders.presentation.main.favoritemovies
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.dacuesta.architectcoders.R
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import com.dacuesta.architectcoders.databinding.FragmentFavoriteMoviesBinding
+import com.dacuesta.architectcoders.domain.entity.movies.MovieEntity
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class FavoriteMoviesFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = FavoriteMoviesFragment()
-    }
+    private var _binding: FragmentFavoriteMoviesBinding? = null
+    private val binding: FragmentFavoriteMoviesBinding
+        get() = _binding!!
 
-    private lateinit var viewModel: FavoriteMoviesViewModel
+    @ExperimentalCoroutinesApi
+    private val viewModel by viewModel<FavoriteMoviesViewModel>()
+
+    private lateinit var moviesAdapter: FavoriteMoviesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_favorite_movies, container, false)
+    ): View = FragmentFavoriteMoviesBinding.inflate(inflater, container, false).run {
+        _binding = this
+        root
     }
 
+    @ExperimentalCoroutinesApi
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(FavoriteMoviesViewModel::class.java)
-        // TODO: Use the ViewModel
+
+        initViews()
+        initObservers()
+    }
+
+    @ExperimentalCoroutinesApi
+    private fun initViews() {
+        moviesAdapter = FavoriteMoviesAdapter(
+            imageClicked = viewModel::imageClicked,
+            favoriteClicked = viewModel::favoriteClicked
+        )
+        binding.moviesRv.setHasFixedSize(true)
+        binding.moviesRv.adapter = moviesAdapter
+    }
+
+    @ExperimentalCoroutinesApi
+    private fun initObservers() {
+        viewModel.moviesLD.observe(viewLifecycleOwner, Observer(::handleMovies))
+    }
+
+    private fun handleMovies(movies: List<MovieEntity>) {
+        if (movies.isEmpty()) {
+            binding.moviesEmptyStateTv.visibility = View.VISIBLE
+            binding.moviesRv.visibility = View.GONE
+        } else {
+            binding.moviesEmptyStateTv.visibility = View.GONE
+            binding.moviesRv.visibility = View.VISIBLE
+        }
+        moviesAdapter.submitList(movies)
     }
 
 }
