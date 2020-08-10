@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.dacuesta.architectcoders.databinding.FragmentPopularMoviesBinding
 import com.dacuesta.architectcoders.presentation.main.popularmovies.adapter.PopularMoviesAdapter
 import com.dacuesta.architectcoders.presentation.main.popularmovies.adapter.PopularMoviesItem
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class PopularMoviesFragment : Fragment() {
@@ -19,7 +18,6 @@ class PopularMoviesFragment : Fragment() {
     private val binding: FragmentPopularMoviesBinding
         get() = _binding!!
 
-    @ExperimentalCoroutinesApi
     private val viewModel by viewModel<PopularMoviesViewModel>()
 
     private lateinit var moviesAdapter: PopularMoviesAdapter
@@ -32,7 +30,6 @@ class PopularMoviesFragment : Fragment() {
         root
     }
 
-    @ExperimentalCoroutinesApi
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -40,7 +37,6 @@ class PopularMoviesFragment : Fragment() {
         initObservers()
     }
 
-    @ExperimentalCoroutinesApi
     private fun initViews() {
         moviesAdapter = PopularMoviesAdapter(
             favoriteMoviesLD = viewModel.favoriteMoviesLD,
@@ -66,7 +62,6 @@ class PopularMoviesFragment : Fragment() {
         }
     }
 
-    @ExperimentalCoroutinesApi
     private fun initObservers() {
         viewModel.popularMoviesLD.observe(viewLifecycleOwner, Observer(::handlePopularMovies))
     }

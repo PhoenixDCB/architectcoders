@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.dacuesta.architectcoders.databinding.FragmentFavoriteMoviesBinding
 import com.dacuesta.architectcoders.domain.entity.movies.MovieEntity
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class FavoriteMoviesFragment : Fragment() {
@@ -17,7 +16,6 @@ class FavoriteMoviesFragment : Fragment() {
     private val binding: FragmentFavoriteMoviesBinding
         get() = _binding!!
 
-    @ExperimentalCoroutinesApi
     private val viewModel by viewModel<FavoriteMoviesViewModel>()
 
     private lateinit var moviesAdapter: FavoriteMoviesAdapter
@@ -30,7 +28,6 @@ class FavoriteMoviesFragment : Fragment() {
         root
     }
 
-    @ExperimentalCoroutinesApi
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -38,7 +35,6 @@ class FavoriteMoviesFragment : Fragment() {
         initObservers()
     }
 
-    @ExperimentalCoroutinesApi
     private fun initViews() {
         moviesAdapter = FavoriteMoviesAdapter(
             imageClicked = viewModel::imageClicked,
@@ -48,7 +44,6 @@ class FavoriteMoviesFragment : Fragment() {
         binding.moviesRv.adapter = moviesAdapter
     }
 
-    @ExperimentalCoroutinesApi
     private fun initObservers() {
         viewModel.moviesLD.observe(viewLifecycleOwner, Observer(::handleMovies))
     }

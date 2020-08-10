@@ -2,16 +2,13 @@ package com.dacuesta.architectcoders.domain.usecase.movies
 
 import com.dacuesta.architectcoders.data.repository.movies.MoviesRepository
 import com.dacuesta.architectcoders.domain.entity.movies.MovieEntity
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
 class InsertFavoritePopularMovie : KoinComponent {
 
-    @ExperimentalCoroutinesApi
     private val repository by inject<MoviesRepository>()
 
-    @ExperimentalCoroutinesApi
     operator fun invoke(movie: MovieEntity) {
         repository.insertFavoritePopularMovie(movie)
     }

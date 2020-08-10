@@ -14,13 +14,12 @@ import com.dacuesta.architectcoders.domain.usecase.movies.InsertFavoritePopularM
 import com.dacuesta.architectcoders.presentation.navigator.Navigator
 import com.dacuesta.architectcoders.presentation.utils.errorMessage
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
-@ExperimentalCoroutinesApi
 class PopularMoviesViewModel : ViewModel(), KoinComponent {
 
     private val navigator by inject<Navigator>()
@@ -47,7 +46,7 @@ class PopularMoviesViewModel : ViewModel(), KoinComponent {
                 invokeGetPopularMovies()
             }
             launch {
-                getFavoritePopularMovies().let { movies ->
+                getFavoritePopularMovies().collect { movies ->
                     _favoriteMoviesLD.postValue(PopularMoviesModel.FavoriteMovies(movies))
                 }
             }
@@ -88,7 +87,6 @@ class PopularMoviesViewModel : ViewModel(), KoinComponent {
         _popularMoviesLD.postValue(PopularMoviesModel.PopularMovies.Result(movies))
     }
 
-    @ExperimentalCoroutinesApi
     fun favoriteClicked(movie: MovieEntity, isFavorite: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             if (!isFavorite) {

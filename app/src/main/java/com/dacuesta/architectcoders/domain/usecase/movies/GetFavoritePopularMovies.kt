@@ -1,17 +1,16 @@
 package com.dacuesta.architectcoders.domain.usecase.movies
 
 import com.dacuesta.architectcoders.data.repository.movies.MoviesRepository
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import com.dacuesta.architectcoders.domain.entity.movies.MovieEntity
+import kotlinx.coroutines.flow.Flow
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
 class GetFavoritePopularMovies : KoinComponent {
 
-    @ExperimentalCoroutinesApi
     private val repository by inject<MoviesRepository>()
 
-    @ExperimentalCoroutinesApi
-    operator fun invoke() =
-        repository.getFavoritePopularMovies()
+    operator fun invoke() : Flow<List<MovieEntity>> =
+        repository.favoritePopularMovies
 
 }

@@ -8,12 +8,11 @@ import com.dacuesta.architectcoders.domain.entity.movies.MovieEntity
 import com.dacuesta.architectcoders.domain.usecase.movies.DeleteFavoritePopularMovie
 import com.dacuesta.architectcoders.domain.usecase.movies.GetFavoritePopularMovies
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
-@ExperimentalCoroutinesApi
 class FavoriteMoviesViewModel : ViewModel(), KoinComponent {
 
     private val getFavoriteMovies by inject<GetFavoritePopularMovies>()
@@ -25,8 +24,9 @@ class FavoriteMoviesViewModel : ViewModel(), KoinComponent {
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            val movies = getFavoriteMovies()
-            _moviesLD.postValue(movies)
+            getFavoriteMovies().collect { movies ->
+                _moviesLD.postValue(movies)
+            }
         }
     }
 
