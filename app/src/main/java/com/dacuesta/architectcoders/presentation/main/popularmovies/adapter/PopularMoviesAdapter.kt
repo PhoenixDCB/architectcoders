@@ -13,15 +13,15 @@ import coil.api.load
 import com.dacuesta.architectcoders.R
 import com.dacuesta.architectcoders.databinding.ItemLoaderPopularMovieBinding
 import com.dacuesta.architectcoders.databinding.ItemMoviePopularMovieBinding
-import com.dacuesta.architectcoders.domain.entity.movies.MovieEntity
+import com.dacuesta.architectcoders.domain.movies.Movie
 import com.dacuesta.architectcoders.presentation.main.popularmovies.PopularMoviesModel
 import com.dacuesta.architectcoders.presentation.main.popularmovies.adapter.PopularMoviesAdapter.BaseVH
 
 class PopularMoviesAdapter(
     private val favoriteMoviesLD: LiveData<PopularMoviesModel.FavoriteMovies>,
     private val endReached: () -> Unit,
-    private val imageClicked: (MovieEntity) -> Unit,
-    private val favoriteClicked: (MovieEntity, Boolean) -> Unit
+    private val imageClicked: (Movie) -> Unit,
+    private val favoriteClicked: (Movie, Boolean) -> Unit
 ) : ListAdapter<PopularMoviesItem, BaseVH<PopularMoviesItem>>(
     DIFF_CALLBACK
 ) {
@@ -45,7 +45,7 @@ class PopularMoviesAdapter(
         const val TYPE_LOADER = 1
     }
 
-    abstract inner class BaseVH<T : PopularMoviesItem>(
+    abstract class BaseVH<T : PopularMoviesItem>(
         binding: ViewBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         abstract fun bind(item: T)
@@ -91,7 +91,7 @@ class PopularMoviesAdapter(
 
     }
 
-    inner class LoaderVH(
+    class LoaderVH(
         binding: ItemLoaderPopularMovieBinding
     ) : BaseVH<PopularMoviesItem.Loader>(binding) {
 

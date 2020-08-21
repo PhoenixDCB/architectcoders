@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.dacuesta.architectcoders.databinding.FragmentFavoriteMoviesBinding
-import com.dacuesta.architectcoders.domain.entity.movies.MovieEntity
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class FavoriteMoviesFragment : Fragment() {
@@ -48,15 +47,15 @@ class FavoriteMoviesFragment : Fragment() {
         viewModel.moviesLD.observe(viewLifecycleOwner, Observer(::handleMovies))
     }
 
-    private fun handleMovies(movies: List<MovieEntity>) {
-        if (movies.isEmpty()) {
+    private fun handleMovies(movies: FavoriteMoviesModel.Movies) {
+        if (movies.movies.isEmpty()) {
             binding.moviesEmptyStateTv.visibility = View.VISIBLE
             binding.moviesRv.visibility = View.GONE
         } else {
             binding.moviesEmptyStateTv.visibility = View.GONE
             binding.moviesRv.visibility = View.VISIBLE
         }
-        moviesAdapter.submitList(movies)
+        moviesAdapter.submitList(movies.movies)
     }
 
 }

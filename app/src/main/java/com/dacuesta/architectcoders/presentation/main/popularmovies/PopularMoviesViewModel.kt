@@ -4,15 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dacuesta.architectcoders.domain.entity.ErrorEntity
-import com.dacuesta.architectcoders.domain.entity.movies.MovieEntity
-import com.dacuesta.architectcoders.domain.entity.movies.MoviesMetadataEntity
-import com.dacuesta.architectcoders.domain.usecase.movies.DeleteFavoritePopularMovie
-import com.dacuesta.architectcoders.domain.usecase.movies.GetFavoritePopularMovies
-import com.dacuesta.architectcoders.domain.usecase.movies.GetPopularMovies
-import com.dacuesta.architectcoders.domain.usecase.movies.InsertFavoritePopularMovie
+import com.dacuesta.architectcoders.domain.Error
+import com.dacuesta.architectcoders.domain.movies.Movie
+import com.dacuesta.architectcoders.domain.movies.MoviesMetadata
+import com.dacuesta.architectcoders.usecase.movies.DeleteFavoriteMovie
+import com.dacuesta.architectcoders.usecase.movies.GetFavoriteMovies
+import com.dacuesta.architectcoders.usecase.movies.GetPopularMovies
+import com.dacuesta.architectcoders.usecase.movies.InsertFavoriteMovie
 import com.dacuesta.architectcoders.presentation.navigator.Navigator
-import com.dacuesta.architectcoders.presentation.utils.errorMessage
+import com.dacuesta.architectcoders.presentation.utils.toMessage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
@@ -24,9 +24,9 @@ class PopularMoviesViewModel : ViewModel(), KoinComponent {
 
     private val navigator by inject<Navigator>()
     private val getPopularMovies by inject<GetPopularMovies>()
-    private val getFavoritePopularMovies by inject<GetFavoritePopularMovies>()
-    private val insertFavoritePopularMovies by inject<InsertFavoritePopularMovie>()
-    private val deleteFavoritePopularMovies by inject<DeleteFavoritePopularMovie>()
+    private val getFavoriteMovies by inject<GetFavoriteMovies>()
+    private val insertFavoriteMovies by inject<InsertFavoriteMovie>()
+    private val deleteFavoriteMovies by inject<DeleteFavoriteMovie>()
 
     private val _popularMoviesLD = MutableLiveData<PopularMoviesModel.PopularMovies>()
     val popularMoviesLD: LiveData<PopularMoviesModel.PopularMovies>
@@ -37,7 +37,7 @@ class PopularMoviesViewModel : ViewModel(), KoinComponent {
         get() = _favoriteMoviesLD
 
     private var page = 1
-    private var movies: List<MovieEntity> = emptyList()
+    private var movies: List<Movie> = emptyList()
     private lateinit var popularMoviesJob: Job
 
     init {
@@ -46,7 +46,7 @@ class PopularMoviesViewModel : ViewModel(), KoinComponent {
                 invokeGetPopularMovies()
             }
             launch {
-                getFavoritePopularMovies().collect { movies ->
+                getFavoriteMovies().collect { movies ->
                     _favoriteMoviesLD.postValue(PopularMoviesModel.FavoriteMovies(movies))
                 }
             }
@@ -74,30 +74,30 @@ class PopularMoviesViewModel : ViewModel(), KoinComponent {
         getPopularMovies(page).fold(::handleError, ::handleSuccess)
     }
 
-    private fun handleError(error: ErrorEntity) {
+    private fun handleError(error: Error) {
         _popularMoviesLD.postValue(PopularMoviesModel.PopularMovies.Result(movies))
         viewModelScope.launch(Dispatchers.Main) {
-            navigator.showToast(errorMessage(error))
+            navigator.showToast(error.toMessage())
         }
     }
 
-    private fun handleSuccess(metadata: MoviesMetadataEntity) {
+    private fun handleSuccess(metadata: MoviesMetadata) {
         page = metadata.page + 1
         movies = movies.toMutableList().apply { addAll(metadata.results) }
         _popularMoviesLD.postValue(PopularMoviesModel.PopularMovies.Result(movies))
     }
 
-    fun favoriteClicked(movie: MovieEntity, isFavorite: Boolean) {
+    fun favoriteClicked(movie: Movie, isFavorite: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             if (!isFavorite) {
-                insertFavoritePopularMovies(movie)
+                insertFavoriteMovies(movie)
             } else {
-                deleteFavoritePopularMovies(movie)
+                deleteFavoriteMovies(movie)
             }
         }
     }
 
-    fun imageClicked(movie: MovieEntity) {
+    fun imageClicked(movie: Movie) {
         TODO("Not yet implemented")
     }
 

@@ -1,12 +1,14 @@
 package com.dacuesta.architectcoders
 
 import android.app.Application
-import com.dacuesta.architectcoders.data.local.di.localDataSourceModule
-import com.dacuesta.architectcoders.data.remote.tmdb.di.tmdbRemoteDataSourceModule
-import com.dacuesta.architectcoders.data.repository.moviedetail.di.movieDetailRepositoryModule
-import com.dacuesta.architectcoders.data.repository.movies.di.moviesRepositoryModule
-import com.dacuesta.architectcoders.domain.usecase.moviedetail.di.movieDetailUseCaseModule
-import com.dacuesta.architectcoders.domain.usecase.movies.di.moviesUseCaseModule
+import com.dacuesta.architectcoders.data.moviedetail.di.movieDetailRepositoryModule
+import com.dacuesta.architectcoders.data.movies.di.moviesRepositoryModule
+import com.dacuesta.architectcoders.framework.room.di.roomModule
+import com.dacuesta.architectcoders.framework.source.moviedetail.di.movieDetailSourceModule
+import com.dacuesta.architectcoders.framework.source.movies.di.moviesSourceModule
+import com.dacuesta.architectcoders.framework.tmdb.di.tmdbModule
+import com.dacuesta.architectcoders.usecase.moviedetail.di.movieDetailUseCaseModule
+import com.dacuesta.architectcoders.usecase.movies.di.moviesUseCaseModule
 import com.dacuesta.architectcoders.presentation.main.favoritemovies.di.favoriteMoviesModule
 import com.dacuesta.architectcoders.presentation.main.popularmovies.di.popularMoviesModule
 import com.dacuesta.architectcoders.presentation.navigator.Navigator
@@ -31,8 +33,11 @@ class MoviesApplication : Application() {
             androidContext(this@MoviesApplication)
             modules(
                 listOf(
-                    tmdbRemoteDataSourceModule,
-                    localDataSourceModule,
+                    tmdbModule,
+                    roomModule,
+
+                    moviesSourceModule,
+                    movieDetailSourceModule,
 
                     moviesRepositoryModule,
                     movieDetailRepositoryModule,
@@ -41,7 +46,6 @@ class MoviesApplication : Application() {
                     movieDetailUseCaseModule,
 
                     navigatorModule,
-
                     popularMoviesModule,
                     favoriteMoviesModule
                 )

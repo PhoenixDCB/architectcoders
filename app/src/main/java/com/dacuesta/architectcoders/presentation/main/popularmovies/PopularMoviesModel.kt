@@ -1,12 +1,12 @@
 package com.dacuesta.architectcoders.presentation.main.popularmovies
 
-import com.dacuesta.architectcoders.domain.entity.movies.MovieEntity
+import com.dacuesta.architectcoders.domain.movies.Movie
 
 sealed class PopularMoviesModel {
     sealed class PopularMovies : PopularMoviesModel() {
-        data class Loading(val movies: List<MovieEntity>) : PopularMovies()
-        data class Result(val movies: List<MovieEntity>) : PopularMovies()
+        data class Loading(val movies: List<Movie>) : PopularMovies()
+        data class Result(val movies: List<Movie>) : PopularMovies()
     }
 
-    data class FavoriteMovies(val movies: List<MovieEntity>) : PopularMoviesModel()
+    data class FavoriteMovies(val movies: List<Movie>) : PopularMoviesModel()
 }

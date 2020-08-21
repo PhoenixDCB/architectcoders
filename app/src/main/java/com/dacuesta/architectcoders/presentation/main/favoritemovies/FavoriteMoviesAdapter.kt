@@ -7,27 +7,27 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import com.dacuesta.architectcoders.databinding.ItemFavoriteMovieBinding
-import com.dacuesta.architectcoders.domain.entity.movies.MovieEntity
+import com.dacuesta.architectcoders.domain.movies.Movie
 import com.dacuesta.architectcoders.presentation.main.favoritemovies.FavoriteMoviesAdapter.MovieVH
 
 class FavoriteMoviesAdapter(
-    private val imageClicked: (MovieEntity) -> Unit,
-    private val favoriteClicked: (MovieEntity) -> Unit
-) : ListAdapter<MovieEntity, MovieVH>(
+    private val imageClicked: (Movie) -> Unit,
+    private val favoriteClicked: (Movie) -> Unit
+) : ListAdapter<Movie, MovieVH>(
     DIFF_CALLBACK
 ) {
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MovieEntity>() {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Movie>() {
             override fun areItemsTheSame(
-                oldItem: MovieEntity,
-                newItem: MovieEntity
+                oldItem: Movie,
+                newItem: Movie
             ) =
                 oldItem.id == newItem.id
 
             override fun areContentsTheSame(
-                oldItem: MovieEntity,
-                newItem: MovieEntity
+                oldItem: Movie,
+                newItem: Movie
             ) =
                 oldItem == newItem
         }
@@ -37,7 +37,7 @@ class FavoriteMoviesAdapter(
         private val binding: ItemFavoriteMovieBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(movie: MovieEntity) {
+        fun bind(movie: Movie) {
             binding.imageIv.load(movie.backdropImageUrl)
             binding.titleTv.text = movie.title
             binding.releaseDateTv.text = movie.releaseDate
