@@ -7,7 +7,7 @@ import com.dacuesta.architectcoders.framework.room.dao.MovieDAO
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
-class MoviesLocalDataSourceImpl : MoviesLocalDataSource, KoinComponent {
+internal class MoviesLocalDataSourceImpl : MoviesLocalDataSource, KoinComponent {
     private val movieDao by inject<MovieDAO>()
 
     override fun insert(movie: DomainMovie) {

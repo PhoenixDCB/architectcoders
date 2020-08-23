@@ -10,7 +10,7 @@ import com.dacuesta.architectcoders.framework.utils.invoke
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
-class MoviesRemoteDataSourceImpl : MoviesRemoteDataSource, KoinComponent {
+internal class MoviesRemoteDataSourceImpl : MoviesRemoteDataSource, KoinComponent {
     private val tmdbService by inject<TmdbService>()
 
     override suspend fun getPopularMovies(
