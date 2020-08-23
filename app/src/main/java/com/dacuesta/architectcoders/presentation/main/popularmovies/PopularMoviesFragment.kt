@@ -76,10 +76,15 @@ class PopularMoviesFragment : Fragment() {
     private fun handlePopularMoviesLoading(model: PopularMoviesModel.PopularMovies.Loader) {
         if (model.movies.isEmpty()) {
             binding.loaderPb.visibility = View.VISIBLE
-            binding.moviesRv.visibility = View.GONE
             binding.moviesEmptyStateTv.visibility = View.GONE
             binding.retryBtn.visibility = View.GONE
+            binding.moviesRv.visibility = View.GONE
         } else {
+            binding.loaderPb.visibility = View.GONE
+            binding.moviesEmptyStateTv.visibility = View.GONE
+            binding.retryBtn.visibility = View.GONE
+            binding.moviesRv.visibility = View.VISIBLE
+
             val items = mutableListOf<PopularMoviesItem>()
             model.movies.forEach { movie ->
                 items.add(PopularMoviesItem.Result(movie))
@@ -90,11 +95,15 @@ class PopularMoviesFragment : Fragment() {
     }
 
     private fun handlePopularMoviesResult(model: PopularMoviesModel.PopularMovies.Result) {
-        binding.loaderPb.visibility = View.GONE
         if (model.movies.isEmpty()) {
+            binding.loaderPb.visibility = View.GONE
             binding.moviesEmptyStateTv.visibility = View.VISIBLE
             binding.retryBtn.visibility = View.VISIBLE
+            binding.moviesRv.visibility = View.GONE
         } else {
+            binding.loaderPb.visibility = View.GONE
+            binding.moviesEmptyStateTv.visibility = View.GONE
+            binding.retryBtn.visibility = View.GONE
             binding.moviesRv.visibility = View.VISIBLE
         }
 
