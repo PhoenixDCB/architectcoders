@@ -22,7 +22,7 @@ internal suspend fun <T> invoke(request: suspend () -> Response<T>): Either<Erro
                 Error.Server.left()
             }
             else -> {
-                Error.Unknown.left()
+                Error.Server.left()
             }
         }
     }

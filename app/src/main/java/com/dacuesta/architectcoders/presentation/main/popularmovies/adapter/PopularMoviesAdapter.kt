@@ -53,7 +53,7 @@ class PopularMoviesAdapter(
 
     inner class MovieVH(
         private val binding: ItemMoviePopularMovieBinding
-    ) : BaseVH<PopularMoviesItem.Movie>(binding) {
+    ) : BaseVH<PopularMoviesItem.Result>(binding) {
 
         private var isFavorite: Boolean = false
             set(value) {
@@ -67,7 +67,7 @@ class PopularMoviesAdapter(
                 )
             }
 
-        override fun bind(item: PopularMoviesItem.Movie) {
+        override fun bind(item: PopularMoviesItem.Result) {
             binding.imageIv.load(item.movie.posterImageUrl)
             binding.titleTv.text = item.movie.title
             binding.releaseDateTv.text = item.movie.releaseDate
@@ -129,7 +129,7 @@ class PopularMoviesAdapter(
     }
 
     override fun getItemViewType(position: Int) = when (getItem(position)) {
-        is PopularMoviesItem.Movie -> TYPE_MOVIE
+        is PopularMoviesItem.Result -> TYPE_MOVIE
         is PopularMoviesItem.Loader -> TYPE_LOADER
     }
 }

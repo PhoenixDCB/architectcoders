@@ -68,12 +68,12 @@ class PopularMoviesFragment : Fragment() {
 
     private fun handlePopularMovies(model: PopularMoviesModel.PopularMovies) {
         when (model) {
-            is PopularMoviesModel.PopularMovies.Loading -> handlePopularMoviesLoading(model)
+            is PopularMoviesModel.PopularMovies.Loader -> handlePopularMoviesLoading(model)
             is PopularMoviesModel.PopularMovies.Result -> handlePopularMoviesResult(model)
         }
     }
 
-    private fun handlePopularMoviesLoading(model: PopularMoviesModel.PopularMovies.Loading) {
+    private fun handlePopularMoviesLoading(model: PopularMoviesModel.PopularMovies.Loader) {
         if (model.movies.isEmpty()) {
             binding.loaderPb.visibility = View.VISIBLE
             binding.moviesRv.visibility = View.GONE
@@ -82,7 +82,7 @@ class PopularMoviesFragment : Fragment() {
         } else {
             val items = mutableListOf<PopularMoviesItem>()
             model.movies.forEach { movie ->
-                items.add(PopularMoviesItem.Movie(movie))
+                items.add(PopularMoviesItem.Result(movie))
             }
             items.add(PopularMoviesItem.Loader)
             moviesAdapter.submitList(items)
@@ -100,7 +100,7 @@ class PopularMoviesFragment : Fragment() {
 
         val items = mutableListOf<PopularMoviesItem>()
         model.movies.forEach { movie ->
-            items.add(PopularMoviesItem.Movie(movie))
+            items.add(PopularMoviesItem.Result(movie))
         }
         moviesAdapter.submitList(items)
     }
