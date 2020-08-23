@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    tools:context=".presentation.main.popularmovies.PopularMoviesFragment">
+    tools:context=".main.popularmovies.PopularMoviesFragment">
 
     <ProgressBar
         android:id="@+id/loader_pb"

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    tools:context=".presentation.main.favoritemovies.FavoriteMoviesFragment">
+    tools:context=".main.favoritemovies.FavoriteMoviesFragment">
 
     <TextView
         android:id="@+id/movies_empty_state_tv"

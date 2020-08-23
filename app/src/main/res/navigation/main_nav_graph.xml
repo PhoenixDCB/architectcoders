@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/popular_movies"
-        android:name="com.dacuesta.architectcoders.presentation.main.popularmovies.PopularMoviesFragment"
+        android:name="com.dacuesta.architectcoders.main.popularmovies.PopularMoviesFragment"
         android:label="fragment_movies"
         tools:layout="@layout/fragment_popular_movies" />
 
     <fragment
         android:id="@+id/favorite_movies"
-        android:name="com.dacuesta.architectcoders.presentation.main.favoritemovies.FavoriteMoviesFragment"
+        android:name="com.dacuesta.architectcoders.main.favoritemovies.FavoriteMoviesFragment"
         android:label="fragment_favorite_movies"
         tools:layout="@layout/fragment_favorite_movies" />
     

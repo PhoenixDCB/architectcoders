@@ -9,10 +9,10 @@ import com.dacuesta.architectcoders.framework.source.movies.di.moviesSourceModul
 import com.dacuesta.architectcoders.framework.tmdb.di.tmdbModule
 import com.dacuesta.architectcoders.usecase.moviedetail.di.movieDetailUseCaseModule
 import com.dacuesta.architectcoders.usecase.movies.di.moviesUseCaseModule
-import com.dacuesta.architectcoders.presentation.main.favoritemovies.di.favoriteMoviesModule
-import com.dacuesta.architectcoders.presentation.main.popularmovies.di.popularMoviesModule
-import com.dacuesta.architectcoders.presentation.navigator.Navigator
-import com.dacuesta.architectcoders.presentation.navigator.di.navigatorModule
+import com.dacuesta.architectcoders.main.favoritemovies.di.favoriteMoviesModule
+import com.dacuesta.architectcoders.main.popularmovies.di.popularMoviesModule
+import com.dacuesta.architectcoders.navigator.Navigator
+import com.dacuesta.architectcoders.navigator.di.navigatorModule
 import org.koin.android.ext.android.get
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
