@@ -1,4 +1,4 @@
-package com.dacuesta.architectcoders.main.favoritemovies
+package com.dacuesta.architectcoders.movies.favoritemovies
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
-import com.dacuesta.architectcoders.databinding.ItemFavoriteMovieBinding
+import com.dacuesta.architectcoders.databinding.ItemFavoriteMoviesMovieBinding
 import com.dacuesta.architectcoders.domain.movies.Movie
-import com.dacuesta.architectcoders.main.favoritemovies.FavoriteMoviesAdapter.MovieVH
+import com.dacuesta.architectcoders.movies.favoritemovies.FavoriteMoviesAdapter.MovieVH
 
 class FavoriteMoviesAdapter(
     private val imageClicked: (Movie) -> Unit,
@@ -34,7 +34,7 @@ class FavoriteMoviesAdapter(
     }
 
     inner class MovieVH(
-        private val binding: ItemFavoriteMovieBinding
+        private val binding: ItemFavoriteMoviesMovieBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(movie: Movie) {
@@ -55,7 +55,7 @@ class FavoriteMoviesAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         MovieVH(
-            ItemFavoriteMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemFavoriteMoviesMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
 
     override fun onBindViewHolder(holder: MovieVH, position: Int) {

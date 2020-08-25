@@ -1,4 +1,4 @@
-package com.dacuesta.architectcoders.main.popularmovies
+package com.dacuesta.architectcoders.movies.popularmovies
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dacuesta.architectcoders.databinding.FragmentPopularMoviesBinding
-import com.dacuesta.architectcoders.main.popularmovies.adapter.PopularMoviesAdapter
-import com.dacuesta.architectcoders.main.popularmovies.adapter.PopularMoviesItem
+import com.dacuesta.architectcoders.movies.popularmovies.adapter.PopularMoviesAdapter
+import com.dacuesta.architectcoders.movies.popularmovies.adapter.PopularMoviesItem
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class PopularMoviesFragment : Fragment() {
@@ -76,12 +76,12 @@ class PopularMoviesFragment : Fragment() {
     private fun handlePopularMoviesLoading(model: PopularMoviesModel.PopularMovies.Loader) {
         if (model.movies.isEmpty()) {
             binding.loaderPb.visibility = View.VISIBLE
-            binding.moviesEmptyStateTv.visibility = View.GONE
+            binding.emptyStateTv.visibility = View.GONE
             binding.retryBtn.visibility = View.GONE
             binding.moviesRv.visibility = View.GONE
         } else {
             binding.loaderPb.visibility = View.GONE
-            binding.moviesEmptyStateTv.visibility = View.GONE
+            binding.emptyStateTv.visibility = View.GONE
             binding.retryBtn.visibility = View.GONE
             binding.moviesRv.visibility = View.VISIBLE
 
@@ -97,12 +97,12 @@ class PopularMoviesFragment : Fragment() {
     private fun handlePopularMoviesResult(model: PopularMoviesModel.PopularMovies.Result) {
         if (model.movies.isEmpty()) {
             binding.loaderPb.visibility = View.GONE
-            binding.moviesEmptyStateTv.visibility = View.VISIBLE
+            binding.emptyStateTv.visibility = View.VISIBLE
             binding.retryBtn.visibility = View.VISIBLE
             binding.moviesRv.visibility = View.GONE
         } else {
             binding.loaderPb.visibility = View.GONE
-            binding.moviesEmptyStateTv.visibility = View.GONE
+            binding.emptyStateTv.visibility = View.GONE
             binding.retryBtn.visibility = View.GONE
             binding.moviesRv.visibility = View.VISIBLE
         }

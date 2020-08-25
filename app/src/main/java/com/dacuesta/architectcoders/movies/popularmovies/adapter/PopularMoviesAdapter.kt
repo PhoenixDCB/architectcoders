@@ -1,4 +1,4 @@
-package com.dacuesta.architectcoders.main.popularmovies.adapter
+package com.dacuesta.architectcoders.movies.popularmovies.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -11,11 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import coil.api.load
 import com.dacuesta.architectcoders.R
-import com.dacuesta.architectcoders.databinding.ItemLoaderPopularMovieBinding
-import com.dacuesta.architectcoders.databinding.ItemMoviePopularMovieBinding
+import com.dacuesta.architectcoders.databinding.ItemPopularMoviesLoaderBinding
+import com.dacuesta.architectcoders.databinding.ItemPopularMoviesMovieBinding
 import com.dacuesta.architectcoders.domain.movies.Movie
-import com.dacuesta.architectcoders.main.popularmovies.PopularMoviesModel
-import com.dacuesta.architectcoders.main.popularmovies.adapter.PopularMoviesAdapter.BaseVH
+import com.dacuesta.architectcoders.movies.popularmovies.PopularMoviesModel
+import com.dacuesta.architectcoders.movies.popularmovies.adapter.PopularMoviesAdapter.BaseVH
 
 class PopularMoviesAdapter(
     private val favoriteMoviesLD: LiveData<PopularMoviesModel.FavoriteMovies>,
@@ -52,7 +52,7 @@ class PopularMoviesAdapter(
     }
 
     inner class MovieVH(
-        private val binding: ItemMoviePopularMovieBinding
+        private val binding: ItemPopularMoviesMovieBinding
     ) : BaseVH<PopularMoviesItem.Result>(binding) {
 
         private var isFavorite: Boolean = false
@@ -74,7 +74,7 @@ class PopularMoviesAdapter(
 
             favoriteMoviesLD.observe(
                 (binding.root.context as LifecycleOwner),
-                Observer { model ->
+                { model ->
                     isFavorite = model.movies.contains(item.movie)
                 }
             )
@@ -92,7 +92,7 @@ class PopularMoviesAdapter(
     }
 
     class LoaderVH(
-        binding: ItemLoaderPopularMovieBinding
+        binding: ItemPopularMoviesLoaderBinding
     ) : BaseVH<PopularMoviesItem.Loader>(binding) {
 
         override fun bind(item: PopularMoviesItem.Loader) {
@@ -105,14 +105,14 @@ class PopularMoviesAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         when (viewType) {
             TYPE_MOVIE -> MovieVH(
-                ItemMoviePopularMovieBinding.inflate(
+                ItemPopularMoviesMovieBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
                 )
             ) as BaseVH<PopularMoviesItem>
             else -> LoaderVH(
-                ItemLoaderPopularMovieBinding.inflate(
+                ItemPopularMoviesLoaderBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false

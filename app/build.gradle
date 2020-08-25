@@ -2,19 +2,20 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-android-extensions'
+    id 'androidx.navigation.safeargs'
 }
 
 def tmdbProperties = new Properties()
 tmdbProperties.load(new FileInputStream(rootProject.file("tmdb.properties")))
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
 
     defaultConfig {
         applicationId "com.dacuesta.architectcoders"
         minSdkVersion 23
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
         manifestPlaceholders = [tmdb_api_key:tmdbProperties['tmdb.api.key']]
@@ -61,6 +62,8 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
 
     def nav_version = '2.3.0'
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"

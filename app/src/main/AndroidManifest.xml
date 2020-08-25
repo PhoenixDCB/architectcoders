@@ -13,13 +13,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name="com.dacuesta.architectcoders.main.MainActivity">
+        <activity android:name=".movies.MoviesActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".movie.MovieActivity"/>
 
         <meta-data
             android:name="tmdb_api_key"

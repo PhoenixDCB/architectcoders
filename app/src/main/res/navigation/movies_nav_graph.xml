@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/popular_movies">
+
+    <fragment
+        android:id="@+id/popular_movies"
+        android:name="com.dacuesta.architectcoders.movies.popularmovies.PopularMoviesFragment"
+        android:label="fragment_movies"
+        tools:layout="@layout/fragment_popular_movies" >
+        <action
+            android:id="@+id/action_popular_movies_to_movie"
+            app:destination="@id/movie" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/favorite_movies"
+        android:name="com.dacuesta.architectcoders.movies.favoritemovies.FavoriteMoviesFragment"
+        android:label="fragment_favorite_movies"
+        tools:layout="@layout/fragment_favorite_movies" >
+        <action
+            android:id="@+id/action_favorite_movies_to_movie"
+            app:destination="@id/movie" />
+    </fragment>
+
+    <activity
+        android:id="@+id/movie"
+        android:name="com.dacuesta.architectcoders.movie.MovieActivity"
+        android:label="activity_movie_detail"
+        tools:layout="@layout/activity_movie">
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </activity>
+
+</navigation>

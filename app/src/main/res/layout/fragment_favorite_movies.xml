@@ -2,13 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    tools:context=".main.favoritemovies.FavoriteMoviesFragment">
+    tools:context=".movies.favoritemovies.FavoriteMoviesFragment">
 
     <TextView
-        android:id="@+id/movies_empty_state_tv"
+        android:id="@+id/empty_state_tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -28,7 +29,7 @@
         android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:itemCount="20"
-        tools:listitem="@layout/item_favorite_movie"
+        tools:listitem="@layout/item_favorite_movies_movie"
         tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

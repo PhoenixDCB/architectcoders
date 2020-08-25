@@ -6,9 +6,14 @@ import android.content.Context
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavDirections
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.dacuesta.architectcoders.MoviesApplication
+import com.dacuesta.architectcoders.movies.popularmovies.PopularMoviesFragmentDirections
 import org.koin.core.KoinComponent
 import org.koin.core.inject
+import timber.log.Timber
 
 class Navigator : KoinComponent {
 
@@ -51,6 +56,12 @@ class Navigator : KoinComponent {
             .registerActivityLifecycleCallbacks(lifecycleCallback)
     }
 
-    fun showToast(res: Int) =
+    fun toast(res: Int) {
         Toast.makeText(activity, res, Toast.LENGTH_SHORT).show()
+    }
+
+    fun navigate(directions: NavDirections) {
+        activity.supportFragmentManager.primaryNavigationFragment?.findNavController()
+            ?.navigate(directions)
+    }
 }

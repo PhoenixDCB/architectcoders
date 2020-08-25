@@ -1,10 +1,11 @@
-package com.dacuesta.architectcoders.main.favoritemovies
+package com.dacuesta.architectcoders.movies.favoritemovies
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dacuesta.architectcoders.domain.movies.Movie
+import com.dacuesta.architectcoders.navigator.Navigator
 import com.dacuesta.architectcoders.usecase.movies.DeleteFavoriteMovie
 import com.dacuesta.architectcoders.usecase.movies.GetFavoriteMovies
 import kotlinx.coroutines.Dispatchers
@@ -17,21 +18,23 @@ class FavoriteMoviesViewModel : ViewModel(), KoinComponent {
 
     private val getFavoriteMovies by inject<GetFavoriteMovies>()
     private val deleteFavoriteMovie by inject<DeleteFavoriteMovie>()
+    private val navigator by inject<Navigator>()
 
-    private val _moviesLD = MutableLiveData<FavoriteMoviesModel.Movies>()
-    val moviesLD: LiveData<FavoriteMoviesModel.Movies>
-        get() = _moviesLD
+    private val _favoriteMoviesLD = MutableLiveData<FavoriteMoviesModel.FavoriteMovies>()
+    val favoriteMoviesLD: LiveData<FavoriteMoviesModel.FavoriteMovies>
+        get() = _favoriteMoviesLD
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
             getFavoriteMovies().collect { movies ->
-                _moviesLD.postValue(FavoriteMoviesModel.Movies(movies))
+                _favoriteMoviesLD.postValue(FavoriteMoviesModel.FavoriteMovies(movies))
             }
         }
     }
 
     fun imageClicked(movie: Movie) {
-        TODO("Not yet implemented")
+        val directions = FavoriteMoviesFragmentDirections.actionFavoriteMoviesToMovie(movie.id)
+        navigator.navigate(directions = directions)
     }
 
     fun favoriteClicked(movie: Movie) {

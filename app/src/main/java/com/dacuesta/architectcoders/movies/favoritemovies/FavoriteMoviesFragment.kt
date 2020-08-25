@@ -1,4 +1,4 @@
-package com.dacuesta.architectcoders.main.favoritemovies
+package com.dacuesta.architectcoders.movies.favoritemovies
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -44,18 +44,18 @@ class FavoriteMoviesFragment : Fragment() {
     }
 
     private fun initObservers() {
-        viewModel.moviesLD.observe(viewLifecycleOwner, Observer(::handleMovies))
+        viewModel.favoriteMoviesLD.observe(viewLifecycleOwner, Observer(::handleFavoriteMovies))
     }
 
-    private fun handleMovies(movies: FavoriteMoviesModel.Movies) {
-        if (movies.movies.isEmpty()) {
-            binding.moviesEmptyStateTv.visibility = View.VISIBLE
+    private fun handleFavoriteMovies(model: FavoriteMoviesModel.FavoriteMovies) {
+        if (model.movies.isEmpty()) {
+            binding.emptyStateTv.visibility = View.VISIBLE
             binding.moviesRv.visibility = View.GONE
         } else {
-            binding.moviesEmptyStateTv.visibility = View.GONE
+            binding.emptyStateTv.visibility = View.GONE
             binding.moviesRv.visibility = View.VISIBLE
         }
-        moviesAdapter.submitList(movies.movies)
+        moviesAdapter.submitList(model.movies)
     }
 
 }

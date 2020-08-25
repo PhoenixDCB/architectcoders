@@ -1,4 +1,4 @@
-package com.dacuesta.architectcoders.main.popularmovies
+package com.dacuesta.architectcoders.movies.popularmovies
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -77,7 +77,7 @@ class PopularMoviesViewModel : ViewModel(), KoinComponent {
     private fun handleError(error: Error) {
         _popularMoviesLD.postValue(PopularMoviesModel.PopularMovies.Result(movies))
         viewModelScope.launch(Dispatchers.Main) {
-            navigator.showToast(error.toMessage())
+            navigator.toast(error.toMessage())
         }
     }
 
@@ -98,7 +98,8 @@ class PopularMoviesViewModel : ViewModel(), KoinComponent {
     }
 
     fun imageClicked(movie: Movie) {
-        TODO("Not yet implemented")
+        val directions = PopularMoviesFragmentDirections.actionPopularMoviesToMovie(movie.id)
+        navigator.navigate(directions = directions)
     }
 
 }
