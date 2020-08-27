@@ -11,7 +11,7 @@
         android:id="@+id/image_iv"
         android:layout_width="0dp"
         android:layout_height="100dp"
-        android:background="@color/background_image"
+        android:background="@color/colorBackgroundImage"
         app:layout_constraintBottom_toBottomOf="@+id/favorite_iv"
         app:layout_constraintDimensionRatio="500:281"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,6 +46,7 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/default_margin"
         android:src="@drawable/ic_favorite_on"
+        android:tint="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/release_date_tv"
         app:layout_constraintTop_toBottomOf="@+id/release_date_tv" />

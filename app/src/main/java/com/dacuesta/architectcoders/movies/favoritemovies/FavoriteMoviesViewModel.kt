@@ -33,7 +33,10 @@ class FavoriteMoviesViewModel : ViewModel(), KoinComponent {
     }
 
     fun imageClicked(movie: Movie) {
-        val directions = FavoriteMoviesFragmentDirections.actionFavoriteMoviesToMovie(movie.id)
+        val directions = FavoriteMoviesFragmentDirections.actionFavoriteMoviesToMovie(
+            movie.id,
+            movie.title
+        )
         navigator.navigate(directions = directions)
     }
 

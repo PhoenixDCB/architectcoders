@@ -26,8 +26,14 @@ class MovieActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navGraph =
             navHostFragment.navController.navInflater.inflate(R.navigation.movie_nav_graph)
-        val navArgument = NavArgument.Builder().setDefaultValue(args.id).build()
-        navGraph.addArgument("id", navArgument)
+        navGraph.addArgument(
+            "id",
+            NavArgument.Builder().setDefaultValue(args.id).build()
+        )
+        navGraph.addArgument(
+            "title",
+            NavArgument.Builder().setDefaultValue(args.title).build()
+        )
         navHostFragment.navController.graph = navGraph
     }
 }

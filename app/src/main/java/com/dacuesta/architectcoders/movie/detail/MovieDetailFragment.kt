@@ -4,10 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import coil.api.load
 import com.dacuesta.architectcoders.databinding.FragmentMovieDetailBinding
 import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class MovieDetailFragment : Fragment() {
 
@@ -17,7 +20,9 @@ class MovieDetailFragment : Fragment() {
 
     private val args by navArgs<MovieDetailFragmentArgs>()
 
-    private val viewModel by viewModel<MovieDetailViewModel>()
+    private val viewModel by viewModel<MovieDetailViewModel> {
+        parametersOf(args.id)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,7 +35,38 @@ class MovieDetailFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        initViews()
+        initObservers()
+    }
 
+    private fun initViews() {
+        initToolbar()
+    }
+
+    private fun initToolbar() {
+        binding.toolbar.title = args.title
+        (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
+    }
+
+    private fun initObservers() {
+        viewModel.movieLD.observe(viewLifecycleOwner, ::handleMovie)
+    }
+
+    private fun handleMovie(model: MovieDetailModel) {
+        when (model) {
+            is MovieDetailModel.Loader -> handleMovieLoader()
+            is MovieDetailModel.Result -> handleMovieResult(model)
+        }
+    }
+
+    private fun handleMovieLoader() {
+        binding.contentLoaderPb.visibility = View.VISIBLE
+    }
+
+    private fun handleMovieResult(model: MovieDetailModel.Result) {
+        binding.contentLoaderPb.visibility = View.GONE
+
+        binding.appBarImageIv.load(model.movie.backdropImageUrl)
     }
 
     override fun onDestroyView() {

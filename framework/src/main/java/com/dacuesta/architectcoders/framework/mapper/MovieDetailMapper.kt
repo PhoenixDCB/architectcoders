@@ -6,6 +6,7 @@ import com.dacuesta.architectcoders.framework.tmdb.model.moviedetail.MovieDetail
 internal fun map(detail: TmdbMovieDetail) =
     DomainMovieDetail(
         title = detail.title,
+        backdropImageUrl = "https://image.tmdb.org/t/p/w500${detail.backdropPath}",
         overview = detail.overview,
         releaseDate = detail.releaseDate
     )

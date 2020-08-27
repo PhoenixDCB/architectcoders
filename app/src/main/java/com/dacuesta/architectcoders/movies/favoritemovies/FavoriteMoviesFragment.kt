@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.dacuesta.architectcoders.R
 import com.dacuesta.architectcoders.databinding.FragmentFavoriteMoviesBinding
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -35,6 +37,16 @@ class FavoriteMoviesFragment : Fragment() {
     }
 
     private fun initViews() {
+        initToolbar()
+        initMoviesRv()
+    }
+
+    private fun initToolbar() {
+        binding.toolbar.title = getString(R.string.menu_favorite_movies)
+        (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
+    }
+
+    private fun initMoviesRv() {
         moviesAdapter = FavoriteMoviesAdapter(
             imageClicked = viewModel::imageClicked,
             favoriteClicked = viewModel::favoriteClicked

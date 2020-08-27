@@ -98,7 +98,10 @@ class PopularMoviesViewModel : ViewModel(), KoinComponent {
     }
 
     fun imageClicked(movie: Movie) {
-        val directions = PopularMoviesFragmentDirections.actionPopularMoviesToMovie(movie.id)
+        val directions = PopularMoviesFragmentDirections.actionPopularMoviesToMovie(
+            movie.id,
+            movie.title
+        )
         navigator.navigate(directions = directions)
     }
 

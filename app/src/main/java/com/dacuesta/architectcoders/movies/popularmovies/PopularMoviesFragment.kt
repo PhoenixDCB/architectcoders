@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import com.dacuesta.architectcoders.R
 import com.dacuesta.architectcoders.databinding.FragmentPopularMoviesBinding
 import com.dacuesta.architectcoders.movies.popularmovies.adapter.PopularMoviesAdapter
 import com.dacuesta.architectcoders.movies.popularmovies.adapter.PopularMoviesItem
@@ -38,6 +40,17 @@ class PopularMoviesFragment : Fragment() {
     }
 
     private fun initViews() {
+        initToolbar()
+        initMoviesRv()
+        initRetryBtn()
+    }
+
+    private fun initToolbar() {
+        binding.toolbar.title = getString(R.string.menu_popular_movies)
+        (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
+    }
+
+    private fun initMoviesRv() {
         moviesAdapter = PopularMoviesAdapter(
             favoriteMoviesLD = viewModel.favoriteMoviesLD,
             endReached = viewModel::endReached,
@@ -56,7 +69,9 @@ class PopularMoviesFragment : Fragment() {
             }
         }
         binding.moviesRv.adapter = moviesAdapter
+    }
 
+    private fun initRetryBtn() {
         binding.retryBtn.setOnClickListener {
             viewModel.retryClicked()
         }
@@ -68,12 +83,12 @@ class PopularMoviesFragment : Fragment() {
 
     private fun handlePopularMovies(model: PopularMoviesModel.PopularMovies) {
         when (model) {
-            is PopularMoviesModel.PopularMovies.Loader -> handlePopularMoviesLoading(model)
+            is PopularMoviesModel.PopularMovies.Loader -> handlePopularMoviesLoader(model)
             is PopularMoviesModel.PopularMovies.Result -> handlePopularMoviesResult(model)
         }
     }
 
-    private fun handlePopularMoviesLoading(model: PopularMoviesModel.PopularMovies.Loader) {
+    private fun handlePopularMoviesLoader(model: PopularMoviesModel.PopularMovies.Loader) {
         if (model.movies.isEmpty()) {
             binding.loaderPb.visibility = View.VISIBLE
             binding.emptyStateTv.visibility = View.GONE
