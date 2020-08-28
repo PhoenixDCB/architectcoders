@@ -5,7 +5,7 @@
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/default_margin">
+    android:padding="@dimen/margin_default">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/image_iv"
@@ -19,7 +19,7 @@
         android:id="@+id/title_tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_margin"
+        android:layout_marginTop="@dimen/margin_default"
         android:ellipsize="end"
         android:maxLines="1"
         app:layout_constraintEnd_toStartOf="@+id/favorite_iv"
@@ -40,7 +40,7 @@
         android:id="@+id/favorite_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/default_margin"
+        android:padding="@dimen/margin_default"
         android:src="@drawable/ic_favorite_off"
         android:tint="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="@+id/release_date_tv"

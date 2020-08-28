@@ -32,7 +32,7 @@ internal data class MovieDetail(
     @SerializedName("poster_path")
     val posterPath: String = "",
     @SerializedName("production_companies")
-    val productionCompanies: List<Any> = listOf(),
+    val productionCompanies: List<ProductionCompany> = listOf(),
     @SerializedName("production_countries")
     val productionCountries: List<ProductionCountry> = listOf(),
     @SerializedName("release_date")

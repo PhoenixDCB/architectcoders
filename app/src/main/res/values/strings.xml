@@ -2,6 +2,13 @@
     <string name="app_name">Movies</string>
 
     <string name="general_retry">Retry</string>
+    <string name="general_overview">Overview</string>
+    <string name="general_release_date">Release date</string>
+    <string name="general_genres">Genres</string>
+    <string name="general_production_companies">Production companies</string>
+    <string name="general_budget">Budget</string>
+    <string name="general_revenue">Revenue</string>
+    <string name="general_spoken_languages">Spoken languages</string>
 
     <string name="error_server">Something in the server went wrong</string>
     <string name="error_unknown">Something went wrong</string>
@@ -10,4 +17,6 @@
     <string name="menu_favorite_movies">Favorite movies</string>
 
     <string name="popular_movies_empty_state">There is no movies</string>
+
+    <string name="movie_detail_empty_state">There is no information</string>
 </resources>

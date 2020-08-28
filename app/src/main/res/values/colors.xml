@@ -6,6 +6,9 @@
 
     <color name="colorTextPrimary">#FFFFFF</color>
 
+    <color name="colorTextTitle">#000000</color>
+
     <color name="colorBackgroundMenu">#EEEEEE</color>
     <color name="colorBackgroundImage">#11000000</color>
+    <color name="colorBackgroundInformation">#116200EE</color>
 </resources>

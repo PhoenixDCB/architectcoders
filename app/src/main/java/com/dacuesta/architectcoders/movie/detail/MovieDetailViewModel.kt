@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
-class MovieDetailViewModel(entry: MovieDetailEntry) : ViewModel(), KoinComponent {
+class MovieDetailViewModel(private val entry: MovieDetailEntry) : ViewModel(), KoinComponent {
 
     private val navigator by inject<Navigator>()
     private val getMovieDetail by inject<GetMovieDetail>()
@@ -23,20 +23,34 @@ class MovieDetailViewModel(entry: MovieDetailEntry) : ViewModel(), KoinComponent
     val movieLD : LiveData<MovieDetailModel>
         get() = _movieLD
 
+    private var movie = MovieDetail()
+
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            _movieLD.postValue(MovieDetailModel.Loader)
-            getMovieDetail(entry.id).fold(::handleError, ::handleSuccess)
+            invokeGetMovieDetail()
         }
     }
 
+    fun retryClicked() {
+        viewModelScope.launch(Dispatchers.IO) {
+            invokeGetMovieDetail()
+        }
+    }
+
+    private suspend fun invokeGetMovieDetail() {
+        _movieLD.postValue(MovieDetailModel.Loader)
+        getMovieDetail(entry.id).fold(::handleError, ::handleSuccess)
+    }
+
     private fun handleError(error: Error) {
+        _movieLD.postValue(MovieDetailModel.Result(movie))
         viewModelScope.launch(Dispatchers.Main) {
             navigator.toast(error.toMessage())
         }
     }
 
     private fun handleSuccess(movie: MovieDetail) {
+        this.movie = movie
         _movieLD.postValue(MovieDetailModel.Result(movie))
     }
 

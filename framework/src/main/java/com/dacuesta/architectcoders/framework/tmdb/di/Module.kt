@@ -1,11 +1,11 @@
 package com.dacuesta.architectcoders.framework.tmdb.di
 
-import com.dacuesta.architectcoders.BuildConfig
 import com.dacuesta.architectcoders.framework.tmdb.constant.Constant.BASE_URL
 import com.dacuesta.architectcoders.framework.tmdb.interceptor.RequestInterceptor
 import com.dacuesta.architectcoders.framework.tmdb.TmdbService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.android.BuildConfig
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import retrofit2.Retrofit

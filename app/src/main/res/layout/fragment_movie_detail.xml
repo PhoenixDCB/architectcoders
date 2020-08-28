@@ -73,12 +73,234 @@
                 android:id="@+id/content_loader_pb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/default_margin"
+                android:layout_margin="@dimen/margin_default"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/content_empty_state_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_error"
+                android:drawablePadding="@dimen/margin_default"
+                android:drawableTint="@color/colorPrimary"
+                android:padding="@dimen/margin_default"
+                android:text="@string/movie_detail_empty_state"
+                android:textSize="@dimen/text_size_empty_state"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/content_retry_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_default"
+                android:text="@string/general_retry"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/content_empty_state_tv"
+                tools:visibility="visible" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/content_overview_title_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_default"
+                android:text="@string/general_overview"
+                android:textColor="@color/colorTextTitle"
+                android:textSize="@dimen/text_size_title"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/content_overview_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_default"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/content_overview_title_tv"
+                tools:text="Armed with only one word - Tenet - and fighting for the survival of the entire world, the Protagonist journeys through a twilight world of international espionage on a mission that will unfold in something beyond real time."
+                tools:visibility="visible" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/content_release_date_title_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/colorBackgroundInformation"
+                android:padding="@dimen/margin_default"
+                android:text="@string/general_release_date"
+                android:textColor="@color/colorTextTitle"
+                android:textSize="@dimen/text_size_title"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/content_overview_tv"
+                tools:visibility="visible" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/content_release_date_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/colorBackgroundInformation"
+                android:padding="@dimen/margin_default"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/content_release_date_title_tv"
+                tools:text="2020-08-22"
+                tools:visibility="visible" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/content_genres_title_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_default"
+                android:text="@string/general_genres"
+                android:textColor="@color/colorTextTitle"
+                android:textSize="@dimen/text_size_title"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/content_release_date_tv"
+                tools:visibility="visible" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/content_genres_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_default"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/content_genres_title_tv"
+                tools:text="Action, Thriller"
+                tools:visibility="visible" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/content_production_companies_title_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/colorBackgroundInformation"
+                android:padding="@dimen/margin_default"
+                android:text="@string/general_production_companies"
+                android:textColor="@color/colorTextTitle"
+                android:textSize="@dimen/text_size_title"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/content_genres_tv"
+                tools:visibility="visible" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/content_production_companies_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/colorBackgroundInformation"
+                android:padding="@dimen/margin_default"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/content_production_companies_title_tv"
+                tools:text="Syncopy, Warner Bros. Pictures"
+                tools:visibility="visible" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/content_budget_title_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_default"
+                android:text="@string/general_budget"
+                android:textColor="@color/colorTextTitle"
+                android:textSize="@dimen/text_size_title"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/content_production_companies_tv"
+                tools:visibility="visible" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/content_budget_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_default"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/content_budget_title_tv"
+                tools:text="205.000.000 $"
+                tools:visibility="visible" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/content_revenue_title_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/colorBackgroundInformation"
+                android:padding="@dimen/margin_default"
+                android:text="@string/general_revenue"
+                android:textColor="@color/colorTextTitle"
+                android:textSize="@dimen/text_size_title"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/content_budget_tv"
+                tools:visibility="visible" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/content_revenue_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/colorBackgroundInformation"
+                android:padding="@dimen/margin_default"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/content_revenue_title_tv"
+                tools:text="0 $"
+                tools:visibility="visible" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/content_spoken_languages_title_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_default"
+                android:text="@string/general_spoken_languages"
+                android:textColor="@color/colorTextTitle"
+                android:textSize="@dimen/text_size_title"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/content_revenue_tv"
+                tools:visibility="visible" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/content_spoken_languages_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_default"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/content_spoken_languages_title_tv"
+                tools:text="English"
                 tools:visibility="visible" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

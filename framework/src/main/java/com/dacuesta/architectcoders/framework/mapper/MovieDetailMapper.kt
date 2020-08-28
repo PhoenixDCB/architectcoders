@@ -8,5 +8,10 @@ internal fun map(detail: TmdbMovieDetail) =
         title = detail.title,
         backdropImageUrl = "https://image.tmdb.org/t/p/w500${detail.backdropPath}",
         overview = detail.overview,
-        releaseDate = detail.releaseDate
+        releaseDate = detail.releaseDate,
+        genres = detail.genres.map { it.name },
+        productionCompanies = detail.productionCompanies.map { it.name },
+        budget = detail.budget,
+        revenue = detail.revenue,
+        spokenLanguages = detail.spokenLanguages.map { it.name }
     )
