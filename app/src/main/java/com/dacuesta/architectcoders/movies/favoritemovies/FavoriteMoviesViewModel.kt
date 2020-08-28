@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dacuesta.architectcoders.domain.movies.Movie
+import com.dacuesta.architectcoders.mapper.map
 import com.dacuesta.architectcoders.navigator.Navigator
 import com.dacuesta.architectcoders.usecase.movies.DeleteFavoriteMovie
 import com.dacuesta.architectcoders.usecase.movies.GetFavoriteMovies
@@ -34,8 +35,7 @@ class FavoriteMoviesViewModel : ViewModel(), KoinComponent {
 
     fun imageClicked(movie: Movie) {
         val directions = FavoriteMoviesFragmentDirections.actionFavoriteMoviesToMovie(
-            movie.id,
-            movie.title
+            map(movie = movie)
         )
         navigator.navigate(directions = directions)
     }

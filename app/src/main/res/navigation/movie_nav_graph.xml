@@ -11,11 +11,8 @@
         android:label="fragment_movie_detail"
         tools:layout="@layout/fragment_movie_detail" >
         <argument
-            android:name="id"
-            app:argType="integer" />
-        <argument
-            android:name="title"
-            app:argType="string" />
+            android:name="entry"
+            app:argType="com.dacuesta.architectcoders.movie.detail.MovieDetailEntry" />
     </fragment>
 
 </navigation>

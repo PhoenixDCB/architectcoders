@@ -28,10 +28,13 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         tools:visibility="visible" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/empty_state_tv"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_error"
+        android:drawablePadding="@dimen/default_margin"
+        android:drawableTint="@color/colorPrimary"
         android:gravity="center"
         android:padding="@dimen/default_margin"
         android:text="@string/popular_movies_empty_state"
@@ -43,7 +46,7 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         tools:visibility="visible" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/retry_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

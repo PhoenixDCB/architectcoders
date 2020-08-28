@@ -21,7 +21,7 @@ class MovieDetailFragment : Fragment() {
     private val args by navArgs<MovieDetailFragmentArgs>()
 
     private val viewModel by viewModel<MovieDetailViewModel> {
-        parametersOf(args.id)
+        parametersOf(args.entry)
     }
 
     override fun onCreateView(
@@ -44,7 +44,7 @@ class MovieDetailFragment : Fragment() {
     }
 
     private fun initToolbar() {
-        binding.toolbar.title = args.title
+        binding.toolbar.title = args.entry.title
         (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
     }
 

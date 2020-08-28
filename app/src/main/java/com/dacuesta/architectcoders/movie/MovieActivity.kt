@@ -7,6 +7,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.navArgs
 import com.dacuesta.architectcoders.R
 import com.dacuesta.architectcoders.databinding.ActivityMovieBinding
+import com.dacuesta.architectcoders.mapper.map
 
 class MovieActivity : AppCompatActivity() {
     private val args by navArgs<MovieActivityArgs>()
@@ -27,12 +28,8 @@ class MovieActivity : AppCompatActivity() {
         val navGraph =
             navHostFragment.navController.navInflater.inflate(R.navigation.movie_nav_graph)
         navGraph.addArgument(
-            "id",
-            NavArgument.Builder().setDefaultValue(args.id).build()
-        )
-        navGraph.addArgument(
-            "title",
-            NavArgument.Builder().setDefaultValue(args.title).build()
+            "entry",
+            NavArgument.Builder().setDefaultValue(map(entry = args.entry)).build()
         )
         navHostFragment.navController.graph = navGraph
     }

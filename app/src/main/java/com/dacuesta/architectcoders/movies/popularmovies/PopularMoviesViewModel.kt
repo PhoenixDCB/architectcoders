@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.dacuesta.architectcoders.domain.Error
 import com.dacuesta.architectcoders.domain.movies.Movie
 import com.dacuesta.architectcoders.domain.movies.MoviesMetadata
+import com.dacuesta.architectcoders.mapper.map
 import com.dacuesta.architectcoders.usecase.movies.DeleteFavoriteMovie
 import com.dacuesta.architectcoders.usecase.movies.GetFavoriteMovies
 import com.dacuesta.architectcoders.usecase.movies.GetPopularMovies
@@ -99,8 +100,7 @@ class PopularMoviesViewModel : ViewModel(), KoinComponent {
 
     fun imageClicked(movie: Movie) {
         val directions = PopularMoviesFragmentDirections.actionPopularMoviesToMovie(
-            movie.id,
-            movie.title
+            map(movie = movie)
         )
         navigator.navigate(directions = directions)
     }

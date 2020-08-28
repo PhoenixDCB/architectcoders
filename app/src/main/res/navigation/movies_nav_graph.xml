@@ -31,11 +31,8 @@
         android:label="activity_movie_detail"
         tools:layout="@layout/activity_movie">
         <argument
-            android:name="id"
-            app:argType="integer" />
-        <argument
-            android:name="title"
-            app:argType="string" />
+            android:name="entry"
+            app:argType="com.dacuesta.architectcoders.movie.MovieEntry" />
     </activity>
 
 </navigation>
