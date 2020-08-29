@@ -7,9 +7,9 @@ import org.koin.core.KoinComponent
 import org.koin.core.inject
 
 class MovieDetailRepository : KoinComponent {
-    private val remote by inject<MovieDetailRemoteDataSource>()
+    private val remoteDataSource by inject<MovieDetailRemoteDataSource>()
 
     suspend fun getMovieDetail(id: Int): Either<Error, MovieDetail> =
-        remote.getMovieDetail(id)
+        remoteDataSource.getMovieDetail(id)
 
 }

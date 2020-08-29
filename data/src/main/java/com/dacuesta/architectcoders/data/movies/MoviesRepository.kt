@@ -1,6 +1,7 @@
 package com.dacuesta.architectcoders.data.movies
 
 import arrow.core.Either
+import com.dacuesta.architectcoders.data.region.RegionRepository
 import com.dacuesta.architectcoders.domain.Error
 import com.dacuesta.architectcoders.domain.movies.Movie
 import com.dacuesta.architectcoders.domain.movies.MoviesMetadata
@@ -11,35 +12,38 @@ import org.koin.core.inject
 
 @Suppress("EXPERIMENTAL_API_USAGE")
 class MoviesRepository : KoinComponent {
-    private val remote by inject<MoviesRemoteDataSource>()
-    private val local by inject<MoviesLocalDataSource>()
+    private val regionRepository by inject<RegionRepository>()
+    private val remoteDataSource by inject<MoviesRemoteDataSource>()
+    private val localDataSource by inject<MoviesLocalDataSource>()
 
     private val _favoriteMovies = MutableStateFlow<List<Movie>>(listOf())
     val favoriteMovies : StateFlow<List<Movie>>
         get() = _favoriteMovies
 
+    private var region: String? = null
+
     init {
         getFavoriteMovies()
     }
 
-    suspend fun getPopularMovies(
-        region: String,
-        page: Int
-    ): Either<Error, MoviesMetadata> =
-        remote.getPopularMovies(region, page)
+    suspend fun getPopularMovies(page: Int): Either<Error, MoviesMetadata> {
+        val region: String = this.region ?: regionRepository.get()
+        this.region = region
+        return remoteDataSource.getPopularMovies (region, page)
+    }
 
     fun insertFavoriteMovie(movie: Movie) {
-        local.insert(movie)
+        localDataSource.insert(movie)
         getFavoriteMovies()
     }
 
     fun deleteFavoriteMovie(movie: Movie) {
-        local.delete(movie)
+        localDataSource.delete(movie)
         getFavoriteMovies()
     }
 
     private fun getFavoriteMovies() {
-        val movies = local.get()
+        val movies = localDataSource.get()
         _favoriteMovies.value = movies
     }
 

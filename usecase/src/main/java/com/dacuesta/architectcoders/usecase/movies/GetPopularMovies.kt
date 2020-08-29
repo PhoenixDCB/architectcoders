@@ -12,6 +12,6 @@ class GetPopularMovies : KoinComponent {
     private val repository by inject<MoviesRepository>()
 
     suspend operator fun invoke(page: Int): Either<Error, MoviesMetadata> =
-        repository.getPopularMovies("us", page)
+        repository.getPopularMovies(page)
 
 }

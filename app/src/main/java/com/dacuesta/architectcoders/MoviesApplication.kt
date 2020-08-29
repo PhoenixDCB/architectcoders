@@ -3,9 +3,13 @@ package com.dacuesta.architectcoders
 import android.app.Application
 import com.dacuesta.architectcoders.data.moviedetail.di.movieDetailRepositoryModule
 import com.dacuesta.architectcoders.data.movies.di.moviesRepositoryModule
+import com.dacuesta.architectcoders.data.region.di.regionRepositoryModule
+import com.dacuesta.architectcoders.framework.geocoder.di.appGeoCoderModule
+import com.dacuesta.architectcoders.framework.location.di.appLocationModule
 import com.dacuesta.architectcoders.framework.room.di.roomModule
 import com.dacuesta.architectcoders.framework.source.moviedetail.di.movieDetailSourceModule
 import com.dacuesta.architectcoders.framework.source.movies.di.moviesSourceModule
+import com.dacuesta.architectcoders.framework.source.region.di.regionDataSourceModule
 import com.dacuesta.architectcoders.framework.tmdb.di.tmdbModule
 import com.dacuesta.architectcoders.movie.detail.di.movieDetailModule
 import com.dacuesta.architectcoders.usecase.moviedetail.di.movieDetailUseCaseModule
@@ -39,9 +43,13 @@ class MoviesApplication : Application() {
 
                     moviesSourceModule,
                     movieDetailSourceModule,
+                    appLocationModule,
+                    appGeoCoderModule,
+                    regionDataSourceModule,
 
                     moviesRepositoryModule,
                     movieDetailRepositoryModule,
+                    regionRepositoryModule,
 
                     moviesUseCaseModule,
                     movieDetailUseCaseModule,
