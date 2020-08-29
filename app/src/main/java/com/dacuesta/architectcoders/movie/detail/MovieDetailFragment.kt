@@ -131,7 +131,7 @@ class MovieDetailFragment : Fragment() {
         binding.contentSpokenLanguagesTv.visibility = visibility
     }
 
-    private fun Int.toCurrency() : String {
+    private fun Long.toCurrency() : String {
         val format = NumberFormat.getCurrencyInstance(Locale.US)
         format.maximumFractionDigits = 0
         return format.format(this)

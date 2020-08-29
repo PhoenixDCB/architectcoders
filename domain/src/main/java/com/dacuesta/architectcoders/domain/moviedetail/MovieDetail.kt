@@ -7,7 +7,7 @@ data class MovieDetail(
     val releaseDate: String = "",
     val genres: List<String> = listOf(),
     val productionCompanies: List<String> = listOf(),
-    val budget: Int = 0,
-    val revenue: Int = 0,
+    val budget: Long = 0,
+    val revenue: Long = 0,
     val spokenLanguages: List<String> = listOf()
 )

@@ -12,7 +12,7 @@ internal data class MovieDetail(
     @SerializedName("belongs_to_collection")
     val belongsToCollection: Any = Any(),
     @SerializedName("budget")
-    val budget: Int = 0,
+    val budget: Long = 0,
     @SerializedName("genres")
     val genres: List<Genre> = listOf(),
     @SerializedName("homepage")
@@ -38,7 +38,7 @@ internal data class MovieDetail(
     @SerializedName("release_date")
     val releaseDate: String = "",
     @SerializedName("revenue")
-    val revenue: Int = 0,
+    val revenue: Long = 0,
     @SerializedName("runtime")
     val runtime: Int = 0,
     @SerializedName("spoken_languages")
