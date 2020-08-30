@@ -27,7 +27,9 @@ class Navigator : KoinComponent {
         }
 
         override fun onActivityStarted(activity: Activity) {
-            this@Navigator.activity = activity as AppCompatActivity
+            (activity as? AppCompatActivity)?.let {
+                this@Navigator.activity = activity
+            }
         }
 
         override fun onActivityResumed(activity: Activity) {

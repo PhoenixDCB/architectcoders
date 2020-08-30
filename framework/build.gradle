@@ -55,6 +55,9 @@ dependencies {
     def location_version = "17.0.0"
     implementation "com.google.android.gms:play-services-location:$location_version"
 
+    def dexter_version = "6.2.1"
+    implementation "com.karumi:dexter:$dexter_version"
+
     implementation "org.koin:koin-android:$koin_version"
 
     testImplementation 'junit:junit:4.13'

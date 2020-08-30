@@ -5,5 +5,5 @@ import com.dacuesta.architectcoders.domain.Error
 import com.dacuesta.architectcoders.domain.movies.MoviesMetadata
 
 interface MoviesRemoteDataSource {
-    suspend fun getPopularMovies(region: String, page: Int): Either<Error, MoviesMetadata>
+    suspend fun getPopularMovies(page: Int): Either<Error, MoviesMetadata>
 }

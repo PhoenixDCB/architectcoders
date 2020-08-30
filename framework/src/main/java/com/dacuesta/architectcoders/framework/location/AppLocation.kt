@@ -1,32 +1,42 @@
 package com.dacuesta.architectcoders.framework.location
 
+import android.Manifest.permission.ACCESS_COARSE_LOCATION
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.annotation.SuppressLint
 import android.content.Context
 import android.location.Location
+import com.dacuesta.architectcoders.framework.permission.AppPermission
 import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.suspendCancellableCoroutine
 import org.koin.core.KoinComponent
 import org.koin.core.inject
-import timber.log.Timber
 import kotlin.coroutines.resume
 
-class AppLocation : KoinComponent {
+internal class AppLocation : KoinComponent {
+
     private val context by inject<Context>()
+    private val appPermission by inject<AppPermission>()
 
     @SuppressLint("MissingPermission")
     @Suppress("EXPERIMENTAL_API_USAGE")
-    suspend fun getLastLocation(): Location? =
+    suspend fun getLastLocation(rationaleMessage: String): Location? =
         suspendCancellableCoroutine { cancellableContinuation ->
-            val client = LocationServices.getFusedLocationProviderClient(context)
-            client.lastLocation.addOnSuccessListener { location: Location? ->
-                Timber.d("location = $location")
-                cancellableContinuation.resume(location)
-            }.addOnFailureListener {
-                Timber.d("location = [failure]")
-                cancellableContinuation.resume(null)
-            }.addOnCanceledListener {
-                Timber.d("location = [canceled]")
-                cancellableContinuation.resume(null)
+            fun handleLocation() {
+                val client = LocationServices.getFusedLocationProviderClient(context)
+                client.lastLocation.addOnSuccessListener { location: Location? ->
+                    cancellableContinuation.resume(location)
+                }.addOnFailureListener {
+                    cancellableContinuation.resume(null)
+                }.addOnCanceledListener {
+                    cancellableContinuation.resume(null)
+                }
             }
+
+            appPermission.request(
+                permissions = listOf(ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION),
+                rationaleMessage = rationaleMessage,
+                onDenied = ::handleLocation,
+                onGranted = ::handleLocation
+            )
         }
 }

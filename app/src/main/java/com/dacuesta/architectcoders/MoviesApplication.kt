@@ -3,21 +3,21 @@ package com.dacuesta.architectcoders
 import android.app.Application
 import com.dacuesta.architectcoders.data.moviedetail.di.movieDetailRepositoryModule
 import com.dacuesta.architectcoders.data.movies.di.moviesRepositoryModule
-import com.dacuesta.architectcoders.data.region.di.regionRepositoryModule
 import com.dacuesta.architectcoders.framework.geocoder.di.appGeoCoderModule
 import com.dacuesta.architectcoders.framework.location.di.appLocationModule
+import com.dacuesta.architectcoders.framework.permission.AppPermission
+import com.dacuesta.architectcoders.framework.permission.di.appPermissionModule
 import com.dacuesta.architectcoders.framework.room.di.roomModule
 import com.dacuesta.architectcoders.framework.source.moviedetail.di.movieDetailSourceModule
 import com.dacuesta.architectcoders.framework.source.movies.di.moviesSourceModule
-import com.dacuesta.architectcoders.framework.source.region.di.regionDataSourceModule
 import com.dacuesta.architectcoders.framework.tmdb.di.tmdbModule
 import com.dacuesta.architectcoders.movie.detail.di.movieDetailModule
-import com.dacuesta.architectcoders.usecase.moviedetail.di.movieDetailUseCaseModule
-import com.dacuesta.architectcoders.usecase.movies.di.moviesUseCaseModule
 import com.dacuesta.architectcoders.movies.favoritemovies.di.favoriteMoviesModule
 import com.dacuesta.architectcoders.movies.popularmovies.di.popularMoviesModule
 import com.dacuesta.architectcoders.navigator.Navigator
 import com.dacuesta.architectcoders.navigator.di.navigatorModule
+import com.dacuesta.architectcoders.usecase.moviedetail.di.movieDetailUseCaseModule
+import com.dacuesta.architectcoders.usecase.movies.di.moviesUseCaseModule
 import org.koin.android.ext.android.get
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -30,6 +30,7 @@ class MoviesApplication : Application() {
 
         initDi()
         initNavigator()
+        initPermissions()
         initLogcat()
     }
 
@@ -40,16 +41,14 @@ class MoviesApplication : Application() {
                 listOf(
                     tmdbModule,
                     roomModule,
-
-                    moviesSourceModule,
-                    movieDetailSourceModule,
+                    appPermissionModule,
                     appLocationModule,
                     appGeoCoderModule,
-                    regionDataSourceModule,
+                    moviesSourceModule,
+                    movieDetailSourceModule,
 
                     moviesRepositoryModule,
                     movieDetailRepositoryModule,
-                    regionRepositoryModule,
 
                     moviesUseCaseModule,
                     movieDetailUseCaseModule,
@@ -65,6 +64,10 @@ class MoviesApplication : Application() {
 
     private fun initNavigator() {
         get<Navigator>()
+    }
+
+    private fun initPermissions() {
+        get<AppPermission>()
     }
 
     private fun initLogcat() {

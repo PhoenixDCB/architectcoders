@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tmdb_permission_rationale_location_message">Location access is needed to get your local popular movies</string>
+</resources>

@@ -5,9 +5,6 @@ plugins {
     id 'androidx.navigation.safeargs'
 }
 
-def tmdbProperties = new Properties()
-tmdbProperties.load(new FileInputStream(rootProject.file("tmdb.properties")))
-
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
@@ -18,7 +15,6 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-        manifestPlaceholders = [tmdb_api_key:tmdbProperties['tmdb.api.key']]
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
