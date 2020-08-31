@@ -8,9 +8,11 @@ import android.view.View
 import com.dacuesta.architectcoders.framework.R
 import com.google.android.material.snackbar.Snackbar
 import com.karumi.dexter.Dexter
+import com.karumi.dexter.DexterActivity
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.listener.multi.BaseMultiplePermissionsListener
 import com.karumi.dexter.listener.multi.CompositeMultiplePermissionsListener
+import com.karumi.dexter.listener.multi.DialogOnAnyDeniedMultiplePermissionsListener
 import com.karumi.dexter.listener.multi.SnackbarOnAnyDeniedMultiplePermissionsListener
 import org.koin.core.KoinComponent
 import org.koin.core.inject
@@ -24,11 +26,15 @@ class AppPermission : KoinComponent {
 
     private val lifecycleCallback = object : Application.ActivityLifecycleCallbacks {
         override fun onActivityCreated(p0: Activity, p1: Bundle?) {
-            activity = p0
+            if (p0 !is DexterActivity) {
+                activity = p0
+            }
         }
 
         override fun onActivityStarted(p0: Activity) {
-            activity = p0
+            if (p0 !is DexterActivity) {
+                activity = p0
+            }
         }
 
         override fun onActivityResumed(p0: Activity) {
