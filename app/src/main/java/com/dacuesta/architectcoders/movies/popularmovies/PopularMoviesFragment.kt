@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import com.dacuesta.architectcoders.R
 import com.dacuesta.architectcoders.databinding.FragmentPopularMoviesBinding
 import com.dacuesta.architectcoders.movies.popularmovies.adapter.PopularMoviesAdapter
 import com.dacuesta.architectcoders.movies.popularmovies.adapter.PopularMoviesItem
@@ -41,13 +40,19 @@ class PopularMoviesFragment : Fragment() {
 
     private fun initViews() {
         initToolbar()
+        initMoviesSwipeLayout()
         initMoviesRv()
         initRetryBtn()
     }
 
     private fun initToolbar() {
-        binding.toolbar.title = getString(R.string.menu_popular_movies)
         (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
+    }
+
+    private fun initMoviesSwipeLayout() {
+        binding.moviesSwipeLayout.setOnRefreshListener {
+            viewModel.refreshClicked()
+        }
     }
 
     private fun initMoviesRv() {
@@ -85,6 +90,7 @@ class PopularMoviesFragment : Fragment() {
         when (model) {
             is PopularMoviesModel.PopularMovies.Loader -> handlePopularMoviesLoader(model)
             is PopularMoviesModel.PopularMovies.Result -> handlePopularMoviesResult(model)
+            is PopularMoviesModel.PopularMovies.HideRefreshLoader -> handlePopularMoviesHideRefreshLoader()
         }
     }
 
@@ -122,11 +128,17 @@ class PopularMoviesFragment : Fragment() {
             binding.moviesRv.visibility = View.VISIBLE
         }
 
+        binding.moviesSwipeLayout.isRefreshing = false
+
         val items = mutableListOf<PopularMoviesItem>()
         model.movies.forEach { movie ->
             items.add(PopularMoviesItem.Result(movie))
         }
         moviesAdapter.submitList(items)
+    }
+
+    private fun handlePopularMoviesHideRefreshLoader() {
+        binding.moviesSwipeLayout.isRefreshing = false
     }
 
     override fun onDestroyView() {

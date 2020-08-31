@@ -23,6 +23,10 @@ internal class MoviesRemoteDataSourceImpl : MoviesRemoteDataSource, KoinComponen
     private var countryCode: String? = null
 
     override suspend fun getPopularMovies(page: Int): Either<Error, MoviesMetadata> {
+        if (page == 1) {
+            countryCode = null
+        }
+
         val region: String = countryCode
             ?: appGeoCoder.getCountryCode(
                 location = appLocation.getLastLocation(

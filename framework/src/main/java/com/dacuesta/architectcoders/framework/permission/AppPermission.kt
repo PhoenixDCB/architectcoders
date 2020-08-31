@@ -66,6 +66,7 @@ class AppPermission : KoinComponent {
         val view = activity.findViewById<View>(android.R.id.content).rootView
         val rationaleListener = SnackbarOnAnyDeniedMultiplePermissionsListener.Builder
             .with(view, rationaleMessage)
+            .withOpenSettingsButton(R.string.permission_settings)
             .withDuration(Snackbar.LENGTH_LONG)
             .build()
         val checkedPermissionListener = object : BaseMultiplePermissionsListener() {

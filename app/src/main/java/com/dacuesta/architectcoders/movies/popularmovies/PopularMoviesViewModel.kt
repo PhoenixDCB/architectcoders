@@ -70,6 +70,17 @@ class PopularMoviesViewModel : ViewModel(), KoinComponent {
         }
     }
 
+    fun refreshClicked() {
+        if (popularMoviesJob.isCompleted) {
+            popularMoviesJob = viewModelScope.launch(Dispatchers.IO) {
+                page = 1
+                invokeGetPopularMovies()
+            }
+        } else {
+            _popularMoviesLD.postValue(PopularMoviesModel.PopularMovies.HideRefreshLoader)
+        }
+    }
+
     private suspend fun invokeGetPopularMovies() {
         _popularMoviesLD.postValue(PopularMoviesModel.PopularMovies.Loader(movies))
         getPopularMovies(page).fold(::handleError, ::handleSuccess)
@@ -83,6 +94,10 @@ class PopularMoviesViewModel : ViewModel(), KoinComponent {
     }
 
     private fun handleSuccess(metadata: MoviesMetadata) {
+        if (metadata.page == 1) {
+            movies = emptyList()
+        }
+
         page = metadata.page + 1
         movies = movies.toMutableList().apply { addAll(metadata.results) }
         _popularMoviesLD.postValue(PopularMoviesModel.PopularMovies.Result(movies))

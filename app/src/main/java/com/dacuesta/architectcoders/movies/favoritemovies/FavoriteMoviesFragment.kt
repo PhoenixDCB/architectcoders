@@ -42,7 +42,6 @@ class FavoriteMoviesFragment : Fragment() {
     }
 
     private fun initToolbar() {
-        binding.toolbar.title = getString(R.string.menu_favorite_movies)
         (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
     }
 
