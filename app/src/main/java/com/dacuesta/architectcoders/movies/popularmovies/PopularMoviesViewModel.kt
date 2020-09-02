@@ -8,11 +8,11 @@ import com.dacuesta.architectcoders.domain.Error
 import com.dacuesta.architectcoders.domain.movies.Movie
 import com.dacuesta.architectcoders.domain.movies.MoviesMetadata
 import com.dacuesta.architectcoders.mapper.map
+import com.dacuesta.architectcoders.navigator.Navigator
 import com.dacuesta.architectcoders.usecase.movies.DeleteFavoriteMovie
 import com.dacuesta.architectcoders.usecase.movies.GetFavoriteMovies
 import com.dacuesta.architectcoders.usecase.movies.GetPopularMovies
 import com.dacuesta.architectcoders.usecase.movies.InsertFavoriteMovie
-import com.dacuesta.architectcoders.navigator.Navigator
 import com.dacuesta.architectcoders.utils.toMessage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -76,13 +76,16 @@ class PopularMoviesViewModel : ViewModel(), KoinComponent {
                 page = 1
                 invokeGetPopularMovies()
             }
-        } else {
-            _popularMoviesLD.postValue(PopularMoviesModel.PopularMovies.HideRefreshLoader)
         }
     }
 
     private suspend fun invokeGetPopularMovies() {
-        _popularMoviesLD.postValue(PopularMoviesModel.PopularMovies.Loader(movies))
+        _popularMoviesLD.postValue(
+            PopularMoviesModel.PopularMovies.Loader(
+                movies = movies,
+                page = page
+            )
+        )
         getPopularMovies(page).fold(::handleError, ::handleSuccess)
     }
 

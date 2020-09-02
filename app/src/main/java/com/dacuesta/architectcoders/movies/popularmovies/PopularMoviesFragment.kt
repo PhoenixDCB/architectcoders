@@ -9,11 +9,17 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dacuesta.architectcoders.databinding.FragmentPopularMoviesBinding
+import com.dacuesta.architectcoders.domain.movies.Movie
+import com.dacuesta.architectcoders.movies.popularmovies.PopularMoviesFragment.MoviesViewType.*
 import com.dacuesta.architectcoders.movies.popularmovies.adapter.PopularMoviesAdapter
 import com.dacuesta.architectcoders.movies.popularmovies.adapter.PopularMoviesItem
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class PopularMoviesFragment : Fragment() {
+
+    private enum class MoviesViewType {
+        LOADER, EMPTY_STATE, LIST
+    }
 
     private var _binding: FragmentPopularMoviesBinding? = null
     private val binding: FragmentPopularMoviesBinding
@@ -90,55 +96,67 @@ class PopularMoviesFragment : Fragment() {
         when (model) {
             is PopularMoviesModel.PopularMovies.Loader -> handlePopularMoviesLoader(model)
             is PopularMoviesModel.PopularMovies.Result -> handlePopularMoviesResult(model)
-            is PopularMoviesModel.PopularMovies.HideRefreshLoader -> handlePopularMoviesHideRefreshLoader()
         }
     }
 
     private fun handlePopularMoviesLoader(model: PopularMoviesModel.PopularMovies.Loader) {
         if (model.movies.isEmpty()) {
-            binding.loaderPb.visibility = View.VISIBLE
-            binding.emptyStateTv.visibility = View.GONE
-            binding.retryBtn.visibility = View.GONE
-            binding.moviesRv.visibility = View.GONE
+            setMoviesViewType(LOADER)
+            setMovies(movies = model.movies, showLoader = false)
         } else {
-            binding.loaderPb.visibility = View.GONE
-            binding.emptyStateTv.visibility = View.GONE
-            binding.retryBtn.visibility = View.GONE
-            binding.moviesRv.visibility = View.VISIBLE
-
-            val items = mutableListOf<PopularMoviesItem>()
-            model.movies.forEach { movie ->
-                items.add(PopularMoviesItem.Result(movie))
-            }
-            items.add(PopularMoviesItem.Loader)
-            moviesAdapter.submitList(items)
+            setMoviesViewType(LIST)
+            setMovies(movies = model.movies, showLoader = model.page > 1)
         }
+        binding.moviesSwipeLayout.isEnabled = model.movies.isNotEmpty() && model.page == 1
+        binding.moviesSwipeLayout.isRefreshing = model.movies.isNotEmpty() && model.page == 1
     }
 
     private fun handlePopularMoviesResult(model: PopularMoviesModel.PopularMovies.Result) {
-        if (model.movies.isEmpty()) {
-            binding.loaderPb.visibility = View.GONE
-            binding.emptyStateTv.visibility = View.VISIBLE
-            binding.retryBtn.visibility = View.VISIBLE
-            binding.moviesRv.visibility = View.GONE
-        } else {
-            binding.loaderPb.visibility = View.GONE
-            binding.emptyStateTv.visibility = View.GONE
-            binding.retryBtn.visibility = View.GONE
-            binding.moviesRv.visibility = View.VISIBLE
-        }
-
+        setMoviesViewType(
+            if (model.movies.isEmpty()) {
+                EMPTY_STATE
+            } else {
+                LIST
+            }
+        )
+        binding.moviesSwipeLayout.isEnabled = true
         binding.moviesSwipeLayout.isRefreshing = false
-
-        val items = mutableListOf<PopularMoviesItem>()
-        model.movies.forEach { movie ->
-            items.add(PopularMoviesItem.Result(movie))
-        }
-        moviesAdapter.submitList(items)
+        setMovies(movies = model.movies, showLoader = false)
     }
 
-    private fun handlePopularMoviesHideRefreshLoader() {
-        binding.moviesSwipeLayout.isRefreshing = false
+    private fun setMoviesViewType(type: MoviesViewType) {
+        when (type) {
+            LOADER -> {
+                binding.loaderPb.visibility = View.VISIBLE
+                binding.emptyStateTv.visibility = View.GONE
+                binding.retryBtn.visibility = View.GONE
+                binding.moviesRv.visibility = View.GONE
+            }
+            EMPTY_STATE -> {
+                binding.loaderPb.visibility = View.GONE
+                binding.emptyStateTv.visibility = View.VISIBLE
+                binding.retryBtn.visibility = View.VISIBLE
+                binding.moviesRv.visibility = View.GONE
+            }
+            LIST -> {
+                binding.loaderPb.visibility = View.GONE
+                binding.emptyStateTv.visibility = View.GONE
+                binding.retryBtn.visibility = View.GONE
+                binding.moviesRv.visibility = View.VISIBLE
+            }
+        }
+
+    }
+
+    private fun setMovies(movies: List<Movie>, showLoader: Boolean) {
+        val items = mutableListOf<PopularMoviesItem>()
+        movies.forEach { movie ->
+            items.add(PopularMoviesItem.Result(movie))
+        }
+        if (showLoader) {
+            items.add(PopularMoviesItem.Loader)
+        }
+        moviesAdapter.submitList(items)
     }
 
     override fun onDestroyView() {
