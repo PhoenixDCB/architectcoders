@@ -9,5 +9,6 @@ internal data class PopularMovie(
     val posterImageUrl: String,
     val backdropImageUrl: String,
     val title: String,
-    val releaseDate: String
+    val releaseDate: String,
+    val popularity: Double
 )

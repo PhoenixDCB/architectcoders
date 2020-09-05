@@ -24,7 +24,8 @@ private fun map(movie: TmdbMovie) =
         posterImageUrl = "https://image.tmdb.org/t/p/w185${movie.posterPath}",
         backdropImageUrl = "https://image.tmdb.org/t/p/w185${movie.backdropPath}",
         title = movie.originalTitle,
-        releaseDate = movie.releaseDate
+        releaseDate = movie.releaseDate,
+        popularity = movie.popularity
     )
 
 internal fun mapToRoomPopular(movie: DomainMovie) =
@@ -33,7 +34,8 @@ internal fun mapToRoomPopular(movie: DomainMovie) =
         posterImageUrl = movie.posterImageUrl,
         backdropImageUrl = movie.backdropImageUrl,
         title = movie.title,
-        releaseDate = movie.releaseDate
+        releaseDate = movie.releaseDate,
+        popularity = movie.popularity
     )
 
 
@@ -43,7 +45,8 @@ internal fun map(movie: RoomPopularMovie) =
         posterImageUrl = movie.posterImageUrl,
         backdropImageUrl = movie.backdropImageUrl,
         title = movie.title,
-        releaseDate = movie.releaseDate
+        releaseDate = movie.releaseDate,
+        popularity = movie.popularity
     )
 
 
@@ -53,7 +56,8 @@ internal fun mapToRoomFavorite(movie: DomainMovie) =
         posterImageUrl = movie.posterImageUrl,
         backdropImageUrl = movie.backdropImageUrl,
         title = movie.title,
-        releaseDate = movie.releaseDate
+        releaseDate = movie.releaseDate,
+        popularity = movie.popularity
     )
 
 
@@ -63,5 +67,6 @@ internal fun map(movie: RoomFavoriteMovie) =
         posterImageUrl = movie.posterImageUrl,
         backdropImageUrl = movie.backdropImageUrl,
         title = movie.title,
-        releaseDate = movie.releaseDate
+        releaseDate = movie.releaseDate,
+        popularity = movie.popularity
     )

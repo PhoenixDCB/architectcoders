@@ -5,5 +5,6 @@ data class Movie(
     val posterImageUrl: String = "",
     val backdropImageUrl: String = "",
     val title: String = "",
-    val releaseDate: String = ""
+    val releaseDate: String = "",
+    val popularity: Double = 0.0
 )

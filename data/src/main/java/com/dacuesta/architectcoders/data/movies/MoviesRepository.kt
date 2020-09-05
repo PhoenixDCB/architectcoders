@@ -33,11 +33,15 @@ class MoviesRepository : KoinComponent {
                 { remoteMovies ->
                     localDataSource.deleteAllPopularMovies()
                     localDataSource.insertPopularMovies(remoteMovies)
-                    remoteMovies.right()
+                    remoteMovies.sortedByDescending { movie ->
+                        movie.popularity
+                    }.right()
                 }
             )
         } else {
-            localMovies.right()
+            localMovies.sortedByDescending { movie ->
+                movie.popularity
+            }.right()
         }
     }
 
@@ -52,7 +56,9 @@ class MoviesRepository : KoinComponent {
     }
 
     private fun getAllFavoriteMovies() {
-        val movies = localDataSource.getAllFavoriteMovies()
+        val movies = localDataSource.getAllFavoriteMovies().sortedByDescending { movie ->
+            movie.popularity
+        }
         _favoriteMovies.value = movies
     }
 
