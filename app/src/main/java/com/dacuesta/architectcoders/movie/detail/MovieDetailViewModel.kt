@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dacuesta.architectcoders.domain.Error
-import com.dacuesta.architectcoders.domain.moviedetail.MovieDetail
+import com.dacuesta.architectcoders.domain.MovieDetail
 import com.dacuesta.architectcoders.navigator.Navigator
 import com.dacuesta.architectcoders.usecase.moviedetail.GetMovieDetail
 import com.dacuesta.architectcoders.utils.toMessage

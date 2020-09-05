@@ -1,9 +1,14 @@
 package com.dacuesta.architectcoders.data.movies
 
-import com.dacuesta.architectcoders.domain.movies.Movie
+import com.dacuesta.architectcoders.domain.Movie
 
 interface MoviesLocalDataSource {
-    fun insert(movie: Movie)
-    fun delete(movie: Movie)
-    fun get(): List<Movie>
+    fun insertPopularMovies(movies: List<Movie>)
+    fun deleteAllPopularMovies()
+    fun getAllPopularMovies(): List<Movie>
+    fun getPopularMoviesSize(): Int
+
+    fun insertFavoriteMovie(movie: Movie)
+    fun deleteFavoriteMovie(movie: Movie)
+    fun getAllFavoriteMovies(): List<Movie>
 }

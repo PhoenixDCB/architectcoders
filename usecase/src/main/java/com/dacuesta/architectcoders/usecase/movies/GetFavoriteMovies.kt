@@ -1,7 +1,7 @@
 package com.dacuesta.architectcoders.usecase.movies
 
 import com.dacuesta.architectcoders.data.movies.MoviesRepository
-import com.dacuesta.architectcoders.domain.movies.Movie
+import com.dacuesta.architectcoders.domain.Movie
 import kotlinx.coroutines.flow.Flow
 import org.koin.core.KoinComponent
 import org.koin.core.inject

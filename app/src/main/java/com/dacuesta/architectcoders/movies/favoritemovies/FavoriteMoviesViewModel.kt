@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dacuesta.architectcoders.domain.movies.Movie
+import com.dacuesta.architectcoders.domain.Movie
 import com.dacuesta.architectcoders.mapper.map
 import com.dacuesta.architectcoders.navigator.Navigator
 import com.dacuesta.architectcoders.usecase.movies.DeleteFavoriteMovie

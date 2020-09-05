@@ -1,48 +1,67 @@
 package com.dacuesta.architectcoders.framework.mapper
 
-import com.dacuesta.architectcoders.framework.room.model.Movie as RoomMovie
-import com.dacuesta.architectcoders.domain.movies.MoviesMetadata as DomainMoviesMetadata
-import com.dacuesta.architectcoders.framework.tmdb.model.movies.MoviesMetadata as TmdbMoviesMetadata
-import com.dacuesta.architectcoders.domain.movies.Movie as DomainMovie
+import com.dacuesta.architectcoders.domain.Movie as DomainMovie
+import com.dacuesta.architectcoders.framework.room.model.PopularMovie as RoomPopularMovie
+import com.dacuesta.architectcoders.framework.room.model.FavoriteMovie as RoomFavoriteMovie
 import com.dacuesta.architectcoders.framework.tmdb.model.movies.Movie as TmdbMovie
+import com.dacuesta.architectcoders.framework.tmdb.model.movies.MoviesMetadata as TmdbMoviesMetadata
 
-internal fun map(metadata: TmdbMoviesMetadata) = DomainMoviesMetadata(
-    page = metadata.page,
-    results = map(metadata.results),
-    totalPages = metadata.totalPages,
-    totalResults = metadata.totalResults
-)
+internal fun map(metadata: TmdbMoviesMetadata): List<DomainMovie> =
+    map(metadata.results)
 
-private fun map(movies: List<TmdbMovie>) = run {
-    val list = mutableListOf<DomainMovie>()
-    movies.forEach { movie ->
-        list.add(map(movie))
+private fun map(movies: List<TmdbMovie>): List<DomainMovie> =
+    run {
+        val list = mutableListOf<DomainMovie>()
+        movies.forEach { movie ->
+            list.add(map(movie))
+        }
+        list
     }
-    list
-}
 
-private fun map(movie: TmdbMovie) = DomainMovie(
-    id = movie.id,
-    posterImageUrl = "https://image.tmdb.org/t/p/w185${movie.posterPath}",
-    backdropImageUrl = "https://image.tmdb.org/t/p/w185${movie.backdropPath}",
-    title = movie.originalTitle,
-    releaseDate = movie.releaseDate
-)
+private fun map(movie: TmdbMovie) =
+    DomainMovie(
+        id = movie.id,
+        posterImageUrl = "https://image.tmdb.org/t/p/w185${movie.posterPath}",
+        backdropImageUrl = "https://image.tmdb.org/t/p/w185${movie.backdropPath}",
+        title = movie.originalTitle,
+        releaseDate = movie.releaseDate
+    )
+
+internal fun mapToRoomPopular(movie: DomainMovie) =
+    RoomPopularMovie(
+        id = movie.id,
+        posterImageUrl = movie.posterImageUrl,
+        backdropImageUrl = movie.backdropImageUrl,
+        title = movie.title,
+        releaseDate = movie.releaseDate
+    )
 
 
-internal fun map(movie: DomainMovie) = RoomMovie(
-    id = movie.id,
-    posterImageUrl = movie.posterImageUrl,
-    backdropImageUrl = movie.backdropImageUrl,
-    title = movie.title,
-    releaseDate = movie.releaseDate
-)
+internal fun map(movie: RoomPopularMovie) =
+    DomainMovie(
+        id = movie.id,
+        posterImageUrl = movie.posterImageUrl,
+        backdropImageUrl = movie.backdropImageUrl,
+        title = movie.title,
+        releaseDate = movie.releaseDate
+    )
 
 
-internal fun map(movie: RoomMovie) = DomainMovie(
-    id = movie.id,
-    posterImageUrl = movie.posterImageUrl,
-    backdropImageUrl = movie.backdropImageUrl,
-    title = movie.title,
-    releaseDate = movie.releaseDate
-)
+internal fun mapToRoomFavorite(movie: DomainMovie) =
+    RoomFavoriteMovie(
+        id = movie.id,
+        posterImageUrl = movie.posterImageUrl,
+        backdropImageUrl = movie.backdropImageUrl,
+        title = movie.title,
+        releaseDate = movie.releaseDate
+    )
+
+
+internal fun map(movie: RoomFavoriteMovie) =
+    DomainMovie(
+        id = movie.id,
+        posterImageUrl = movie.posterImageUrl,
+        backdropImageUrl = movie.backdropImageUrl,
+        title = movie.title,
+        releaseDate = movie.releaseDate
+    )

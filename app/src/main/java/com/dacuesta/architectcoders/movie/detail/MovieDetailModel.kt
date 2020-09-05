@@ -1,6 +1,6 @@
 package com.dacuesta.architectcoders.movie.detail
 
-import com.dacuesta.architectcoders.domain.moviedetail.MovieDetail
+import com.dacuesta.architectcoders.domain.MovieDetail
 
 sealed class MovieDetailModel {
     object Loader : MovieDetailModel()

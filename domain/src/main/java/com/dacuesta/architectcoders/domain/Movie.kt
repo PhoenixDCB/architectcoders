@@ -1,4 +1,4 @@
-package com.dacuesta.architectcoders.domain.movies
+package com.dacuesta.architectcoders.domain
 
 data class Movie(
     val id: Int = 0,

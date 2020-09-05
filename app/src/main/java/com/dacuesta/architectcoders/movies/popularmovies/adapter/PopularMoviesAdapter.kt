@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +12,7 @@ import coil.api.load
 import com.dacuesta.architectcoders.R
 import com.dacuesta.architectcoders.databinding.ItemPopularMoviesLoaderBinding
 import com.dacuesta.architectcoders.databinding.ItemPopularMoviesMovieBinding
-import com.dacuesta.architectcoders.domain.movies.Movie
+import com.dacuesta.architectcoders.domain.Movie
 import com.dacuesta.architectcoders.movies.popularmovies.PopularMoviesModel
 import com.dacuesta.architectcoders.movies.popularmovies.adapter.PopularMoviesAdapter.BaseVH
 

@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dacuesta.architectcoders.databinding.FragmentPopularMoviesBinding
-import com.dacuesta.architectcoders.domain.movies.Movie
+import com.dacuesta.architectcoders.domain.Movie
 import com.dacuesta.architectcoders.movies.popularmovies.PopularMoviesFragment.MoviesViewType.*
 import com.dacuesta.architectcoders.movies.popularmovies.adapter.PopularMoviesAdapter
 import com.dacuesta.architectcoders.movies.popularmovies.adapter.PopularMoviesItem
@@ -18,7 +18,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class PopularMoviesFragment : Fragment() {
 
     private enum class MoviesViewType {
-        LOADER, EMPTY_STATE, LIST
+        EMPTY_STATE, LIST
     }
 
     private var _binding: FragmentPopularMoviesBinding? = null
@@ -48,7 +48,6 @@ class PopularMoviesFragment : Fragment() {
         initToolbar()
         initMoviesSwipeLayout()
         initMoviesRv()
-        initRetryBtn()
     }
 
     private fun initToolbar() {
@@ -82,12 +81,6 @@ class PopularMoviesFragment : Fragment() {
         binding.moviesRv.adapter = moviesAdapter
     }
 
-    private fun initRetryBtn() {
-        binding.retryBtn.setOnClickListener {
-            viewModel.retryClicked()
-        }
-    }
-
     private fun initObservers() {
         viewModel.popularMoviesLD.observe(viewLifecycleOwner, Observer(::handlePopularMovies))
     }
@@ -101,14 +94,16 @@ class PopularMoviesFragment : Fragment() {
 
     private fun handlePopularMoviesLoader(model: PopularMoviesModel.PopularMovies.Loader) {
         if (model.movies.isEmpty()) {
-            setMoviesViewType(LOADER)
+            setMoviesViewType(EMPTY_STATE)
             setMovies(movies = model.movies, showLoader = false)
+            binding.moviesSwipeLayout.isEnabled = true
+            binding.moviesSwipeLayout.isRefreshing = true
         } else {
             setMoviesViewType(LIST)
-            setMovies(movies = model.movies, showLoader = model.page > 1)
+            setMovies(movies = model.movies, showLoader = !model.isRefreshing)
+            binding.moviesSwipeLayout.isEnabled = model.isRefreshing
+            binding.moviesSwipeLayout.isRefreshing = model.isRefreshing
         }
-        binding.moviesSwipeLayout.isEnabled = model.movies.isNotEmpty() && model.page == 1
-        binding.moviesSwipeLayout.isRefreshing = model.movies.isNotEmpty() && model.page == 1
     }
 
     private fun handlePopularMoviesResult(model: PopularMoviesModel.PopularMovies.Result) {
@@ -126,22 +121,12 @@ class PopularMoviesFragment : Fragment() {
 
     private fun setMoviesViewType(type: MoviesViewType) {
         when (type) {
-            LOADER -> {
-                binding.loaderPb.visibility = View.VISIBLE
-                binding.emptyStateTv.visibility = View.GONE
-                binding.retryBtn.visibility = View.GONE
-                binding.moviesRv.visibility = View.GONE
-            }
             EMPTY_STATE -> {
-                binding.loaderPb.visibility = View.GONE
                 binding.emptyStateTv.visibility = View.VISIBLE
-                binding.retryBtn.visibility = View.VISIBLE
                 binding.moviesRv.visibility = View.GONE
             }
             LIST -> {
-                binding.loaderPb.visibility = View.GONE
                 binding.emptyStateTv.visibility = View.GONE
-                binding.retryBtn.visibility = View.GONE
                 binding.moviesRv.visibility = View.VISIBLE
             }
         }

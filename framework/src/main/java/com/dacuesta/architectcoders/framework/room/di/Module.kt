@@ -7,7 +7,11 @@ import org.koin.dsl.module
 
 val roomModule = module {
     single {
-        get<AppDatabase>().movieDAO()
+        get<AppDatabase>().popularMovieDAO()
+    }
+
+    single {
+        get<AppDatabase>().favoriteMovieDAO()
     }
 
     single {

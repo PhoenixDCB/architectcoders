@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import coil.api.load
 import com.dacuesta.architectcoders.databinding.FragmentMovieDetailBinding
-import com.dacuesta.architectcoders.domain.moviedetail.MovieDetail
+import com.dacuesta.architectcoders.domain.MovieDetail
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.text.NumberFormat

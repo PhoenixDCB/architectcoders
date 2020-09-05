@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import com.dacuesta.architectcoders.databinding.ItemFavoriteMoviesMovieBinding
-import com.dacuesta.architectcoders.domain.movies.Movie
+import com.dacuesta.architectcoders.domain.Movie
 import com.dacuesta.architectcoders.movies.favoritemovies.FavoriteMoviesAdapter.MovieVH
 
 class FavoriteMoviesAdapter(

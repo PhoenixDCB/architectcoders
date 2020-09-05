@@ -1,6 +1,6 @@
 package com.dacuesta.architectcoders.mapper
 
-import com.dacuesta.architectcoders.domain.movies.Movie
+import com.dacuesta.architectcoders.domain.Movie
 import com.dacuesta.architectcoders.movie.MovieEntry
 import com.dacuesta.architectcoders.movie.detail.MovieDetailEntry
 

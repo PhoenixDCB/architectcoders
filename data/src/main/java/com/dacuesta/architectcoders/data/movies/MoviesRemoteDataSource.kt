@@ -2,8 +2,9 @@ package com.dacuesta.architectcoders.data.movies
 
 import arrow.core.Either
 import com.dacuesta.architectcoders.domain.Error
-import com.dacuesta.architectcoders.domain.movies.MoviesMetadata
+import com.dacuesta.architectcoders.domain.Movie
 
 interface MoviesRemoteDataSource {
-    suspend fun getPopularMovies(page: Int): Either<Error, MoviesMetadata>
+    suspend fun getCurrentPopularMovies(moviesSize: Int): Either<Error, List<Movie>>
+    suspend fun getNextPopularMovies(moviesSize: Int): Either<Error, List<Movie>>
 }
