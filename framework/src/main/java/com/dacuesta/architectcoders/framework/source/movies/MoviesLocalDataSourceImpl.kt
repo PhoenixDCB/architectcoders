@@ -1,7 +1,6 @@
 package com.dacuesta.architectcoders.framework.source.movies
 
 import com.dacuesta.architectcoders.data.movies.MoviesLocalDataSource
-import com.dacuesta.architectcoders.domain.Movie as DomainMovie
 import com.dacuesta.architectcoders.framework.mapper.map
 import com.dacuesta.architectcoders.framework.mapper.mapToRoomFavorite
 import com.dacuesta.architectcoders.framework.mapper.mapToRoomPopular
@@ -10,6 +9,7 @@ import com.dacuesta.architectcoders.framework.room.dao.PopularMovieDAO
 import com.dacuesta.architectcoders.framework.room.model.PopularMovie
 import org.koin.core.KoinComponent
 import org.koin.core.inject
+import com.dacuesta.architectcoders.domain.Movie as DomainMovie
 
 internal class MoviesLocalDataSourceImpl : MoviesLocalDataSource, KoinComponent {
     private val popularMovieDAO by inject<PopularMovieDAO>()
@@ -29,9 +29,6 @@ internal class MoviesLocalDataSourceImpl : MoviesLocalDataSource, KoinComponent 
 
     override fun getAllPopularMovies(): List<DomainMovie> =
         popularMovieDAO.getAll().map(::map)
-
-    override fun getPopularMoviesSize(): Int =
-        popularMovieDAO.getSize()
 
     override fun insertFavoriteMovie(movie: DomainMovie) {
         val roomMovie = mapToRoomFavorite(movie)

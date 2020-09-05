@@ -11,7 +11,6 @@ import com.dacuesta.architectcoders.navigator.Navigator
 import com.dacuesta.architectcoders.usecase.movies.DeleteFavoriteMovie
 import com.dacuesta.architectcoders.usecase.movies.GetFavoriteMovies
 import com.dacuesta.architectcoders.usecase.movies.GetPopularMovies
-import com.dacuesta.architectcoders.usecase.movies.GetPopularMovies.Method.*
 import com.dacuesta.architectcoders.usecase.movies.InsertFavoriteMovie
 import com.dacuesta.architectcoders.utils.toMessage
 import kotlinx.coroutines.Dispatchers
@@ -29,6 +28,10 @@ class PopularMoviesViewModel : ViewModel(), KoinComponent {
     private val insertFavoriteMovies by inject<InsertFavoriteMovie>()
     private val deleteFavoriteMovies by inject<DeleteFavoriteMovie>()
 
+    private val _loaderLD = MutableLiveData<PopularMoviesModel.Loader>()
+    val loaderLD: LiveData<PopularMoviesModel.Loader>
+        get() = _loaderLD
+
     private val _popularMoviesLD = MutableLiveData<PopularMoviesModel.PopularMovies>()
     val popularMoviesLD: LiveData<PopularMoviesModel.PopularMovies>
         get() = _popularMoviesLD
@@ -37,21 +40,13 @@ class PopularMoviesViewModel : ViewModel(), KoinComponent {
     val favoriteMoviesLD: LiveData<PopularMoviesModel.FavoriteMovies>
         get() = _favoriteMoviesLD
 
-    private var movies: List<Movie> = emptyList()
     private lateinit var popularMoviesJob: Job
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
             popularMoviesJob = launch {
-                _popularMoviesLD.postValue(
-                    PopularMoviesModel.PopularMovies.Loader(
-                        movies = movies,
-                        isRefreshing = false
-                    )
-                )
-                getPopularMovies(
-                    method = CURRENT_MOVIES
-                ).fold(::handleError, ::handleSuccess)
+                _loaderLD.postValue(PopularMoviesModel.Loader(isVisible = true))
+                getPopularMovies(refresh = false).fold(::handleError, ::handleSuccess)
             }
             launch {
                 getFavoriteMovies().collect { movies ->
@@ -64,45 +59,22 @@ class PopularMoviesViewModel : ViewModel(), KoinComponent {
     fun refreshClicked() {
         if (popularMoviesJob.isCompleted) {
             popularMoviesJob = viewModelScope.launch(Dispatchers.IO) {
-                _popularMoviesLD.postValue(
-                    PopularMoviesModel.PopularMovies.Loader(
-                        movies = movies,
-                        isRefreshing = true
-                    )
-                )
-                getPopularMovies(
-                    method = REFRESH_CURRENT_MOVIES
-                ).fold(::handleError, ::handleSuccess)
-            }
-        }
-    }
-
-    fun endReached() {
-        if (popularMoviesJob.isCompleted) {
-            popularMoviesJob = viewModelScope.launch(Dispatchers.IO) {
-                _popularMoviesLD.postValue(
-                    PopularMoviesModel.PopularMovies.Loader(
-                        movies = movies,
-                        isRefreshing = false
-                    )
-                )
-                getPopularMovies(
-                    method = NEXT_MOVIES
-                ).fold(::handleError, ::handleSuccess)
+                _loaderLD.postValue(PopularMoviesModel.Loader(isVisible = true))
+                getPopularMovies(refresh = true).fold(::handleError, ::handleSuccess)
             }
         }
     }
 
     private fun handleError(error: Error) {
-        _popularMoviesLD.postValue(PopularMoviesModel.PopularMovies.Result(movies))
+        _loaderLD.postValue(PopularMoviesModel.Loader(isVisible = false))
         viewModelScope.launch(Dispatchers.Main) {
             navigator.toast(error.toMessage())
         }
     }
 
     private fun handleSuccess(movies: List<Movie>) {
-        this.movies = movies
-        _popularMoviesLD.postValue(PopularMoviesModel.PopularMovies.Result(movies))
+        _loaderLD.postValue(PopularMoviesModel.Loader(isVisible = false))
+        _popularMoviesLD.postValue(PopularMoviesModel.PopularMovies(movies))
     }
 
     fun favoriteClicked(movie: Movie, isFavorite: Boolean) {

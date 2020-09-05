@@ -23,49 +23,22 @@ class MoviesRepository : KoinComponent {
         getAllFavoriteMovies()
     }
 
-    suspend fun getCurrentPopularMovies(refresh: Boolean): Either<Error, List<Movie>> {
-        val localMoviesSize = localDataSource.getPopularMoviesSize()
-        return when {
-            localMoviesSize == 0 -> {
-                remoteDataSource.getNextPopularMovies(localMoviesSize).fold(
-                    { error ->
-                        error.left()
-                    },
-                    { remoteMovies ->
-                        localDataSource.insertPopularMovies(remoteMovies)
-                        localDataSource.getAllPopularMovies().right()
-                    }
-                )
-            }
-            refresh -> {
-                remoteDataSource.getCurrentPopularMovies(localMoviesSize).fold(
-                    { error ->
-                        error.left()
-                    },
-                    { remoteMovies ->
-                        localDataSource.deleteAllPopularMovies()
-                        localDataSource.insertPopularMovies(remoteMovies)
-                        localDataSource.getAllPopularMovies().right()
-                    }
-                )
-            }
-            else -> {
-                localDataSource.getAllPopularMovies().right()
-            }
-        }
-    }
-
-    suspend fun getNextPopularMovies(): Either<Error, List<Movie>> {
+    suspend fun getPopularMovies(refresh: Boolean): Either<Error, List<Movie>> {
         val localMovies = localDataSource.getAllPopularMovies()
-        return remoteDataSource.getNextPopularMovies(localMovies.size).fold(
-            { error ->
-                error.left()
-            },
-            { remoteMovies ->
-                localDataSource.insertPopularMovies(remoteMovies)
-                localDataSource.getAllPopularMovies().right()
-            }
-        )
+        return if (refresh || localMovies.isEmpty()) {
+            remoteDataSource.getPopularMovies().fold(
+                { error ->
+                    error.left()
+                },
+                { remoteMovies ->
+                    localDataSource.deleteAllPopularMovies()
+                    localDataSource.insertPopularMovies(remoteMovies)
+                    remoteMovies.right()
+                }
+            )
+        } else {
+            localMovies.right()
+        }
     }
 
     fun insertFavoriteMovie(movie: Movie) {

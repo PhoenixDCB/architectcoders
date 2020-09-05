@@ -7,20 +7,10 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.GridLayoutManager
 import com.dacuesta.architectcoders.databinding.FragmentPopularMoviesBinding
-import com.dacuesta.architectcoders.domain.Movie
-import com.dacuesta.architectcoders.movies.popularmovies.PopularMoviesFragment.MoviesViewType.*
-import com.dacuesta.architectcoders.movies.popularmovies.adapter.PopularMoviesAdapter
-import com.dacuesta.architectcoders.movies.popularmovies.adapter.PopularMoviesItem
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class PopularMoviesFragment : Fragment() {
-
-    private enum class MoviesViewType {
-        EMPTY_STATE, LIST
-    }
-
     private var _binding: FragmentPopularMoviesBinding? = null
     private val binding: FragmentPopularMoviesBinding
         get() = _binding!!
@@ -63,85 +53,31 @@ class PopularMoviesFragment : Fragment() {
     private fun initMoviesRv() {
         moviesAdapter = PopularMoviesAdapter(
             favoriteMoviesLD = viewModel.favoriteMoviesLD,
-            endReached = viewModel::endReached,
             imageClicked = viewModel::imageClicked,
             favoriteClicked = viewModel::favoriteClicked
         )
         binding.moviesRv.setHasFixedSize(true)
-        (binding.moviesRv.layoutManager as GridLayoutManager).let { layoutManager ->
-            layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-                override fun getSpanSize(position: Int) =
-                    if (moviesAdapter.getItemViewType(position) == PopularMoviesAdapter.TYPE_LOADER) {
-                        layoutManager.spanCount
-                    } else {
-                        1
-                    }
-            }
-        }
         binding.moviesRv.adapter = moviesAdapter
     }
 
     private fun initObservers() {
+        viewModel.loaderLD.observe(viewLifecycleOwner, Observer(::handleLoader))
         viewModel.popularMoviesLD.observe(viewLifecycleOwner, Observer(::handlePopularMovies))
     }
 
+    private fun handleLoader(model: PopularMoviesModel.Loader) {
+        binding.moviesSwipeLayout.isRefreshing = model.isVisible
+    }
+
     private fun handlePopularMovies(model: PopularMoviesModel.PopularMovies) {
-        when (model) {
-            is PopularMoviesModel.PopularMovies.Loader -> handlePopularMoviesLoader(model)
-            is PopularMoviesModel.PopularMovies.Result -> handlePopularMoviesResult(model)
-        }
-    }
-
-    private fun handlePopularMoviesLoader(model: PopularMoviesModel.PopularMovies.Loader) {
         if (model.movies.isEmpty()) {
-            setMoviesViewType(EMPTY_STATE)
-            setMovies(movies = model.movies, showLoader = false)
-            binding.moviesSwipeLayout.isEnabled = true
-            binding.moviesSwipeLayout.isRefreshing = true
+            binding.emptyStateTv.visibility = View.VISIBLE
+            binding.moviesRv.visibility = View.GONE
         } else {
-            setMoviesViewType(LIST)
-            setMovies(movies = model.movies, showLoader = !model.isRefreshing)
-            binding.moviesSwipeLayout.isEnabled = model.isRefreshing
-            binding.moviesSwipeLayout.isRefreshing = model.isRefreshing
+            binding.emptyStateTv.visibility = View.GONE
+            binding.moviesRv.visibility = View.VISIBLE
         }
-    }
-
-    private fun handlePopularMoviesResult(model: PopularMoviesModel.PopularMovies.Result) {
-        setMoviesViewType(
-            if (model.movies.isEmpty()) {
-                EMPTY_STATE
-            } else {
-                LIST
-            }
-        )
-        binding.moviesSwipeLayout.isEnabled = true
-        binding.moviesSwipeLayout.isRefreshing = false
-        setMovies(movies = model.movies, showLoader = false)
-    }
-
-    private fun setMoviesViewType(type: MoviesViewType) {
-        when (type) {
-            EMPTY_STATE -> {
-                binding.emptyStateTv.visibility = View.VISIBLE
-                binding.moviesRv.visibility = View.GONE
-            }
-            LIST -> {
-                binding.emptyStateTv.visibility = View.GONE
-                binding.moviesRv.visibility = View.VISIBLE
-            }
-        }
-
-    }
-
-    private fun setMovies(movies: List<Movie>, showLoader: Boolean) {
-        val items = mutableListOf<PopularMoviesItem>()
-        movies.forEach { movie ->
-            items.add(PopularMoviesItem.Result(movie))
-        }
-        if (showLoader) {
-            items.add(PopularMoviesItem.Loader)
-        }
-        moviesAdapter.submitList(items)
+        moviesAdapter.submitList(model.movies)
     }
 
     override fun onDestroyView() {

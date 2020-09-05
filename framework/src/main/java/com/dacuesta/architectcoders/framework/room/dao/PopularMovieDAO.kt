@@ -14,9 +14,6 @@ internal interface PopularMovieDAO {
     @Query("SELECT * FROM PopularMovies")
     fun getAll(): List<PopularMovie>
 
-    @Query("SELECT COUNT(id) FROM PopularMovies")
-    fun getSize(): Int
-
     @Insert(onConflict = REPLACE)
     fun insert(vararg movies: PopularMovie)
 
