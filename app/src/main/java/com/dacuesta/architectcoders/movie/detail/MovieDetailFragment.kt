@@ -11,7 +11,9 @@ import androidx.navigation.fragment.navArgs
 import coil.api.load
 import com.dacuesta.architectcoders.databinding.FragmentMovieDetailBinding
 import com.dacuesta.architectcoders.domain.MovieDetail
+import org.koin.android.scope.currentScope
 import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.android.viewmodel.scope.viewModel
 import org.koin.core.parameter.parametersOf
 import java.text.NumberFormat
 import java.util.*
@@ -24,7 +26,7 @@ class MovieDetailFragment : Fragment() {
 
     private val args by navArgs<MovieDetailFragmentArgs>()
 
-    private val viewModel by viewModel<MovieDetailViewModel> {
+    private val viewModel by currentScope.viewModel<MovieDetailViewModel>(this){
         parametersOf(args.entry)
     }
 

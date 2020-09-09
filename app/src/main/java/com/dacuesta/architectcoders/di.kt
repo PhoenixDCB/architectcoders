@@ -1,8 +1,8 @@
-package com.dacuesta.architectcoders.navigator.di
+package com.dacuesta.architectcoders
 
 import com.dacuesta.architectcoders.navigator.Navigator
 import org.koin.dsl.module
 
-val navigatorModule = module {
+val appModule = module {
     single { Navigator() }
 }

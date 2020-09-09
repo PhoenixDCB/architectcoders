@@ -12,14 +12,12 @@ import com.dacuesta.architectcoders.usecase.movies.GetFavoriteMovies
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import org.koin.core.KoinComponent
-import org.koin.core.inject
 
-class FavoriteMoviesViewModel : ViewModel(), KoinComponent {
-
-    private val getFavoriteMovies by inject<GetFavoriteMovies>()
-    private val deleteFavoriteMovie by inject<DeleteFavoriteMovie>()
-    private val navigator by inject<Navigator>()
+class FavoriteMoviesViewModel(
+    private val navigator: Navigator,
+    private val getFavoriteMovies: GetFavoriteMovies,
+    private val deleteFavoriteMovie: DeleteFavoriteMovie
+) : ViewModel() {
 
     private val _favoriteMoviesLD = MutableLiveData<FavoriteMoviesModel.FavoriteMovies>()
     val favoriteMoviesLD: LiveData<FavoriteMoviesModel.FavoriteMovies>

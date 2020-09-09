@@ -1,23 +1,12 @@
 package com.dacuesta.architectcoders
 
 import android.app.Application
-import com.dacuesta.architectcoders.data.moviedetail.di.movieDetailRepositoryModule
-import com.dacuesta.architectcoders.data.movies.di.moviesRepositoryModule
-import com.dacuesta.architectcoders.framework.geocoder.di.appGeoCoderModule
-import com.dacuesta.architectcoders.framework.location.di.appLocationModule
+import com.dacuesta.architectcoders.data.dataModule
+import com.dacuesta.architectcoders.framework.frameworkModule
 import com.dacuesta.architectcoders.framework.permission.AppPermission
-import com.dacuesta.architectcoders.framework.permission.di.appPermissionModule
-import com.dacuesta.architectcoders.framework.room.di.roomModule
-import com.dacuesta.architectcoders.framework.source.moviedetail.di.movieDetailSourceModule
-import com.dacuesta.architectcoders.framework.source.movies.di.moviesSourceModule
-import com.dacuesta.architectcoders.framework.tmdb.di.tmdbModule
-import com.dacuesta.architectcoders.movie.detail.di.movieDetailModule
-import com.dacuesta.architectcoders.movies.favoritemovies.di.favoriteMoviesModule
-import com.dacuesta.architectcoders.movies.popularmovies.di.popularMoviesModule
+import com.dacuesta.architectcoders.movie.movieModule
+import com.dacuesta.architectcoders.movies.moviesModule
 import com.dacuesta.architectcoders.navigator.Navigator
-import com.dacuesta.architectcoders.navigator.di.navigatorModule
-import com.dacuesta.architectcoders.usecase.moviedetail.di.movieDetailUseCaseModule
-import com.dacuesta.architectcoders.usecase.movies.di.moviesUseCaseModule
 import org.koin.android.ext.android.get
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -38,26 +27,11 @@ class MoviesApplication : Application() {
         startKoin {
             androidContext(this@MoviesApplication)
             modules(
-                listOf(
-                    tmdbModule,
-                    roomModule,
-                    appPermissionModule,
-                    appLocationModule,
-                    appGeoCoderModule,
-                    moviesSourceModule,
-                    movieDetailSourceModule,
-
-                    moviesRepositoryModule,
-                    movieDetailRepositoryModule,
-
-                    moviesUseCaseModule,
-                    movieDetailUseCaseModule,
-
-                    navigatorModule,
-                    popularMoviesModule,
-                    favoriteMoviesModule,
-                    movieDetailModule
-                )
+                frameworkModule,
+                dataModule,
+                appModule,
+                moviesModule,
+                movieModule
             )
         }
     }

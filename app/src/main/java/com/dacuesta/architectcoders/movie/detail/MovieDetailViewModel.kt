@@ -11,16 +11,15 @@ import com.dacuesta.architectcoders.usecase.moviedetail.GetMovieDetail
 import com.dacuesta.architectcoders.utils.toMessage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.koin.core.KoinComponent
-import org.koin.core.inject
 
-class MovieDetailViewModel(private val entry: MovieDetailEntry) : ViewModel(), KoinComponent {
-
-    private val navigator by inject<Navigator>()
-    private val getMovieDetail by inject<GetMovieDetail>()
+class MovieDetailViewModel(
+    private val entry: MovieDetailEntry,
+    private val navigator: Navigator,
+    private val getMovieDetail: GetMovieDetail
+) : ViewModel() {
 
     private val _movieLD = MutableLiveData<MovieDetailModel>()
-    val movieLD : LiveData<MovieDetailModel>
+    val movieLD: LiveData<MovieDetailModel>
         get() = _movieLD
 
     private var movie = MovieDetail()

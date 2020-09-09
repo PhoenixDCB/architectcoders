@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import com.dacuesta.architectcoders.R
 import com.dacuesta.architectcoders.databinding.FragmentFavoriteMoviesBinding
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.android.scope.currentScope
+import org.koin.android.viewmodel.scope.viewModel
 
 class FavoriteMoviesFragment : Fragment() {
 
@@ -17,7 +17,7 @@ class FavoriteMoviesFragment : Fragment() {
     private val binding: FragmentFavoriteMoviesBinding
         get() = _binding!!
 
-    private val viewModel by viewModel<FavoriteMoviesViewModel>()
+    private val viewModel by currentScope.viewModel<FavoriteMoviesViewModel>(this)
 
     private lateinit var moviesAdapter: FavoriteMoviesAdapter
 

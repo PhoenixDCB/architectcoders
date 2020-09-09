@@ -17,16 +17,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import org.koin.core.KoinComponent
-import org.koin.core.inject
 
-class PopularMoviesViewModel : ViewModel(), KoinComponent {
-
-    private val navigator by inject<Navigator>()
-    private val getPopularMovies by inject<GetPopularMovies>()
-    private val getFavoriteMovies by inject<GetFavoriteMovies>()
-    private val insertFavoriteMovies by inject<InsertFavoriteMovie>()
-    private val deleteFavoriteMovies by inject<DeleteFavoriteMovie>()
+class PopularMoviesViewModel(
+    private val navigator: Navigator,
+    private val getPopularMovies: GetPopularMovies,
+    private val getFavoriteMovies: GetFavoriteMovies,
+    private val insertFavoriteMovie: InsertFavoriteMovie,
+    private val deleteFavoriteMovie: DeleteFavoriteMovie
+) : ViewModel() {
 
     private val _loaderLD = MutableLiveData<PopularMoviesModel.Loader>()
     val loaderLD: LiveData<PopularMoviesModel.Loader>
@@ -80,9 +78,9 @@ class PopularMoviesViewModel : ViewModel(), KoinComponent {
     fun favoriteClicked(movie: Movie, isFavorite: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             if (!isFavorite) {
-                insertFavoriteMovies(movie)
+                insertFavoriteMovie(movie)
             } else {
-                deleteFavoriteMovies(movie)
+                deleteFavoriteMovie(movie)
             }
         }
     }

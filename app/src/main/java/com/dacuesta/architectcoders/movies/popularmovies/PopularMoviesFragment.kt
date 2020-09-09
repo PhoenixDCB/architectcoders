@@ -8,14 +8,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.dacuesta.architectcoders.databinding.FragmentPopularMoviesBinding
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.android.scope.currentScope
+import org.koin.android.viewmodel.scope.viewModel
 
 class PopularMoviesFragment : Fragment() {
     private var _binding: FragmentPopularMoviesBinding? = null
     private val binding: FragmentPopularMoviesBinding
         get() = _binding!!
 
-    private val viewModel by viewModel<PopularMoviesViewModel>()
+    private val viewModel by currentScope.viewModel<PopularMoviesViewModel>(this)
 
     private lateinit var moviesAdapter: PopularMoviesAdapter
 
