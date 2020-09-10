@@ -8,14 +8,12 @@ import android.location.Location
 import com.dacuesta.architectcoders.framework.permission.AppPermission
 import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.suspendCancellableCoroutine
-import org.koin.core.KoinComponent
-import org.koin.core.inject
 import kotlin.coroutines.resume
 
-internal class AppLocation : KoinComponent {
-
-    private val context by inject<Context>()
-    private val appPermission by inject<AppPermission>()
+internal class AppLocation(
+    private val context: Context,
+    private val appPermission: AppPermission
+) {
 
     @SuppressLint("MissingPermission")
     @Suppress("EXPERIMENTAL_API_USAGE")
@@ -39,4 +37,5 @@ internal class AppLocation : KoinComponent {
                 onGranted = ::handleLocation
             )
         }
+    
 }

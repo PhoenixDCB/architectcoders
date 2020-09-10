@@ -7,11 +7,10 @@ import com.dacuesta.architectcoders.domain.MovieDetail
 import com.dacuesta.architectcoders.framework.mapper.map
 import com.dacuesta.architectcoders.framework.tmdb.TmdbService
 import com.dacuesta.architectcoders.framework.utils.invoke
-import org.koin.core.KoinComponent
-import org.koin.core.inject
 
-internal class MovieDetailRemoteDataSourceImpl : MovieDetailRemoteDataSource, KoinComponent {
-    private val tmdbService by inject<TmdbService>()
+internal class MovieDetailRemoteDataSourceImpl(
+    private val tmdbService: TmdbService
+) : MovieDetailRemoteDataSource {
 
     override suspend fun getMovieDetail(id: Int): Either<Error, MovieDetail> =
         invoke {

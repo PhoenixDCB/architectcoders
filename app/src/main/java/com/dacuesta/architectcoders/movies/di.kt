@@ -14,9 +14,9 @@ import org.koin.dsl.module
 
 val moviesModule = module {
     scope(named<MoviesActivity>()) {
-        scoped { GetFavoriteMovies() }
-        scoped { InsertFavoriteMovie() }
-        scoped { DeleteFavoriteMovie() }
+        scoped { GetFavoriteMovies(repository = get()) }
+        scoped { InsertFavoriteMovie(repository = get()) }
+        scoped { DeleteFavoriteMovie(repository = get()) }
     }
 
     scope(named<PopularMoviesFragment>()) {
@@ -30,7 +30,7 @@ val moviesModule = module {
             )
         }
 
-        scoped { GetPopularMovies() }
+        scoped { GetPopularMovies(repository = get()) }
     }
 
     scope(named<FavoriteMoviesFragment>()) {

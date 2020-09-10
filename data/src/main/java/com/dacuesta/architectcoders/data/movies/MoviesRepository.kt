@@ -5,22 +5,30 @@ import arrow.core.left
 import arrow.core.right
 import com.dacuesta.architectcoders.domain.Error
 import com.dacuesta.architectcoders.domain.Movie
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import org.koin.core.KoinComponent
-import org.koin.core.inject
+import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
 @Suppress("EXPERIMENTAL_API_USAGE")
-class MoviesRepository : KoinComponent {
-    private val remoteDataSource by inject<MoviesRemoteDataSource>()
-    private val localDataSource by inject<MoviesLocalDataSource>()
+class MoviesRepository(
+    private val remoteDataSource: MoviesRemoteDataSource,
+    private val localDataSource: MoviesLocalDataSource
+) : CoroutineScope {
+
+    override val coroutineContext: CoroutineContext = SupervisorJob() + Dispatchers.IO
 
     private val _favoriteMovies = MutableStateFlow<List<Movie>>(listOf())
     val favoriteMovies: StateFlow<List<Movie>>
         get() = _favoriteMovies
 
     init {
-        getAllFavoriteMovies()
+        launch {
+            getAllFavoriteMovies()
+        }
     }
 
     suspend fun getPopularMovies(refresh: Boolean): Either<Error, List<Movie>> {

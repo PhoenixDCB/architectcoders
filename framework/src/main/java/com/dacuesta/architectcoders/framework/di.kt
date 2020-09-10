@@ -23,16 +23,28 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 val frameworkModule = module {
-    factory<MoviesRemoteDataSource> { MoviesRemoteDataSourceImpl() }
-    factory<MoviesLocalDataSource> { MoviesLocalDataSourceImpl() }
+    factory<MoviesRemoteDataSource> {
+        MoviesRemoteDataSourceImpl(
+            context = androidContext(),
+            appLocation = get(),
+            appGeoCoder = get(),
+            tmdbService = get()
+        )
+    }
+    factory<MoviesLocalDataSource> {
+        MoviesLocalDataSourceImpl(
+            popularMovieDAO = get(),
+            favoriteMovieDAO = get()
+        )
+    }
 
-    factory<MovieDetailRemoteDataSource> { MovieDetailRemoteDataSourceImpl() }
+    factory<MovieDetailRemoteDataSource> { MovieDetailRemoteDataSourceImpl(tmdbService = get()) }
 
-    factory { AppGeoCoder() }
+    factory { AppGeoCoder(context = androidContext()) }
 
-    factory { AppLocation() }
+    factory { AppLocation(context = androidContext(), appPermission = get()) }
 
-    single { AppPermission() }
+    single { AppPermission(context = androidContext()) }
 
     factory { get<AppDatabase>().popularMovieDAO() }
     factory { get<AppDatabase>().favoriteMovieDAO() }

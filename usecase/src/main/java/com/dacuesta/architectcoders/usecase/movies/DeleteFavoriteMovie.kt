@@ -2,12 +2,8 @@ package com.dacuesta.architectcoders.usecase.movies
 
 import com.dacuesta.architectcoders.data.movies.MoviesRepository
 import com.dacuesta.architectcoders.domain.Movie
-import org.koin.core.KoinComponent
-import org.koin.core.inject
 
-class DeleteFavoriteMovie : KoinComponent {
-
-    private val repository by inject<MoviesRepository>()
+class DeleteFavoriteMovie(private val repository: MoviesRepository) {
 
     operator fun invoke(movie: Movie) {
         repository.deleteFavoriteMovie(movie)

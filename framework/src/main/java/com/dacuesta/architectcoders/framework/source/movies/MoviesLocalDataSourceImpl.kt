@@ -7,13 +7,12 @@ import com.dacuesta.architectcoders.framework.mapper.mapToRoomPopular
 import com.dacuesta.architectcoders.framework.room.dao.FavoriteMovieDAO
 import com.dacuesta.architectcoders.framework.room.dao.PopularMovieDAO
 import com.dacuesta.architectcoders.framework.room.model.PopularMovie
-import org.koin.core.KoinComponent
-import org.koin.core.inject
 import com.dacuesta.architectcoders.domain.Movie as DomainMovie
 
-internal class MoviesLocalDataSourceImpl : MoviesLocalDataSource, KoinComponent {
-    private val popularMovieDAO by inject<PopularMovieDAO>()
-    private val favoriteMovieDAO by inject<FavoriteMovieDAO>()
+internal class MoviesLocalDataSourceImpl(
+    private val popularMovieDAO: PopularMovieDAO,
+    private val favoriteMovieDAO: FavoriteMovieDAO
+) : MoviesLocalDataSource {
 
     override fun insertPopularMovies(movies: List<DomainMovie>) {
         val roomMovies = mutableListOf<PopularMovie>()

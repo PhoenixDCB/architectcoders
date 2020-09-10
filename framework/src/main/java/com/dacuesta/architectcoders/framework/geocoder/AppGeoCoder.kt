@@ -3,15 +3,14 @@ package com.dacuesta.architectcoders.framework.geocoder
 import android.content.Context
 import android.location.Geocoder
 import android.location.Location
-import org.koin.core.KoinComponent
-import org.koin.core.inject
 
-internal class AppGeoCoder : KoinComponent {
+internal class AppGeoCoder(
+    private val context: Context
+) {
+
     companion object {
         private const val COUNTRY_CODE_DEFAULT_VALUE = "US"
     }
-
-    private val context by inject<Context>()
 
     fun getCountryCode(location: Location?) =
         try {

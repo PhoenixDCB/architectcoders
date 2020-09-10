@@ -7,17 +7,10 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavDirections
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.dacuesta.architectcoders.MoviesApplication
-import com.dacuesta.architectcoders.movies.popularmovies.PopularMoviesFragmentDirections
-import org.koin.core.KoinComponent
-import org.koin.core.inject
-import timber.log.Timber
 
-class Navigator : KoinComponent {
-
-    private val context by inject<Context>()
+class Navigator(context: Context) {
 
     private lateinit var activity: AppCompatActivity
 

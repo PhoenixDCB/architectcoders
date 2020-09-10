@@ -13,13 +13,11 @@ import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.listener.multi.BaseMultiplePermissionsListener
 import com.karumi.dexter.listener.multi.CompositeMultiplePermissionsListener
 import com.karumi.dexter.listener.multi.SnackbarOnAnyDeniedMultiplePermissionsListener
-import org.koin.core.KoinComponent
-import org.koin.core.inject
 
 
-class AppPermission : KoinComponent {
-
-    private val context by inject<Context>()
+class AppPermission(
+    private val context: Context
+) {
 
     private lateinit var activity: Activity
 

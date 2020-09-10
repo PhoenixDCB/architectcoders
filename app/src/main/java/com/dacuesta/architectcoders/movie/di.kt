@@ -17,6 +17,6 @@ val movieModule = module {
             )
         }
 
-        scoped { GetMovieDetail() }
+        scoped { GetMovieDetail(repository = get()) }
     }
 }
