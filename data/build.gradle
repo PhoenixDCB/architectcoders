@@ -23,4 +23,7 @@ dependencies {
     api "com.jakewharton.timber:timber:$timber_version"
 
     api "org.koin:koin-core:$koin_version"
+
+    testApi 'junit:junit:4.13'
+    testApi 'org.mockito:mockito-core:2.28.2'
 }
