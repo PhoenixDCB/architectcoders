@@ -5,31 +5,11 @@ import arrow.core.left
 import arrow.core.right
 import com.dacuesta.architectcoders.domain.Error
 import com.dacuesta.architectcoders.domain.Movie
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
-import kotlin.coroutines.CoroutineContext
 
-@Suppress("EXPERIMENTAL_API_USAGE")
 class MoviesRepository(
     private val remoteDataSource: MoviesRemoteDataSource,
     private val localDataSource: MoviesLocalDataSource
-) : CoroutineScope {
-
-    override val coroutineContext: CoroutineContext = SupervisorJob() + Dispatchers.IO
-
-    private val _favoriteMovies = MutableStateFlow<List<Movie>>(listOf())
-    val favoriteMovies: StateFlow<List<Movie>>
-        get() = _favoriteMovies
-
-    init {
-        launch {
-            getAllFavoriteMovies()
-        }
-    }
+) {
 
     suspend fun getPopularMovies(refresh: Boolean): Either<Error, List<Movie>> {
         val localMovies = localDataSource.getAllPopularMovies()
@@ -53,21 +33,19 @@ class MoviesRepository(
         }
     }
 
-    fun insertFavoriteMovie(movie: Movie) {
-        localDataSource.insertFavoriteMovie(movie)
-        getAllFavoriteMovies()
-    }
-
-    fun deleteFavoriteMovie(movie: Movie) {
-        localDataSource.deleteFavoriteMovie(movie)
-        getAllFavoriteMovies()
-    }
-
-    private fun getAllFavoriteMovies() {
-        val movies = localDataSource.getAllFavoriteMovies().sortedByDescending { movie ->
+    fun getAllFavoriteMovies(): List<Movie> =
+        localDataSource.getAllFavoriteMovies().sortedByDescending { movie ->
             movie.popularity
         }
-        _favoriteMovies.value = movies
+
+    fun insertFavoriteMovie(movie: Movie): List<Movie> {
+        localDataSource.insertFavoriteMovie(movie)
+        return getAllFavoriteMovies()
+    }
+
+    fun deleteFavoriteMovie(movie: Movie): List<Movie> {
+        localDataSource.deleteFavoriteMovie(movie)
+        return getAllFavoriteMovies()
     }
 
 }

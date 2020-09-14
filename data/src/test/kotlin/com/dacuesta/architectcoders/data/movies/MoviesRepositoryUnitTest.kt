@@ -2,9 +2,10 @@ package com.dacuesta.architectcoders.data.movies
 
 import arrow.core.right
 import com.dacuesta.architectcoders.domain.Movie
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
-import org.junit.After
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -31,111 +32,102 @@ class MoviesRepositoryUnitTest {
         )
     }
 
-    @After
-    fun tearDown() {
-
-    }
-
     @Test
-    fun `given local returning empty movies, getPopularMovies(refresh = false) calls remote-getPopularMovies()`() {
+    fun `getPopularMovies(refresh = false) returns remote popular movies`() {
         runBlocking {
             val localMovies = emptyList<Movie>()
             val remoteMovies = listOf(Movie(id = 1))
             `when`(localDataSource.getAllPopularMovies()).thenReturn(localMovies)
             `when`(remoteDataSource.getPopularMovies()).thenReturn(remoteMovies.right())
 
-            moviesRepository.getPopularMovies(false)
+            val result = moviesRepository.getPopularMovies(false)
 
             verify(remoteDataSource).getPopularMovies()
+            assertEquals(remoteMovies.right(), result)
         }
     }
 
     @Test
-    fun `given local returning empty movies, getPopularMovies(refresh = true) calls remote-getPopularMovies()`() {
-        runBlocking {
-            val localMovies = emptyList<Movie>()
-            val remoteMovies = listOf(Movie(id = 1))
-            `when`(localDataSource.getAllPopularMovies()).thenReturn(localMovies)
-            `when`(remoteDataSource.getPopularMovies()).thenReturn(remoteMovies.right())
-
-            moviesRepository.getPopularMovies(true)
-
-            verify(remoteDataSource).getPopularMovies()
-        }
-    }
-
-    @Test
-    fun `given local returning not empty movies, getPopularMovies(refresh = false) calls local-getAllPopularMovies()`() {
+    fun `getPopularMovies(refresh = false) returns local popular movies`() {
         runBlocking {
             val localMovies = listOf(Movie(id = 1))
             `when`(localDataSource.getAllPopularMovies()).thenReturn(localMovies)
 
-            moviesRepository.getPopularMovies(false)
+            val result = moviesRepository.getPopularMovies(false)
 
             verify(localDataSource).getAllPopularMovies()
+            assertEquals(localMovies.right(), result)
         }
     }
 
     @Test
-    fun `given local returning not empty movies, getPopularMovies(refresh = true) calls remote-getPopularMovies()`() {
+    fun `given local empty movies, getPopularMovies(refresh = true) returns remote popular movies`() {
+        runBlocking {
+            val localMovies = emptyList<Movie>()
+            val remoteMovies = listOf(Movie(id = 2))
+            `when`(localDataSource.getAllPopularMovies()).thenReturn(localMovies)
+            `when`(remoteDataSource.getPopularMovies()).thenReturn(remoteMovies.right())
+
+            val result = moviesRepository.getPopularMovies(true)
+
+            verify(remoteDataSource).getPopularMovies()
+            assertEquals(remoteMovies.right(), result)
+        }
+    }
+
+    @Test
+    fun `given not local empty movies, getPopularMovies(refresh = true) returns remote popular movies`() {
         runBlocking {
             val localMovies = listOf(Movie(id = 1))
             val remoteMovies = listOf(Movie(id = 2))
             `when`(localDataSource.getAllPopularMovies()).thenReturn(localMovies)
             `when`(remoteDataSource.getPopularMovies()).thenReturn(remoteMovies.right())
 
-            moviesRepository.getPopularMovies(true)
+            val result = moviesRepository.getPopularMovies(true)
 
             verify(remoteDataSource).getPopularMovies()
+            assertEquals(remoteMovies.right(), result)
         }
     }
 
     @Test
-    fun `init calls local-getAllFavoriteMovies()`() {
-        verify(localDataSource).getAllFavoriteMovies()
+    fun `getAllFavoriteMovies() returns favorite movies`() {
+        runBlocking {
+            val movies = listOf(Movie(id = 1))
+            `when`(localDataSource.getAllFavoriteMovies()).thenReturn(movies)
+
+            val result = moviesRepository.getAllFavoriteMovies()
+
+            verify(localDataSource).getAllFavoriteMovies()
+            assertEquals(movies, result)
+        }
     }
 
     @Test
-    fun `insertFavoriteMovie() calls local-insertFavoriteMovie()`() {
+    fun `insertFavoriteMovie() inserts favorite movie`() {
         runBlocking {
             val movie = Movie(id = 1)
+            val movies = listOf(movie)
+            `when`(localDataSource.getAllFavoriteMovies()).thenReturn(movies)
 
-            moviesRepository.insertFavoriteMovie(movie)
+            val result = moviesRepository.insertFavoriteMovie(movie)
 
             verify(localDataSource).insertFavoriteMovie(movie)
+            assertEquals(movies, result)
         }
     }
 
     @Test
-    fun `insertFavoriteMovie() calls local-getAllFavoriteMovies()`() {
+    fun `deleteFavoriteMovie() deletes favorite movie`() {
         runBlocking {
             val movie = Movie(id = 1)
+            val movies = emptyList<Movie>()
+            `when`(localDataSource.getAllFavoriteMovies()).thenReturn(movies)
 
-            moviesRepository.insertFavoriteMovie(movie)
-
-            verify(localDataSource, times(2)).getAllFavoriteMovies()
-        }
-    }
-
-    @Test
-    fun `deleteFavoriteMovie() calls local-deleteFavoriteMovie()`() {
-        runBlocking {
-            val movie = Movie(id = 1)
-
-            moviesRepository.deleteFavoriteMovie(movie)
+            val result = moviesRepository.deleteFavoriteMovie(movie)
 
             verify(localDataSource).deleteFavoriteMovie(movie)
-        }
-    }
-
-    @Test
-    fun `deleteFavoriteMovie() calls local-getAllFavoriteMovies()`() {
-        runBlocking {
-            val movie = Movie(id = 1)
-
-            moviesRepository.deleteFavoriteMovie(movie)
-
-            verify(localDataSource, times(2)).getAllFavoriteMovies()
+            assertEquals(movies, result)
         }
     }
 

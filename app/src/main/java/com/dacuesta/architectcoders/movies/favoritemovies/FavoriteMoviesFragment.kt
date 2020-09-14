@@ -69,4 +69,9 @@ class FavoriteMoviesFragment : Fragment() {
         moviesAdapter.submitList(model.movies)
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.resumed()
+    }
+
 }

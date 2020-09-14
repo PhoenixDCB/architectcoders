@@ -81,6 +81,11 @@ class PopularMoviesFragment : Fragment() {
         moviesAdapter.submitList(model.movies)
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.resumed()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

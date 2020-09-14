@@ -5,8 +5,7 @@ import com.dacuesta.architectcoders.domain.Movie
 
 class DeleteFavoriteMovie(private val repository: MoviesRepository) {
 
-    operator fun invoke(movie: Movie) {
+    operator fun invoke(movie: Movie): List<Movie> =
         repository.deleteFavoriteMovie(movie)
-    }
 
 }

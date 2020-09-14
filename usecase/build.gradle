@@ -11,4 +11,8 @@ java {
 dependencies {
     implementation project(":data")
     implementation project(":domain")
+
+    testImplementation 'junit:junit:4.13'
+    testImplementation 'org.mockito:mockito-core:2.28.2'
+    testImplementation 'org.mockito:mockito-inline:2.8.47'
 }

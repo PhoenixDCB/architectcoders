@@ -15,7 +15,6 @@ import com.dacuesta.architectcoders.usecase.movies.InsertFavoriteMovie
 import com.dacuesta.architectcoders.utils.toMessage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class PopularMoviesViewModel(
@@ -41,16 +40,17 @@ class PopularMoviesViewModel(
     private lateinit var popularMoviesJob: Job
 
     init {
+        popularMoviesJob = viewModelScope.launch(Dispatchers.IO) {
+            _loaderLD.postValue(PopularMoviesModel.Loader(isVisible = true))
+            getPopularMovies(refresh = false).fold(::handleError, ::handleSuccess)
+        }
+    }
+
+    fun resumed() {
         viewModelScope.launch(Dispatchers.IO) {
-            popularMoviesJob = launch {
-                _loaderLD.postValue(PopularMoviesModel.Loader(isVisible = true))
-                getPopularMovies(refresh = false).fold(::handleError, ::handleSuccess)
-            }
-            launch {
-                getFavoriteMovies().collect { movies ->
-                    _favoriteMoviesLD.postValue(PopularMoviesModel.FavoriteMovies(movies))
-                }
-            }
+            _favoriteMoviesLD.postValue(
+                PopularMoviesModel.FavoriteMovies(movies = getFavoriteMovies())
+            )
         }
     }
 
@@ -78,9 +78,13 @@ class PopularMoviesViewModel(
     fun favoriteClicked(movie: Movie, isFavorite: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             if (!isFavorite) {
-                insertFavoriteMovie(movie)
+                _favoriteMoviesLD.postValue(
+                    PopularMoviesModel.FavoriteMovies(insertFavoriteMovie(movie = movie))
+                )
             } else {
-                deleteFavoriteMovie(movie)
+                _favoriteMoviesLD.postValue(
+                    PopularMoviesModel.FavoriteMovies(deleteFavoriteMovie(movie = movie))
+                )
             }
         }
     }

@@ -10,7 +10,6 @@ import com.dacuesta.architectcoders.navigator.Navigator
 import com.dacuesta.architectcoders.usecase.movies.DeleteFavoriteMovie
 import com.dacuesta.architectcoders.usecase.movies.GetFavoriteMovies
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class FavoriteMoviesViewModel(
@@ -23,11 +22,11 @@ class FavoriteMoviesViewModel(
     val favoriteMoviesLD: LiveData<FavoriteMoviesModel.FavoriteMovies>
         get() = _favoriteMoviesLD
 
-    init {
+    fun resumed() {
         viewModelScope.launch(Dispatchers.IO) {
-            getFavoriteMovies().collect { movies ->
-                _favoriteMoviesLD.postValue(FavoriteMoviesModel.FavoriteMovies(movies))
-            }
+            _favoriteMoviesLD.postValue(
+                FavoriteMoviesModel.FavoriteMovies(movies = getFavoriteMovies())
+            )
         }
     }
 
@@ -40,7 +39,9 @@ class FavoriteMoviesViewModel(
 
     fun favoriteClicked(movie: Movie) {
         viewModelScope.launch(Dispatchers.IO) {
-            deleteFavoriteMovie(movie)
+            _favoriteMoviesLD.postValue(
+                FavoriteMoviesModel.FavoriteMovies(movies = deleteFavoriteMovie(movie))
+            )
         }
     }
 }
