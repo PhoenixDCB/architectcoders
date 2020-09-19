@@ -13,11 +13,11 @@ import com.dacuesta.architectcoders.usecase.movies.GetFavoriteMovies
 import com.dacuesta.architectcoders.usecase.movies.GetPopularMovies
 import com.dacuesta.architectcoders.usecase.movies.InsertFavoriteMovie
 import com.dacuesta.architectcoders.utils.toMessage
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class PopularMoviesViewModel(
+    private val io: CoroutineDispatcher,
+    private val main: MainCoroutineDispatcher,
     private val navigator: Navigator,
     private val getPopularMovies: GetPopularMovies,
     private val getFavoriteMovies: GetFavoriteMovies,
@@ -37,17 +37,17 @@ class PopularMoviesViewModel(
     val favoriteMoviesLD: LiveData<PopularMoviesModel.FavoriteMovies>
         get() = _favoriteMoviesLD
 
-    private lateinit var popularMoviesJob: Job
+    private var popularMoviesJob: Job
 
     init {
-        popularMoviesJob = viewModelScope.launch(Dispatchers.IO) {
+        popularMoviesJob = viewModelScope.launch(io) {
             _loaderLD.postValue(PopularMoviesModel.Loader(isVisible = true))
             getPopularMovies(refresh = false).fold(::handleError, ::handleSuccess)
         }
     }
 
     fun resumed() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(io) {
             _favoriteMoviesLD.postValue(
                 PopularMoviesModel.FavoriteMovies(movies = getFavoriteMovies())
             )
@@ -56,7 +56,7 @@ class PopularMoviesViewModel(
 
     fun refreshClicked() {
         if (popularMoviesJob.isCompleted) {
-            popularMoviesJob = viewModelScope.launch(Dispatchers.IO) {
+            popularMoviesJob = viewModelScope.launch(io) {
                 _loaderLD.postValue(PopularMoviesModel.Loader(isVisible = true))
                 getPopularMovies(refresh = true).fold(::handleError, ::handleSuccess)
             }
@@ -65,7 +65,7 @@ class PopularMoviesViewModel(
 
     private fun handleError(error: Error) {
         _loaderLD.postValue(PopularMoviesModel.Loader(isVisible = false))
-        viewModelScope.launch(Dispatchers.Main) {
+        viewModelScope.launch(main) {
             navigator.toast(error.toMessage())
         }
     }
@@ -76,7 +76,7 @@ class PopularMoviesViewModel(
     }
 
     fun favoriteClicked(movie: Movie, isFavorite: Boolean) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(io) {
             if (!isFavorite) {
                 _favoriteMoviesLD.postValue(
                     PopularMoviesModel.FavoriteMovies(insertFavoriteMovie(movie = movie))

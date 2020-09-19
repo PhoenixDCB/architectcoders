@@ -9,10 +9,14 @@ import com.dacuesta.architectcoders.domain.MovieDetail
 import com.dacuesta.architectcoders.navigator.Navigator
 import com.dacuesta.architectcoders.usecase.moviedetail.GetMovieDetail
 import com.dacuesta.architectcoders.utils.toMessage
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainCoroutineDispatcher
 import kotlinx.coroutines.launch
 
 class MovieDetailViewModel(
+    private val io: CoroutineDispatcher,
+    private val main: MainCoroutineDispatcher,
     private val entry: MovieDetailEntry,
     private val navigator: Navigator,
     private val getMovieDetail: GetMovieDetail
@@ -25,13 +29,13 @@ class MovieDetailViewModel(
     private var movie = MovieDetail()
 
     init {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(io) {
             invokeGetMovieDetail()
         }
     }
 
     fun retryClicked() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(io) {
             invokeGetMovieDetail()
         }
     }
@@ -43,7 +47,7 @@ class MovieDetailViewModel(
 
     private fun handleError(error: Error) {
         _movieLD.postValue(MovieDetailModel.Result(movie))
-        viewModelScope.launch(Dispatchers.Main) {
+        viewModelScope.launch(main) {
             navigator.toast(error.toMessage())
         }
     }

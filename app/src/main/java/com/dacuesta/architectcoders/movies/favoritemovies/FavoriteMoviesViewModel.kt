@@ -9,10 +9,12 @@ import com.dacuesta.architectcoders.mapper.map
 import com.dacuesta.architectcoders.navigator.Navigator
 import com.dacuesta.architectcoders.usecase.movies.DeleteFavoriteMovie
 import com.dacuesta.architectcoders.usecase.movies.GetFavoriteMovies
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class FavoriteMoviesViewModel(
+    private val io: CoroutineDispatcher,
     private val navigator: Navigator,
     private val getFavoriteMovies: GetFavoriteMovies,
     private val deleteFavoriteMovie: DeleteFavoriteMovie
@@ -23,7 +25,7 @@ class FavoriteMoviesViewModel(
         get() = _favoriteMoviesLD
 
     fun resumed() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(io) {
             _favoriteMoviesLD.postValue(
                 FavoriteMoviesModel.FavoriteMovies(movies = getFavoriteMovies())
             )
@@ -38,7 +40,7 @@ class FavoriteMoviesViewModel(
     }
 
     fun favoriteClicked(movie: Movie) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(io) {
             _favoriteMoviesLD.postValue(
                 FavoriteMoviesModel.FavoriteMovies(movies = deleteFavoriteMovie(movie))
             )
