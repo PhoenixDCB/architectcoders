@@ -18,6 +18,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.BuildConfig
 import org.koin.android.ext.koin.androidContext
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -59,20 +60,18 @@ val frameworkModule = module {
     factory { get<Retrofit>().create(TmdbService::class.java) }
     factory {
         Retrofit.Builder()
-            .baseUrl(Constant.URL_BASE)
+            .baseUrl(get<String>(named("baseUrl")))
             .addConverterFactory(GsonConverterFactory.create())
-            .client(
-                OkHttpClient.Builder()
-                    .addInterceptor(interceptor = HttpLoggingInterceptor().apply {
-                        level = if (BuildConfig.DEBUG) {
-                            HttpLoggingInterceptor.Level.BODY
-                        } else {
-                            HttpLoggingInterceptor.Level.BODY
-                        }
-                    })
-                    .addInterceptor(interceptor = RequestInterceptor())
-                    .build()
-            )
+            .client(get())
             .build()
     }
+    single {
+        OkHttpClient.Builder()
+            .addInterceptor(interceptor = HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            })
+            .addInterceptor(interceptor = RequestInterceptor())
+            .build()
+    }
+    single(named("baseUrl")) { Constant.URL_BASE }
 }
