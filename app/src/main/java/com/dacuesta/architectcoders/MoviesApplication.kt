@@ -6,7 +6,7 @@ import com.dacuesta.architectcoders.framework.frameworkModule
 import com.dacuesta.architectcoders.framework.permission.AppPermission
 import com.dacuesta.architectcoders.movie.movieModule
 import com.dacuesta.architectcoders.movies.moviesModule
-import com.dacuesta.architectcoders.navigator.NavigatorImpl
+import com.dacuesta.architectcoders.navigator.Navigator
 import org.koin.android.ext.android.get
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -37,7 +37,7 @@ class MoviesApplication : Application() {
     }
 
     private fun initNavigator() {
-        get<NavigatorImpl>()
+        get<Navigator>()
     }
 
     private fun initPermissions() {

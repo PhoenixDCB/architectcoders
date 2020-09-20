@@ -10,7 +10,7 @@ import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.dacuesta.architectcoders.MoviesApplication
 
-class NavigatorImpl(context: Context) : Navigator {
+internal class NavigatorImpl(context: Context) : Navigator {
 
     private lateinit var activity: AppCompatActivity
 
