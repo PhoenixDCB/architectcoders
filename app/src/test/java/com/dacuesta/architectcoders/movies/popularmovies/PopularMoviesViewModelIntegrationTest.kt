@@ -3,22 +3,17 @@ package com.dacuesta.architectcoders.movies.popularmovies
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.dacuesta.architectcoders.data.dataModule
-import com.dacuesta.architectcoders.data.movies.*
+import com.dacuesta.architectcoders.data.movies.MoviesLocalDataSource
+import com.dacuesta.architectcoders.data.movies.fakeRemoteMovies
 import com.dacuesta.architectcoders.domain.Movie
-import com.dacuesta.architectcoders.navigator.FakeNavigator
-import com.dacuesta.architectcoders.navigator.Navigator
-import com.dacuesta.architectcoders.usecase.movies.DeleteFavoriteMovie
-import com.dacuesta.architectcoders.usecase.movies.GetFavoriteMovies
-import com.dacuesta.architectcoders.usecase.movies.GetPopularMovies
-import com.dacuesta.architectcoders.usecase.movies.InsertFavoriteMovie
-import kotlinx.coroutines.Dispatchers
+import com.dacuesta.architectcoders.testAppModule
+import com.dacuesta.architectcoders.testFrameworkModule
+import com.dacuesta.architectcoders.testMoviesModule
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.core.context.startKoin
-import org.koin.core.qualifier.named
-import org.koin.dsl.module
 import org.koin.test.AutoCloseKoinTest
 import org.koin.test.get
 import org.mockito.Mock
@@ -31,33 +26,6 @@ class PopularMoviesViewModelIntegrationTest : AutoCloseKoinTest() {
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
-    private val testModules = module {
-        single<MoviesRemoteDataSource> { FakeMoviesRemoteDataSource() }
-        single<MoviesLocalDataSource> { FakeMoviesLocalDataSource() }
-
-        factory { GetPopularMovies(repository = get()) }
-        factory { GetFavoriteMovies(repository = get()) }
-        factory { InsertFavoriteMovie(repository = get()) }
-        factory { DeleteFavoriteMovie(repository = get()) }
-
-        single(named("io")) { Dispatchers.Unconfined }
-        single(named("main")) { Dispatchers.Unconfined }
-
-        single<Navigator> { FakeNavigator() }
-
-        factory {
-            PopularMoviesViewModel(
-                io = get(named("io")),
-                main = get(named("main")),
-                navigator = get(),
-                getPopularMovies = get(),
-                getFavoriteMovies = get(),
-                insertFavoriteMovie = get(),
-                deleteFavoriteMovie = get()
-            )
-        }
-    }
-
     @Mock
     private lateinit var popularMoviesObserver: Observer<PopularMoviesModel.PopularMovies>
 
@@ -69,7 +37,7 @@ class PopularMoviesViewModelIntegrationTest : AutoCloseKoinTest() {
     @Before
     fun setUp() {
         startKoin {
-            modules(listOf(dataModule, testModules))
+            modules(listOf(testFrameworkModule, dataModule, testAppModule, testMoviesModule))
         }
     }
 
