@@ -6,11 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dacuesta.architectcoders.domain.Error
 import com.dacuesta.architectcoders.domain.MovieDetail
-import com.dacuesta.architectcoders.navigator.Navigator
+import com.dacuesta.architectcoders.navigator.NavigatorImpl
 import com.dacuesta.architectcoders.usecase.moviedetail.GetMovieDetail
 import com.dacuesta.architectcoders.utils.toMessage
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainCoroutineDispatcher
 import kotlinx.coroutines.launch
 
@@ -18,7 +17,7 @@ class MovieDetailViewModel(
     private val io: CoroutineDispatcher,
     private val main: MainCoroutineDispatcher,
     private val entry: MovieDetailEntry,
-    private val navigator: Navigator,
+    private val navigator: NavigatorImpl,
     private val getMovieDetail: GetMovieDetail
 ) : ViewModel() {
 

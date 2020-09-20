@@ -12,8 +12,8 @@ val movieModule = module {
     scope<MovieDetailFragment> {
         viewModel { (entry: MovieDetailEntry) ->
             MovieDetailViewModel(
-                io = get(),
-                main = get(),
+                io = get(named("io")),
+                main = get(named("main")),
                 entry = entry,
                 navigator = get(),
                 getMovieDetail = get()

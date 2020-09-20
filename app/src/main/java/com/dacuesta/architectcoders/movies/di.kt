@@ -22,8 +22,8 @@ val moviesModule = module {
     scope(named<PopularMoviesFragment>()) {
         viewModel {
             PopularMoviesViewModel(
-                io = get(),
-                main = get(),
+                io = get(named("io")),
+                main = get(named("main")),
                 navigator = get(),
                 getPopularMovies = get(),
                 getFavoriteMovies = getScope(MoviesActivity.SCOPE_ID).get(),
@@ -38,7 +38,7 @@ val moviesModule = module {
     scope(named<FavoriteMoviesFragment>()) {
         viewModel {
             FavoriteMoviesViewModel(
-                io = get(),
+                io = get(named("io")),
                 navigator = get(),
                 getFavoriteMovies = getScope(MoviesActivity.SCOPE_ID).get(),
                 deleteFavoriteMovie = getScope(MoviesActivity.SCOPE_ID).get()

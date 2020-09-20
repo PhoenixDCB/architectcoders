@@ -5,7 +5,7 @@ import androidx.lifecycle.Observer
 import arrow.core.right
 import com.dacuesta.architectcoders.domain.Movie
 import com.dacuesta.architectcoders.movie.MovieEntry
-import com.dacuesta.architectcoders.navigator.Navigator
+import com.dacuesta.architectcoders.navigator.NavigatorImpl
 import com.dacuesta.architectcoders.usecase.movies.DeleteFavoriteMovie
 import com.dacuesta.architectcoders.usecase.movies.GetFavoriteMovies
 import com.dacuesta.architectcoders.usecase.movies.GetPopularMovies
@@ -27,7 +27,7 @@ class PopularMoviesViewModelUnitTest {
     var instantExecutorRule = InstantTaskExecutorRule()
 
     @Mock
-    private lateinit var navigator: Navigator
+    private lateinit var navigator: NavigatorImpl
 
     @Mock
     private lateinit var getPopularMovies: GetPopularMovies

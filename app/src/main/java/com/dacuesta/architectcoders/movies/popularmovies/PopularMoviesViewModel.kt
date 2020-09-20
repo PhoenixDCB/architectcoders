@@ -13,11 +13,13 @@ import com.dacuesta.architectcoders.usecase.movies.GetFavoriteMovies
 import com.dacuesta.architectcoders.usecase.movies.GetPopularMovies
 import com.dacuesta.architectcoders.usecase.movies.InsertFavoriteMovie
 import com.dacuesta.architectcoders.utils.toMessage
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class PopularMoviesViewModel(
     private val io: CoroutineDispatcher,
-    private val main: MainCoroutineDispatcher,
+    private val main: CoroutineDispatcher,
     private val navigator: Navigator,
     private val getPopularMovies: GetPopularMovies,
     private val getFavoriteMovies: GetFavoriteMovies,
